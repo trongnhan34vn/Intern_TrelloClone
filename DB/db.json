@@ -1,0 +1,76 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "fullName": "Nam Gucci",
+      "email": "nambeo@gmail.com",
+      "password": "pikachu123",
+      "imageUrl": ""
+    },
+    {
+      "id": 2,
+      "fullName": "Nhan Tic",
+      "email": "nhantic@gmail.com",
+      "password": "pikachu123",
+      "imageUrl": ""
+    },
+    {
+      "email": "trongnhan34vn@gmail.com",
+      "password": "$2a$10$.AkaYRV4z8TaoYRHEWxuN.LC/CBixYRlHKuCy9jS/NEGPVgqGlWG2",
+      "fullName": "Nguyễn Nhân",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtemuTAkckBKkwARkxJge6LwQ3Y8Nev9TK5oudmSVW-Qw5k=s96-c",
+      "id": 3
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "Nam Gucci Project",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "name": "Nhantic Project",
+      "usersId": 2
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "name": "Task 1",
+      "projectId": 1
+    },
+    {
+      "id": 2,
+      "name": "Task 2",
+      "projectId": 1
+    },
+    {
+      "id": 3,
+      "name": "Nhan Tic Task",
+      "projectId": 2
+    }
+  ],
+  "miniTasks": [
+    {
+      "id": 1,
+      "name": "code cùng Nam Gucci",
+      "startTime": "2023-7-7",
+      "endTime": "2023-7-8",
+      "members": [
+        2
+      ],
+      "description": "Code cùng anh Nam Gucci",
+      "taskId": 1
+    },
+    {
+      "id": 2,
+      "name": "code cùng Nhân Tic",
+      "startTime": "2023-7-7",
+      "endTime": "2023-7-8",
+      "members": [],
+      "description": "Code cùng anh Nam Gucci",
+      "taskId": 2
+    }
+  ]
+}
