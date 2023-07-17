@@ -1,8 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import FormTable from './FormTable';
-import { Menu, Transition } from '@headlessui/react';
+import React, { createContext } from 'react';
+import { Project } from '../../../../types/Project.type';
+import ListTables from './ListTables';
 
-export default function ProjectTag() {
+export const ProjectContext = createContext<Project>({
+  id: 0,
+  name: '',
+  userId: 0,
+  typeProjectId: 0,
+  description: ''
+});
+
+export default function  ProjectTag(props: { project: Project }) {
   return (
     <div className="task-item pb-5 max-w-[1266px]">
       <div className="flex ml-10 pb-[11px] relative">
@@ -14,7 +22,7 @@ export default function ProjectTag() {
           </div>
         </div>
         <h3 className="w-[200px] inline-block overflow-hidden text-base text-[#B6C2CF] whitespace-nowrap font-bold mt-[3px] text-ellipsis	">
-          Không gian làm việc của anh Nam Gucci
+          {props.project.name}
         </h3>
         <div className="flex flex-wrap ml-2 whitespace-nowrap">
           <a
@@ -48,34 +56,9 @@ export default function ProjectTag() {
         </div>
       </div>
       <div>
-        <ul className="flex flex-wrap justify-starts">
-          <Menu as="div" className="relative">
-            <li className="mb-[2%] mr-[2%] relative cursor-pointer list-none">
-              <Menu.Button>
-                <div className="hover:bg-[#A6C5E229] transition-all ease-in-out duration-150 rounded-[3px] font-normal bg-[#A1BDD914] h-[96px] text-center align-middle p-2 bg-cover table-cell w-[200px]">
-                  <p className="text-[#B6C2CF] font-semibold text-[14px]">
-                    Tạo bảng mới
-                  </p>
-                </div>
-              </Menu.Button>
-            </li>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-            >
-              <Menu.Items className="absolute top-[-70%] left-full">
-                <Menu.Item>
-                  {({ close }) => <FormTable closeFn={close} />}
-                </Menu.Item>
-              </Menu.Items>
-            </Transition>
-          </Menu>
-        </ul>
+        <ProjectContext.Provider value={props.project}>
+          <ListTables />
+        </ProjectContext.Provider>
       </div>
     </div>
   );

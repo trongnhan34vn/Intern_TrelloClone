@@ -1,19 +1,39 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Table, TableDTO } from '../../types/Table.type';
+
+interface TableState {
+  latestTable: Table | null;
+  listTable: Table[];
+}
+
+const initialState: TableState = {
+  latestTable: null,
+  listTable: [],
+};
 
 const tableSlice = createSlice({
   name: 'table',
-  initialState: {
-    isOpen: false,
-  },
+  initialState: initialState,
   reducers: {
-    openFormTable: (state) => {
-      state.isOpen = true;
+    createTable: (state, action: PayloadAction<TableDTO>) => {},
+    getLatestTable: (state, action: PayloadAction<Table>) => {
+      state.latestTable = action.payload;
     },
-    closeFormTable: (state) => {
-      state.isOpen = false;
-    }
+    resetTableJustAdded: (state) => {
+      state.latestTable = null;
+    },
+    findTableByProjectId: (state, action: PayloadAction<number>) => {},
+    getTablesByProjectId: (state, action: PayloadAction<Table[]>) => {
+      state.listTable = [...state.listTable, ...action.payload];
+    },
   },
 });
 
 export default tableSlice.reducer;
-export const { openFormTable, closeFormTable } = tableSlice.actions;
+export const {
+  createTable,
+  getLatestTable,
+  resetTableJustAdded,
+  findTableByProjectId,
+  getTablesByProjectId,
+} = tableSlice.actions;

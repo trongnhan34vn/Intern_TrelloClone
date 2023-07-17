@@ -1,37 +1,41 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router-dom';
-import Modal from '../../components/Main/Modal/Modal';
 import Navbar from '../../components/Main/Navbar/Navbar';
 import SideMenu from '../../components/Main/SideMenu/SideMenu';
 import SideMenu_Detail from '../../components/Main/SideMenu/SideMenu_Detail';
-import { closeFormTable } from '../../redux/reducers/tableSlice';
 
 export default function MainLayout() {
   const location = useLocation();
-  const isMainApp =
+  const isMainApp: boolean =
     location.pathname === '/main-app/project-manage' ||
     location.pathname === '/main-app';
-  const [toggleProfleDropdown, setToggleProfileDropdown] = useState(false);
+
+  const [toggleProfleDropdown, setToggleProfileDropdown] =
+    useState<boolean>(false);
+
   const handleToggleProfileDropdown = () => {
     setToggleProfileDropdown((pre) => !pre);
   };
+
   const [isOpen, setIsOpen] = useState(false);
+
   const openModal = () => {
     setIsOpen(true);
   };
+
   const closeModal = () => {
     setIsOpen(false);
   };
+
   const sideMenuElement = isMainApp ? (
     <SideMenu isOpen={isOpen} openModal={openModal} closeModal={closeModal} />
   ) : (
     <SideMenu_Detail />
   );
+
+  const isDetail = location.pathname.match('/main-app/detail-project/*');
   return (
-    <div
-      className="bg-[#1D2125] min-h-screen w-full"
-    >
+    <div className="bg-[#1D2125] h-[calc(100vh)] w-full">
       <Navbar
         openModal={openModal}
         isOpen={isOpen}
@@ -42,9 +46,9 @@ export default function MainLayout() {
         onClick={() => {
           setToggleProfileDropdown(false);
         }}
-        className="mx-auto w-[1125px] h-[calc(100vh_-_64px)]"
+        className={`${isDetail ? '' : 'mx-auto w-[1125px]'}`}
       >
-        <div className="sticky-container w-full h-[calc(100vh_-_64px)] relative flex justify-center items-start">
+        <div className={`${isDetail ? 'overflow-hidden' : 'overflow-y-scroll'} sticky-container scrollable-div h-[calc(100vh_-_80px)] w-full relative flex justify-center items-start`}>
           <div className="w-full flex">
             {sideMenuElement}
             <Outlet />

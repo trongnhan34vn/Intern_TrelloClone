@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { userSelector } from '../../../redux/selectors';
+import React, { useEffect, useState } from 'react';
+import { User } from '../../../types/User.type';
 
-export default function Navbar(props: {openModal:any, isOpen:any, toggleFn: any, state: any}) {
-  const {toggleFn, state} = props;
-  const handleToggleProfileDropdown=() => {
-    toggleFn()
-  }
-  const userLogin = useSelector(userSelector).userLogin;
-  console.log(userLogin);
-  
+export default function Navbar(props: {
+  openModal: () => void;
+  isOpen: boolean;
+  toggleFn: () => void;
+  state: boolean;
+}) {
+  const { toggleFn, state } = props;
+  const handleToggleProfileDropdown = () => {
+    toggleFn();
+  };
+  const [userLogin, setUserLogin] = useState<User>();
+
+  const userLocalStore = localStorage.getItem('userLogin');
+
+  useEffect(() => {
+    if(userLocalStore) {
+      setUserLogin(JSON.parse(userLocalStore))
+    }
+  },[userLocalStore])
+
   return (
     <nav className="bg-gray-800">
       <div className="mx-auto max-w-[1400px] px-2 sm:px-6 lg:px-8">
@@ -104,7 +115,12 @@ export default function Navbar(props: {openModal:any, isOpen:any, toggleFn: any,
                 >
                   Mẫu
                 </a>
-                <button onClick={() => props.openModal()} className='px-3 bg-[#579DFF] hover:bg-[#85B8FF] text-sm font-normal bg-[#579DFF text-[#000] rounded-[3px] leading-8 mr-1'>Tạo mới</button>
+                <button
+                  onClick={() => props.openModal()}
+                  className="px-3 bg-[#579DFF] hover:bg-[#85B8FF] text-sm font-normal bg-[#579DFF text-[#000] rounded-[3px] leading-8 mr-1"
+                >
+                  Tạo mới
+                </button>
               </div>
             </div>
           </div>
@@ -159,7 +175,9 @@ export default function Navbar(props: {openModal:any, isOpen:any, toggleFn: any,
         To: "transform opacity-0 scale-95"
     */}
               <div
-                className={`${state?'opacity-100 scale-100':'opacity-0 scale-0'} transition-all ease-in-out duration-75 absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+                className={`${
+                  state ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+                } transition-all ease-in-out duration-75 absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="user-menu-button"

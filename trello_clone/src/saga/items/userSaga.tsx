@@ -1,35 +1,40 @@
-import { AxiosResponse } from 'axios';
+import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
 import * as userServices from '../../api/services/userServices';
 import { getResult } from '../../redux/reducers/userSlice';
+import {
+  User,
+  UserDTO,
+  UserRequestRegister,
+  UserResponseLogin,
+} from '../../types/User.type';
 
-export const login = function* (action: any) {
+export const login = function* (action: PayloadAction<UserDTO>) {
   try {
-    let response: Promise<AxiosResponse<any>> = yield call(
+    let response: UserResponseLogin = yield call(
       userServices.LOGIN,
       action.payload
     );
-    console.log('login ---->', response);
+    console.log(response);
+
     yield put(getResult(response));
   } catch (error) {
     console.log('login ---->', error);
   }
 };
 
-export const register = function* (action: any) {
+export const register = function* (action: PayloadAction<UserRequestRegister>) {
   try {
-    let response: Promise<AxiosResponse<any>> = yield call(
-      userServices.REGISTER,
-      action.payload.userRegister
-    );
+    yield call(userServices.REGISTER, action.payload.user);
   } catch (error: any) {
     console.log(error);
   } finally {
     if (action.payload.type === 'via3th') {
-      let actionfake = {
+      let actionfake: PayloadAction<UserDTO> = {
+        type: 'via3th',
         payload: {
-          email: action.payload.userRegister.email,
-          password: action.payload.userRegister.password,
+          email: action.payload.user.email,
+          password: action.payload.user.password,
         },
       };
       yield login(actionfake);

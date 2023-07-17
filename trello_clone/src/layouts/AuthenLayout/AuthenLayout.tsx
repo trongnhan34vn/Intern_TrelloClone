@@ -5,10 +5,18 @@ import Logo from '../../components/Login_Register/Logo';
 import LoadingOverlay from 'react-loading-overlay-ts';
 import { useSelector } from 'react-redux';
 import { userSelector } from '../../redux/selectors';
+import { User } from '../../types/User.type';
 
 export default function AuthenLayout() {
-  const [isActive, setActive] = useState(false);
-  const token = useSelector(userSelector).accessToken;
+  const [isActive, setActive] = useState<boolean>(false);
+  const token : string | null = useSelector(userSelector).accessToken;
+  const userLogin : User | null = useSelector(userSelector).user;
+
+  useEffect(() => {
+    if(userLogin) {
+      localStorage.setItem('userLogin', JSON.stringify(userLogin));
+    }
+  },[userLogin])
 
   useEffect(() => {
     if (token) {

@@ -1,76 +1,200 @@
 {
   "users": [
     {
-      "id": 1,
-      "fullName": "Nam Gucci",
-      "email": "nambeo@gmail.com",
-      "password": "pikachu123",
-      "imageUrl": ""
-    },
-    {
-      "id": 2,
-      "fullName": "Nhan Tic",
-      "email": "nhantic@gmail.com",
-      "password": "pikachu123",
-      "imageUrl": ""
-    },
-    {
       "email": "trongnhan34vn@gmail.com",
       "password": "$2a$10$.AkaYRV4z8TaoYRHEWxuN.LC/CBixYRlHKuCy9jS/NEGPVgqGlWG2",
       "fullName": "Nguyễn Nhân",
       "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtemuTAkckBKkwARkxJge6LwQ3Y8Nev9TK5oudmSVW-Qw5k=s96-c",
-      "id": 3
+      "id": 3,
+      "projects": []
+    }
+  ],
+  "typeProjects": [
+    {
+      "id": 1,
+      "name": "Doanh nghiệp nhỏ"
+    },
+    {
+      "id": 2,
+      "name": "Marketing"
+    },
+    {
+      "id": 3,
+      "name": "Kĩ thuật-CNTT"
+    },
+    {
+      "id": 4,
+      "name": "Điều hành"
+    },
+    {
+      "id": 5,
+      "name": "Kinh doanh CRM"
+    },
+    {
+      "id": 6,
+      "name": "Nhân Sự"
+    },
+    {
+      "id": 7,
+      "name": "Giáo dục"
     }
   ],
   "projects": [
     {
-      "id": 1,
-      "name": "Nam Gucci Project",
-      "userId": 1
+      "name": "Khoa Pug Entertainment",
+      "typeProjectId": 3,
+      "userId": 3,
+      "description": "Khoa Vip Pro",
+      "createdAt": 1689325298469,
+      "id": 1
     },
     {
-      "id": 2,
-      "name": "Nhantic Project",
-      "usersId": 2
+      "name": "Nam béo",
+      "typeProjectId": 3,
+      "userId": 3,
+      "description": "",
+      "createdAt": 1689408413492,
+      "id": 2
+    },
+    {
+      "name": "Khoa thảo mai",
+      "typeProjectId": 1,
+      "userId": 0,
+      "description": "",
+      "createdAt": 1689408436378,
+      "id": 3
     }
   ],
-  "tasks": [
+  "backgrounds": [
     {
       "id": 1,
-      "name": "Task 1",
-      "projectId": 1
+      "bgUrl": "https://images.unsplash.com/photo-1688909987766-8797b4f909b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNjg5MjE2MTcyfA&ixlib=rb-4.0.3&q=80&w=400"
     },
     {
       "id": 2,
-      "name": "Task 2",
-      "projectId": 1
+      "bgUrl": "https://images.unsplash.com/photo-1689005046866-9586288969a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDJ8MzE3MDk5fHx8fHwyfHwxNjg5MjE2MTcyfA&ixlib=rb-4.0.3&q=80&w=400"
     },
     {
       "id": 3,
-      "name": "Nhan Tic Task",
-      "projectId": 2
+      "bgUrl": "https://images.unsplash.com/photo-1688934728322-597cbe61ef57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDN8MzE3MDk5fHx8fHwyfHwxNjg5MjE2MTcyfA&ixlib=rb-4.0.3&q=80&w=400"
+    },
+    {
+      "id": 4,
+      "bgUrl": "https://images.unsplash.com/photo-1688673678101-15195a13a44a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDR8MzE3MDk5fHx8fHwyfHwxNjg5MjE2MTcyfA&ixlib=rb-4.0.3&q=80&w=400"
+    },
+    {
+      "id": 5,
+      "bgUrl": "https://images.unsplash.com/photo-1688574398135-4715851125b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDV8MzE3MDk5fHx8fHwyfHwxNjg5MjE2MTcyfA&ixlib=rb-4.0.3&q=80&w=400"
+    },
+    {
+      "id": 6,
+      "bgUrl": "https://images.unsplash.com/photo-1655679152783-f4d22c72264a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDZ8MzE3MDk5fHx8fHwyfHwxNjg5MjE2MTcyfA&ixlib=rb-4.0.3&q=80&w=400"
+    },
+    {
+      "id": 7,
+      "bgUrl": "https://images.unsplash.com/photo-1688291091364-9658c26c1749?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDh8MzE3MDk5fHx8fHwyfHwxNjg5MjE2MTcyfA&ixlib=rb-4.0.3&q=80&w=400"
+    },
+    {
+      "id": 8,
+      "bgUrl": "https://images.unsplash.com/photo-1688232542797-c3e762c7e3c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDl8MzE3MDk5fHx8fHwyfHwxNjg5MjE2MTcyfA&ixlib=rb-4.0.3&q=80&w=400"
     }
   ],
-  "miniTasks": [
+  "tables": [
+    {
+      "name": "abcxyz",
+      "projectId": 1,
+      "bgId": 1,
+      "createdAt": 1689330039958,
+      "id": 1
+    },
+    {
+      "name": "ú tà tà",
+      "projectId": 1,
+      "bgId": 2,
+      "createdAt": 1689342301307,
+      "id": 2
+    },
+    {
+      "name": "đừng bug nữa tao mệt r",
+      "projectId": 1,
+      "bgId": 1,
+      "createdAt": 1689342367365,
+      "id": 3
+    },
+    {
+      "name": "Khoa. Pug ",
+      "projectId": 3,
+      "bgId": 0,
+      "createdAt": 1689408462911,
+      "id": 4
+    },
+    {
+      "name": "Abv",
+      "projectId": 3,
+      "bgId": 0,
+      "createdAt": 1689408484687,
+      "id": 5
+    },
+    {
+      "name": "Pikachu",
+      "projectId": 2,
+      "bgId": 0,
+      "createdAt": 1689408554614,
+      "id": 6
+    },
+    {
+      "name": "Long",
+      "projectId": 2,
+      "bgId": 3,
+      "createdAt": 1689408576439,
+      "id": 7
+    },
+    {
+      "name": "anh Duy tồ",
+      "projectId": 3,
+      "bgId": 0,
+      "createdAt": 1689500508261,
+      "id": 8
+    }
+  ],
+  "lists": [
     {
       "id": 1,
-      "name": "code cùng Nam Gucci",
-      "startTime": "2023-7-7",
-      "endTime": "2023-7-8",
-      "members": [
-        2
-      ],
-      "description": "Code cùng anh Nam Gucci",
-      "taskId": 1
+      "name": "Nam bíu",
+      "tableId": 1,
+      "createdAt": 1689342367365
     },
     {
       "id": 2,
-      "name": "code cùng Nhân Tic",
-      "startTime": "2023-7-7",
-      "endTime": "2023-7-8",
-      "members": [],
-      "description": "Code cùng anh Nam Gucci",
-      "taskId": 2
+      "name": "Nam gầy",
+      "tableId": 1,
+      "createdAt": 1689342367366
+    },
+    {
+      "id": 3,
+      "name": "Nam béo vãi cứt",
+      "tableId": 1,
+      "createdAt": 1689342367366
+    }
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "name": "khoa Pug",
+      "listId": 2,
+      "createdAt": 1689342367366
+    },
+    {
+      "id": 2,
+      "name": "nam béooooo",
+      "listId": 1,
+      "createdAt": 1689342367366
+    },
+    {
+      "id": 3,
+      "name": "nam gucci",
+      "listId": 1,
+      "createdAt": 1689342367366
     }
   ]
 }

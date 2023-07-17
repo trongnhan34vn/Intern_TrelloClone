@@ -1,0 +1,12 @@
+import instance from ".."
+import { Project, ProjectDTO } from "../../types/Project.type"
+
+
+export const CREATE_PROJECT = async (project: ProjectDTO) => {
+  await instance.post('/projects', project)
+}
+
+export const FIND_PROJECTS_BY_USERID = async (id: number) : Promise<Project[]> => {
+  let response = await instance.get(`/projects?userid=${id}`);
+  return response.data;
+}

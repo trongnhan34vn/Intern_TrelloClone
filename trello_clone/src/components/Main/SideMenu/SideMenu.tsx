@@ -9,8 +9,8 @@ export default function SideMenu(props: {
 }) {
   const location = useLocation();
   return (
-    <div className="side sticky top-10">
-      <nav className="mt-10 max-h-[90vh] px-4 w-[272px]">
+    <div className="side sticky h-[500px] top-2">
+      <nav className="mt-10 px-4 w-[272px]">
         <ul className="side-container border-b-[1px] border-b-[#091e4224]">
           <li className="side-item mb-1">
             <NavLink

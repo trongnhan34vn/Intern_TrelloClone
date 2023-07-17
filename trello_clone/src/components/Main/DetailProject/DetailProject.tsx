@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '../Modal/Modal';
-import ListTag from './ListTag/ListTag';
 import SubNav from '../Subnav/SubNav';
+import TaskControll from './TaskControll/TaskControll';
 
 export default function DetailProject() {
   const [isCreateTag, setIsCreateTag] = useState(false);
@@ -62,16 +62,21 @@ export default function DetailProject() {
             <SubNav />
             {/* Sub Nav */}
             {/* Task */}
-            <div className="grow mt-3 relative">
+            {/* <div className="grow mt-3 relative">
               <div className="px-[6px] bottom-0 left-0 mb-2 overflow-x-auto overflow-y-hidden pb-2 absolute right-0 top-0 select-none whitespace-nowrap">
-                {/* Item List */}
                 <ListTag
                   createTagElement={createTagElement}
                   openModal={openModal}
                 />
-                {/* Item List */}
+                <div className="mx-[6px] inline-block h-full scroll-m-2 align-top whitespace-nowrap w-[272px]">
+                  <button className="bg-[#ffffff3d] flex items-center rounded-[12px] h-8 p-2 text-[#fff]">
+                    <i className="fa-solid fa-plus mr-2"></i>
+                    <span>Thêm mới danh sách</span>
+                  </button>
+                </div>
               </div>
-            </div>
+            </div> */}
+            <TaskControll />
             {/* Task */}
           </div>
         </div>

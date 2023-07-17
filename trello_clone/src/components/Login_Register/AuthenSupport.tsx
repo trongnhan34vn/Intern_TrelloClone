@@ -16,7 +16,7 @@ export default function AuthenSupport() {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const clientId =
+  const clientId : string =
     '14129973311-78p5ga6l83t0i0da4g2m07hsovvekaph.apps.googleusercontent.com';
 
   const onSuccess = (res: any) => {
@@ -26,7 +26,7 @@ export default function AuthenSupport() {
       fullName: res.profileObj.familyName + ' ' + res.profileObj.givenName,
       imageUrl: res.profileObj.imageUrl,
     };
-    dispatch(register({ type: 'via3th', userRegister }));
+    dispatch(register({ type: 'via3th', user: userRegister }));
   };
 
   const onFailure = (res: any) => {

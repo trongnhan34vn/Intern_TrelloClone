@@ -1,17 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User, UserLogin } from '../../types/User';
+import { User, UserDTO, UserRequestRegister, UserResponseLogin } from '../../types/User.type';
+
+const initState : UserResponseLogin = {
+  user: null,
+  accessToken: null
+}
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    userLogin: null,
-    accessToken: null,
-  },
+  initialState: initState,
   reducers: {
-    login: (state, action: PayloadAction<UserLogin>) => {},
-    register: (state, action) => {},
-    getResult: (state, action) => {
+    login: (state, action: PayloadAction<UserDTO>) => {},
+    register: (state, action: PayloadAction<UserRequestRegister>) => {},
+    getResult: (state, action: PayloadAction<UserResponseLogin>) => {
       state.accessToken = action.payload.accessToken;
-      state.userLogin = action.payload.user;
+      state.user = action.payload.user;
     },
   },
 });

@@ -29,7 +29,7 @@ function App() {
           <Route path="/main-app" element={<Main />}>
             <Route index element={<MainHome />} />
             <Route path="project-manage" element={<ProjectManage />} />
-            <Route path="detail-project" element={<DetailProject />} />
+            <Route path="detail-project/:tableId" element={<DetailProject />} />
           </Route>
         </Route>
         {/* Main Layout */}
