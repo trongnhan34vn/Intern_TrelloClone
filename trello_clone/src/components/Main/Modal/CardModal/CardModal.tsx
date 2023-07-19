@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { onCloseModal } from '../../../../redux/reducers/modalSlice';
+import { modalSelector } from '../../../../redux/selectors';
+import { findCardById } from '../../../../redux/reducers/cardSlice';
 
-export default function Modal(props: { isOpen: any; closeModal: any }) {
+export default function CardModal() {
+  const dispatch = useDispatch();
+  const closeModalFn = () => {
+    dispatch(onCloseModal());
+  };
+
+  const cardId = useSelector(modalSelector).selectCardId;
+  useEffect(() => {
+    if (!cardId) return;
+    setTimeout(() => {
+      dispatch(findCardById(+cardId));
+    }, 200);
+  }, [cardId]);
+
   return (
-    <Transition appear show={props.isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={props.closeModal}>
+    <Transition appear show={cardId ? true : false} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={closeModalFn}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -36,8 +53,8 @@ export default function Modal(props: { isOpen: any; closeModal: any }) {
                 >
                   <div className="absolute top-2 right-[1em]">
                     <button
-                      className="hover:bg-[#A1BDD914] px-2 py-1 rounded-2xl"
-                      onClick={props.closeModal}
+                      className="hover:bg-[#A1BDD914] outline-none px-2 py-1 rounded-2xl"
+                      onClick={closeModalFn}
                     >
                       <i className="fa-solid fa-xmark"></i>
                     </button>
@@ -46,7 +63,7 @@ export default function Modal(props: { isOpen: any; closeModal: any }) {
                     <i className="fa-solid fa-print"></i>
                     <textarea
                       className="mt-[-10px] overflow-hidden h-7 bg-[#0000] align-middle text-[20px] border-none rounded-[3px] text-[#000] font-bold my-[-4px] max-h-[256px] min-h-[20px] py-1 pr-2 pl-3 resize-none w-[224px]"
-                      value={'Anh Nam Gucci'}
+                      value={''}
                       onChange={() => {}}
                     ></textarea>
                   </div>
@@ -54,7 +71,7 @@ export default function Modal(props: { isOpen: any; closeModal: any }) {
                     <p className="text-[#9FADBC] text-sm">
                       trong danh sách{' '}
                       <a className="underline" href="">
-                        Nam Gucci
+                        {''}
                       </a>{' '}
                     </p>
                   </div>
@@ -95,12 +112,6 @@ export default function Modal(props: { isOpen: any; closeModal: any }) {
                         <button className="hover:bg-[#A6C5E229] bg-[#A1BDD914] rounded-[3px] h-8 mb-2 max-w-[300px] overflow-hidden py-[6px] px-3 relative text-left text-sm text-[#172B4D]">
                           <i className="fa-regular fa-clock mr-[6px]"></i>
                           <p className=" inline-block ">Ngày</p>
-                        </button>
-                        {/* Item */}
-                        {/* Item */}
-                        <button className="hover:bg-[#A6C5E229] bg-[#A1BDD914] rounded-[3px] h-8 mb-2 max-w-[300px] overflow-hidden py-[6px] px-3 relative text-left text-sm text-[#172B4D]">
-                          <i className="fa-regular fa-user mr-[6px]"></i>
-                          <p className=" inline-block ">Thành viên</p>
                         </button>
                         {/* Item */}
                       </div>

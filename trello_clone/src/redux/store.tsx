@@ -8,6 +8,7 @@ import backgroundSlice from './reducers/backgroundSlice';
 import tableSlice from './reducers/tableSlice';
 import listSlice from './reducers/listSlice';
 import cardSlice from './reducers/cardSlice';
+import modalSlice from './reducers/modalSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,7 +20,8 @@ const store = configureStore({
     background: backgroundSlice,
     table: tableSlice,
     list: listSlice,
-    card: cardSlice
+    card: cardSlice,
+    modal: modalSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

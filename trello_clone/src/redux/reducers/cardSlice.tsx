@@ -1,12 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CardDB, CardForm, CardPatch } from '../../types/Card.type';
+import {
+  CardDB,
+  CardForm,
+  CardPatch,
+  CardPatchTest,
+} from '../../types/Card.type';
 
 interface CardState {
   listCards: CardDB[];
+  selectCard: CardDB | null
 }
 
 const initState: CardState = {
   listCards: [],
+  selectCard: null
 };
 
 const cardSlice = createSlice({
@@ -20,9 +27,22 @@ const cardSlice = createSlice({
     createCard: (state, action: PayloadAction<CardForm>) => {},
     deleteCard: (state, action: PayloadAction<number>) => {},
     updateCard: (state, action: PayloadAction<CardPatch>) => {},
+    updateCardTest: (state, action: PayloadAction<CardPatchTest>) => {},
+    findCardById: (state, action: PayloadAction<number>) => {},
+    getCardById: (state, action: PayloadAction<CardDB>) => {
+      state.selectCard = action.payload
+    }
   },
 });
 
 export default cardSlice.reducer;
-export const { findAllCards, getAllCards, createCard, deleteCard, updateCard } =
-  cardSlice.actions;
+export const {
+  findAllCards,
+  getAllCards,
+  createCard,
+  deleteCard,
+  updateCard,
+  updateCardTest,
+  findCardById,
+  getCardById
+} = cardSlice.actions;

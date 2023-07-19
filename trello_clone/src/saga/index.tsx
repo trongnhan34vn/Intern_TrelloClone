@@ -9,9 +9,9 @@ import { findAllBGs } from '../redux/reducers/backgroundSlice';
 import * as backgroundSaga from './items/backgroundSaga';
 import { createTable, findTableByProjectId } from '../redux/reducers/tableSlice';
 import * as tableSaga from './items/tableSaga';
-import { findListsByTableId } from '../redux/reducers/listSlice';
+import { createList, findListById, findListsByTableId, updateDragList } from '../redux/reducers/listSlice';
 import * as listSaga from './items/listSaga';
-import { createCard, deleteCard, findAllCards, updateCard } from '../redux/reducers/cardSlice';
+import { createCard, deleteCard, findAllCards, findCardById, updateCard, updateCardTest } from '../redux/reducers/cardSlice';
 import * as cardSaga from './items/cardSaga';
 
 export const rootSaga = function* () {
@@ -31,10 +31,15 @@ export const rootSaga = function* () {
     takeLatest(findTableByProjectId.type, tableSaga.findTableByProjectId),
     // LISTS
     takeLatest(findListsByTableId.type, listSaga.findListsByTableId),
+    takeLatest(updateDragList.type, listSaga.updateDragList),
+    takeLatest(createList.type, listSaga.createList),
+    takeLatest(findListById.type, listSaga.findListById),
     // CARDS
     takeLatest(findAllCards.type, cardSaga.findAllCards),
     takeLatest(createCard.type, cardSaga.createCard),
     takeLatest(deleteCard.type, cardSaga.deleteCard),
-    takeLatest(updateCard.type, cardSaga.updateCard)
+    takeLatest(updateCard.type, cardSaga.updateCard),
+    takeLatest(updateCardTest.type, cardSaga.updateCardTest),
+    takeLatest(findCardById.type, cardSaga.findCardById)
   ]);
 };

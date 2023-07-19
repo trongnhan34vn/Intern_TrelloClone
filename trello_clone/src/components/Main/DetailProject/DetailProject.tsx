@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Modal from '../Modal/Modal';
+import Modal from '../Modal/CardModal/CardModal';
 import SubNav from '../Subnav/SubNav';
 import TaskControll from './TaskControll/TaskControll';
 
@@ -81,7 +81,6 @@ export default function DetailProject() {
           </div>
         </div>
       </div>
-      <Modal closeModal={closeModal} isOpen={isOpen} />
     </div>
   );
 }
