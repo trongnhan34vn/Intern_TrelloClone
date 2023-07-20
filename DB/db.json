@@ -200,7 +200,7 @@
       "id": 2,
       "name": "nam béooooo",
       "listId": 1,
-      "order": 1,
+      "order": 0,
       "description": "",
       "createdAt": 1689342367366,
       "endAt": 0
@@ -216,7 +216,7 @@
     },
     {
       "name": "anh Nam gucci",
-      "listId": 1,
+      "listId": 4,
       "order": 2,
       "description": "",
       "createdAt": 1689641363434,
@@ -225,8 +225,8 @@
     },
     {
       "name": "anh nam tào lao",
-      "listId": 2,
-      "order": 2,
+      "listId": 4,
+      "order": 3,
       "description": "",
       "createdAt": 1689654404503,
       "id": 5,
@@ -243,8 +243,8 @@
     },
     {
       "name": "Anh nam ơi",
-      "listId": 4,
-      "order": 4,
+      "listId": 2,
+      "order": 0,
       "description": "",
       "createdAt": 1689672818752,
       "id": 7,
@@ -262,7 +262,7 @@
     {
       "name": "abc",
       "listId": 1,
-      "order": 0,
+      "order": 2,
       "description": "",
       "createdAt": 1689674242647,
       "id": 9,

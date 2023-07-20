@@ -15,7 +15,6 @@ import { cardSelector, listSelector } from '../../../../redux/selectors';
 import {
   CardDB,
   CardForm,
-  CardPatch,
   CardPatchTest,
 } from '../../../../types/Card.type';
 import { DragList, ListForm } from '../../../../types/List.type';
@@ -23,10 +22,6 @@ import CardFormComp from './CardFormComp';
 import AddLinkCard from './AddLinkCard';
 import NewLaneSection from './NewLaneSection';
 import NewLaneForm from './NewLaneForm';
-import {
-  onCloseModal,
-  onOpenModal,
-} from '../../../../redux/reducers/modalSlice';
 import CardModal from '../../Modal/CardModal/CardModal';
 
 const initDataState: BoardData = {
@@ -37,22 +32,22 @@ export default function TaskControll() {
   const dispatch = useDispatch();
   const { tableId } = useParams();
   const [dataDp, setDataDp] = useState<BoardData>(initDataState);
+  const [currentCard, setCurrentCard] = useState<Card | null>(null)
 
   // get lists and cards on API
   useEffect(() => {
-    if (tableId) {
-      dispatch(findListsByTableId(parseInt(tableId)));
-      dispatch(cardSlice.findAllCards());
-    }
-  }, []);
+    if (!tableId) return;
+    dispatch(findListsByTableId(parseInt(tableId)));
+    dispatch(cardSlice.findAllCards());
+  }, [tableId]);
 
   const lists = useSelector(listSelector).lists;
   const cards = useSelector(cardSelector).listCards;
 
   // Set data react trello
   useEffect(() => {
-    let sortedLists = [...lists];
-    sortedLists.sort((a, b) => a.order - b.order);
+    let sortedLists = lists;
+    // sortedLists.sort((a, b) => a.order - b.order);
     if (sortedLists.length > 0 && cards.length > 0) {
       let arr: Lane[] = [];
       for (let i = 0; i < sortedLists.length; i++) {
@@ -75,7 +70,7 @@ export default function TaskControll() {
   const filterCartByListId = (listId: number): CardDB[] => {
     return cards
       .filter((c) => c.listId === listId)
-      .sort((a, b) => a.order - b.order);
+      // .sort((a, b) => a.order - b.order);
   };
 
   // exchange data
@@ -97,7 +92,7 @@ export default function TaskControll() {
 
   // drag and data
   const checkExist = (card: Card, arr: Card[]) => {
-    if (arr) return arr.find((c) => c.id === card.id);
+    return arr.find((c) => c.id === card.id);
   };
 
   function move(arr: Card[], old_index: number, new_index: number) {
@@ -118,11 +113,9 @@ export default function TaskControll() {
   }
 
   const findCardsByLaneId = (laneId: string): Card[] => {
-    let lane = dataDp.lanes.find((l) => l.id === laneId);
+    let lane = dataDp.lanes.find((lane) => lane.id === laneId);
     if (!lane) return [];
-    let cards = lane.cards;
-    if (!cards) return [];
-    return cards;
+    return lane.cards || [];
   };
 
   const onCardMoveAcrossLanes = (
@@ -205,12 +198,8 @@ export default function TaskControll() {
 
   // open modal
 
-  const openModal = (cardId: string) => {
-    dispatch(onOpenModal(cardId));
-  };
-
-  const handleClickModal = (cardId: string) => {
-    openModal(cardId);
+  const handleClickModal = (cardId: string, card: Card) => {
+    setCurrentCard(card)
   };
 
   return (
@@ -223,6 +212,8 @@ export default function TaskControll() {
           NewLaneSection: NewLaneSection,
           NewLaneForm: NewLaneForm,
         }}
+        handleDragEnd={(cardId, sourceLaneId, targetLaneId) => {}}
+        handleDragStart={(cardId, landId) => {}}
         handleLaneDragEnd={(removedIndex, addedIndex, payload) => {
           dragList(+removedIndex, +addedIndex);
         }}
@@ -237,15 +228,18 @@ export default function TaskControll() {
             id: string;
           },
           card: Card
-        ) => handleClickModal(cardId)}
+        ) => handleClickModal(cardId, card)}
         onCardAdd={(card) => createCard(card)}
-        draggable
-        canAddLanes
-        editable
+        laneDraggable
         cardDraggable
+        editable
+        canAddLanes
+        editLaneTitle
+        draggable
         data={dataDp}
       />
-      <CardModal />
+      
+      <CardModal card={currentCard} onClose={() => setCurrentCard(null)} />
     </div>
   );
 }
