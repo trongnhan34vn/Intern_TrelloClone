@@ -235,7 +235,7 @@
     {
       "name": "abc",
       "listId": 2,
-      "order": 1,
+      "order": 0,
       "description": "",
       "createdAt": 1689654462924,
       "id": 6,
@@ -244,7 +244,7 @@
     {
       "name": "Anh nam ơi",
       "listId": 2,
-      "order": 0,
+      "order": 1,
       "description": "",
       "createdAt": 1689672818752,
       "id": 7,
@@ -252,8 +252,8 @@
     },
     {
       "name": "aaaa",
-      "listId": 3,
-      "order": 0,
+      "listId": 2,
+      "order": 2,
       "description": "",
       "createdAt": 1689672865925,
       "id": 8,

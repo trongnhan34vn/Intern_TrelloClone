@@ -1,24 +1,24 @@
 import React from 'react';
-import WorkModal from './WorkModal';
+import TaskModal from './TaskModal';
 
-export default function WorksModal() {
+export default function TasksModal() {
   return (
-    <div className="item">
+    <div className="item mb-6">
       <div className="flex text-[#9FADBC] justify-between items-center mb-2">
         <div className="flex items-center">
           <i className="fa-regular fa-square-check mr-3 text-[20px]"></i>
           <h2 className="text-[18px] font-semibold">Học Java</h2>
         </div>
         <div>
-          <button className="rounded-[3px] text-[14px] py-[6px] px-3 bg-[#3A444C]">
+          <button className="hover:bg-[#A6C5E229] rounded-[3px] text-[14px] py-[6px] px-3 bg-[#3A444C]">
             Xoá
           </button>
         </div>
       </div>
-      <div className="mb-10 w-full">
+      <div className="mb-10 w-full relative">
         {/* title */}
         <div className="flex items-center mb-2">
-          <div>
+          <div className=''>
             <div className="text-[#9FADBC] text-[12px] max-w-[30px]">0%</div>
           </div>
           <div className="w-full ml-[10px]">
@@ -29,7 +29,7 @@ export default function WorksModal() {
         </div>
         {/* title */}
         {/* work */}
-        <WorkModal />
+        <TaskModal />
         {/* work */}
       </div>
     </div>
