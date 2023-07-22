@@ -6,17 +6,9 @@ import Board from 'react-trello-ts';
 import { FormState } from 'react-trello-ts/dist/components/NewCardForm';
 import { BoardData, Lane, Card } from 'react-trello-ts/dist/types/Board';
 import * as cardSlice from '../../../../redux/reducers/cardSlice';
-import {
-  findListsByTableId,
-  updateDragList,
-  createList,
-} from '../../../../redux/reducers/listSlice';
+import * as listSlice from '../../../../redux/reducers/listSlice';
 import { cardSelector, listSelector } from '../../../../redux/selectors';
-import {
-  CardDB,
-  CardForm,
-  CardPatchTest,
-} from '../../../../types/Card.type';
+import { CardDB, CardForm, CardPatchTest } from '../../../../types/Card.type';
 import { DragList, ListForm } from '../../../../types/List.type';
 import CardFormComp from './CardFormComp';
 import AddLinkCard from './AddLinkCard';
@@ -31,14 +23,15 @@ const initDataState: BoardData = {
 export default function TaskControll() {
   const dispatch = useDispatch();
   const { tableId } = useParams();
-  const [dataDp, setDataDp] = useState<BoardData>(initDataState);
-  const [currentCard, setCurrentCard] = useState<Card | null>(null)
+  const [data, setData] = useState<BoardData>(initDataState);
+  const [currentCard, setCurrentCard] = useState<string | null>(null);
 
   // get lists and cards on API
   useEffect(() => {
     if (!tableId) return;
-    dispatch(findListsByTableId(parseInt(tableId)));
+    dispatch(listSlice.findListsByTableId(parseInt(tableId)));
     dispatch(cardSlice.findAllCards());
+    return;
   }, [tableId]);
 
   const lists = useSelector(listSelector).lists;
@@ -46,31 +39,29 @@ export default function TaskControll() {
 
   // Set data react trello
   useEffect(() => {
-    let sortedLists = lists;
-    // sortedLists.sort((a, b) => a.order - b.order);
-    if (sortedLists.length > 0 && cards.length > 0) {
-      let arr: Lane[] = [];
-      for (let i = 0; i < sortedLists.length; i++) {
-        let filterCards = filterCartByListId(sortedLists[i].id);
-        let lane: Lane = {
-          id: `${sortedLists[i].id}`,
-          title: sortedLists[i].name,
-          label: '',
-          cards: exchangeData(filterCards),
-        };
-        arr.push(lane);
-        setDataDp({
-          lanes: arr,
-        });
-      }
+    console.log('data change');
+    let sortedLists = [...lists].sort((a, b) => a.order - b.order);
+
+    let arr: Lane[] = [];
+    for (let i = 0; i < sortedLists.length; i++) {
+      let filterCards = filterCartByListId(sortedLists[i].id);
+      let lane: Lane = {
+        id: `${sortedLists[i].id}`,
+        title: sortedLists[i].name,
+        cards: exchangeData(filterCards),
+      };
+      arr.push(lane);
+      console.log('before set state', arr);
+      setData({
+        lanes: arr,
+      });
     }
   }, [lists, cards]);
 
   // filter card by list id
   const filterCartByListId = (listId: number): CardDB[] => {
-    return cards
-      .filter((c) => c.listId === listId)
-      // .sort((a, b) => a.order - b.order);
+    let cardsDB = cards.filter((c) => c.listId === listId);
+    return [...cardsDB].sort((a, b) => a.order - b.order);
   };
 
   // exchange data
@@ -81,8 +72,6 @@ export default function TaskControll() {
         id: `${listCard[i].id}`,
         laneId: `${listCard[i].listId}`,
         title: listCard[i].name,
-        description: '',
-        label: '',
         draggable: true,
       };
       arr.push(card);
@@ -113,7 +102,7 @@ export default function TaskControll() {
   }
 
   const findCardsByLaneId = (laneId: string): Card[] => {
-    let lane = dataDp.lanes.find((lane) => lane.id === laneId);
+    let lane = data.lanes.find((lane) => lane.id === laneId);
     if (!lane) return [];
     return lane.cards || [];
   };
@@ -124,9 +113,12 @@ export default function TaskControll() {
     cardId: string,
     index: string
   ) => {
+    console.log('on card move across lanes');
+
     let toLaneCards: Card[] = findCardsByLaneId(toLaneId);
     if (!toLaneCards) return;
     let fromLaneCards: Card[] = findCardsByLaneId(fromLaneId);
+    if (!fromLaneCards) return;
     let selectCard = fromLaneCards.find((card) => card.id === cardId);
     if (!selectCard) return;
 
@@ -152,6 +144,8 @@ export default function TaskControll() {
 
   // add card
   const createCard = (card: Card) => {
+    console.log('create card');
+
     let laneId = card.laneId;
     if (!laneId) return;
 
@@ -168,22 +162,22 @@ export default function TaskControll() {
 
   // drag list
   const dragList = (removeIndex: number, addedIndex: number) => {
-    let dragLane = dataDp.lanes[removeIndex];
+    let dragLane = data.lanes[removeIndex];
     let dragLaneId = dragLane.id;
     let newOrder = addedIndex;
     let dragList: DragList = {
       id: +dragLaneId,
       order: newOrder,
     };
-    dispatch(updateDragList(dragList));
-    let beDraggedLane = dataDp.lanes[addedIndex];
+    dispatch(listSlice.updateDragList(dragList));
+    let beDraggedLane = data.lanes[addedIndex];
     let beDraggedLaneId = beDraggedLane.id;
     let newOrderBeDrag = removeIndex;
     let beDragList: DragList = {
       id: +beDraggedLaneId,
       order: newOrderBeDrag,
     };
-    dispatch(updateDragList(beDragList));
+    dispatch(listSlice.updateDragList(beDragList));
   };
 
   // create list
@@ -193,13 +187,13 @@ export default function TaskControll() {
       tableId: Number(tableId),
       order: lists.length,
     };
-    dispatch(createList(listF));
+    dispatch(listSlice.createList(listF));
   };
 
   // open modal
-
   const handleClickModal = (cardId: string, card: Card) => {
-    setCurrentCard(card)
+    console.log('click modal');
+    setCurrentCard(cardId);
   };
 
   return (
@@ -212,15 +206,14 @@ export default function TaskControll() {
           NewLaneSection: NewLaneSection,
           NewLaneForm: NewLaneForm,
         }}
-        handleDragEnd={(cardId, sourceLaneId, targetLaneId) => {}}
-        handleDragStart={(cardId, landId) => {}}
         handleLaneDragEnd={(removedIndex, addedIndex, payload) => {
           dragList(+removedIndex, +addedIndex);
         }}
         onLaneAdd={(params) => createListFn(params)}
+        handleDragEnd={() => {}}
         onCardMoveAcrossLanes={onCardMoveAcrossLanes}
         onDataChange={(data) => {
-          console.log(data);
+          console.log('new data -----> ', data);
         }}
         onCardClick={(
           cardId: Card['id'],
@@ -234,12 +227,11 @@ export default function TaskControll() {
         cardDraggable
         editable
         canAddLanes
-        editLaneTitle
         draggable
-        data={dataDp}
+        data={data}
       />
-      
-      <CardModal card={currentCard} onClose={() => setCurrentCard(null)} />
+
+      <CardModal cardId={currentCard} onClose={() => setCurrentCard(null)} />
     </div>
   );
 }

@@ -1,6 +1,11 @@
 import React from 'react';
+import { Task } from '../../../../../types/Task.type';
 
-export default function TaskModal() {
+interface TaskProps {
+  task: Task;
+}
+
+export default function Tasks({task}:TaskProps) {
   return (
     <div className="hover:bg-[#A6C5E229] rounded-[4px] box-border justify-between flex items-center">
       <div className="flex items-center px-2 py-1">
@@ -8,7 +13,7 @@ export default function TaskModal() {
           <input className="block -mb-[2px] p-2" type="checkbox" />
         </div>
         <div className="flex items-center">
-          <span className="text-[16px] text-[#9FADBC]">a</span>
+          <span className="text-[16px] text-[#9FADBC]">{task.name}</span>
         </div>
       </div>
       <div className="flex items-center py-1">

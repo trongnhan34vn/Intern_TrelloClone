@@ -8,3 +8,5 @@ export const tableSelector = (state: RootState) => state.table;
 export const listSelector = (state: RootState) => state.list;
 export const cardSelector = (state: RootState) => state.card;
 export const modalSelector = (state: RootState) => state.modal;
+export const workSelector = (state: RootState) => state.work;
+export const taskSelector = (state: RootState) => state.task;

@@ -4,6 +4,7 @@ import {
   CardForm,
   CardPatch,
   CardPatchTest,
+  CardUpdateDescription,
 } from '../../types/Card.type';
 
 interface CardState {
@@ -31,7 +32,8 @@ const cardSlice = createSlice({
     findCardById: (state, action: PayloadAction<number>) => {},
     getCardById: (state, action: PayloadAction<CardDB>) => {
       state.selectCard = action.payload
-    }
+    },
+    updateCardDescription: (state, action: PayloadAction<CardUpdateDescription>) => {}
   },
 });
 
@@ -44,5 +46,6 @@ export const {
   updateCard,
   updateCardTest,
   findCardById,
-  getCardById
+  getCardById,
+  updateCardDescription
 } = cardSlice.actions;

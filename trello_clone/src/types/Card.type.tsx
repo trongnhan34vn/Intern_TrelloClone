@@ -23,3 +23,8 @@ export interface CardPatchTest extends CardForm {
   id: number
   order: number
 }
+
+export interface CardUpdateDescription {
+  id: number
+  description: string
+}

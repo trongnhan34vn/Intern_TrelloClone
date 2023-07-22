@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FormFeatureState } from '../FormFeature';
+import { FormFeatureState } from '../FormFeatureLayout';
 import { FeatureContext } from '../CreateFeatureBtn';
 
 export default function HeaderFormFeature({closeFn}: FormFeatureState) {
@@ -13,7 +13,7 @@ export default function HeaderFormFeature({closeFn}: FormFeatureState) {
         <i className="fa-solid fa-xmark"></i>
       </button>
       <div className="text-sm font-bold text-[#B6C2CF]">
-        <h2 className="h-10 text-center leading-10">{featureContext ? featureContext.name : ''}</h2>
+        <h2 className="h-10 text-center leading-10">{featureContext ? featureContext.feature.name : ''}</h2>
       </div>
     </div>
   );

@@ -1,9 +1,14 @@
 import { Popover, Transition } from '@headlessui/react';
 import { createContext, Fragment } from 'react';
-import { ModalFeatureProps } from './ModalFeature';
-import FormFeature from './FormFeature';
+import { ModalFeatureProps } from './CardModalComp/ModalFeature';
+import FormFeature from './FormFeatureLayout';
 
-export const FeatureContext = createContext<ModalFeatureProps | null>(null);
+interface FeatureBtn {
+  feature: ModalFeatureProps,
+  closeFn: () => void
+}
+
+export const FeatureContext = createContext<FeatureBtn | null>(null);
 
 export default function CreateFeatureBtn(props: {
   feature: ModalFeatureProps;
@@ -28,7 +33,7 @@ export default function CreateFeatureBtn(props: {
         <Popover.Panel className="absolute z-50">
           {({ close }) => {
             return (
-              <FeatureContext.Provider value={props.feature}>
+              <FeatureContext.Provider value={{feature: props.feature, closeFn: close}}>
                 <FormFeature closeFn={close} />;
               </FeatureContext.Provider>
             );

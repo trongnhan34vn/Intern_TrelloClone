@@ -12,6 +12,7 @@
 .react-trello-card textarea {
   pointer-events: none;
   cursor: pointer;
+  overflow: visible;
 }
 
 .react-trello-card:hover {

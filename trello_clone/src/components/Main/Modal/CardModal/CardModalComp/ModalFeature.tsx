@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateFeatureBtn from './CreateFeatureBtn';
+import CreateFeatureBtn from '../CreateFeatureBtn';
 
 export interface ModalFeatureProps {
   name: string;

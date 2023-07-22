@@ -114,20 +114,6 @@
       "id": 3
     },
     {
-      "name": "Khoa. Pug ",
-      "projectId": 3,
-      "bgId": 0,
-      "createdAt": 1689408462911,
-      "id": 4
-    },
-    {
-      "name": "Abv",
-      "projectId": 3,
-      "bgId": 0,
-      "createdAt": 1689408484687,
-      "id": 5
-    },
-    {
       "name": "Pikachu",
       "projectId": 2,
       "bgId": 0,
@@ -140,162 +126,97 @@
       "bgId": 3,
       "createdAt": 1689408576439,
       "id": 7
-    },
-    {
-      "name": "anh Duy tồ",
-      "projectId": 3,
-      "bgId": 0,
-      "createdAt": 1689500508261,
-      "id": 8
     }
   ],
   "lists": [
     {
-      "id": 1,
-      "name": "Nam bíu",
+      "name": "học React",
       "tableId": 1,
       "order": 1,
-      "createdAt": 1689342367365
+      "createdAt": 1689903019206,
+      "id": 1
     },
     {
-      "id": 2,
-      "name": "Nam gầy",
-      "tableId": 1,
-      "order": 2,
-      "createdAt": 1689342367366
-    },
-    {
-      "id": 3,
-      "name": "Nam béo vãi cứt",
-      "tableId": 1,
-      "order": 3,
-      "createdAt": 1689342367366
-    },
-    {
-      "name": "Pikachu",
+      "name": "ngủ",
       "tableId": 1,
       "order": 0,
-      "createdAt": 1689607683316,
-      "id": 4
+      "createdAt": 1689903160168,
+      "id": 2
     },
     {
-      "name": "jjj",
+      "name": "a",
       "tableId": 1,
-      "order": 4,
-      "createdAt": 1689669040651,
-      "id": 5
+      "order": 2,
+      "createdAt": 1689903649758,
+      "id": 3
     }
   ],
   "cards": [
     {
-      "id": 1,
-      "name": "khoa Pug",
-      "listId": 4,
+      "name": "fix bug",
+      "listId": 2,
       "order": 1,
-      "description": "",
-      "createdAt": 1689342367366,
-      "endAt": 0
+      "createdAt": 1689903960260,
+      "id": 1
     },
     {
-      "id": 2,
-      "name": "nam béooooo",
+      "name": "ăn",
+      "listId": 2,
+      "order": 0,
+      "createdAt": 1689904032944,
+      "id": 2
+    },
+    {
+      "name": "react trello",
       "listId": 1,
       "order": 0,
-      "description": "",
-      "createdAt": 1689342367366,
-      "endAt": 0
-    },
-    {
-      "id": 3,
-      "name": "nam gucci",
-      "listId": 3,
-      "order": 1,
-      "description": "",
-      "createdAt": 1689342367366,
-      "endAt": 0
-    },
-    {
-      "name": "anh Nam gucci",
-      "listId": 4,
-      "order": 2,
-      "description": "",
-      "createdAt": 1689641363434,
-      "id": 4,
-      "endAt": 0
-    },
-    {
-      "name": "anh nam tào lao",
-      "listId": 4,
-      "order": 3,
-      "description": "",
-      "createdAt": 1689654404503,
-      "id": 5,
-      "endAt": 0
-    },
-    {
-      "name": "abc",
-      "listId": 2,
-      "order": 0,
-      "description": "",
-      "createdAt": 1689654462924,
-      "id": 6,
-      "endAt": 0
-    },
-    {
-      "name": "Anh nam ơi",
-      "listId": 2,
-      "order": 1,
-      "description": "",
-      "createdAt": 1689672818752,
-      "id": 7,
-      "endAt": 0
-    },
-    {
-      "name": "aaaa",
-      "listId": 2,
-      "order": 2,
-      "description": "",
-      "createdAt": 1689672865925,
-      "id": 8,
-      "endAt": 0
-    },
-    {
-      "name": "abc",
-      "listId": 1,
-      "order": 2,
-      "description": "",
-      "createdAt": 1689674242647,
-      "id": 9,
-      "endAt": 0
-    },
-    {
-      "name": "chả. hiểu kiểu gì",
-      "listId": 5,
-      "order": 0,
-      "description": "",
-      "createdAt": 1689689342474,
-      "id": 10,
-      "endAt": 0
+      "createdAt": 1689906498444,
+      "id": 3
     }
   ],
   "works": [
     {
       "id": 1,
       "name": "học react",
-      "progression": 100,
+      "process": 0,
       "cardId": 1,
       "createdAt": 0
+    },
+    {
+      "cardId": 3,
+      "name": "anh Nam gucci",
+      "process": 0,
+      "createdAt": 1689931213596,
+      "id": 5
+    },
+    {
+      "cardId": 3,
+      "name": "học cùng Khoa Pug",
+      "process": 0,
+      "createdAt": 1689990984543,
+      "id": 6
     }
   ],
   "tasks": [
     {
-      "id": 1,
-      "name": "ES6",
-      "status": 1,
       "workId": 1,
-      "createdAt": 0,
+      "id": 1,
+      "name": "học",
       "endAt": 0,
-      "userId": []
+      "createdAt": 1689931213596,
+      "members": []
+    },
+    {
+      "name": "anh nam",
+      "workId": 5,
+      "createdAt": 1689956605028,
+      "id": 2
+    },
+    {
+      "name": "anh Nam vippro",
+      "workId": 5,
+      "createdAt": 1689956659074,
+      "id": 3
     }
   ]
 }

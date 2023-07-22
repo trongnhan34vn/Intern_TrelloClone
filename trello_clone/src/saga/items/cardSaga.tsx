@@ -1,8 +1,8 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put } from "redux-saga/effects";
-import { CREATE_CARD, DELETE_CARD, FIND_ALL_CARDS, FIND_CARD_BY_ID, UPDATE_CARD, UPDATE_CARD_TEST } from "../../api/services/cardServices";
+import { CREATE_CARD, DELETE_CARD, FIND_ALL_CARDS, FIND_CARD_BY_ID, UPDATE_CARD, UPDATE_CARD_TEST, UPDATE_DESCRIPTION } from "../../api/services/cardServices";
 import { getAllCards, getCardById } from "../../redux/reducers/cardSlice";
-import { CardDB, CardForm, CardPatch, CardPatchTest } from "../../types/Card.type";
+import { CardDB, CardForm, CardPatch, CardPatchTest, CardUpdateDescription } from "../../types/Card.type";
 
 export const findAllCards = function* () {
   try {
@@ -51,6 +51,14 @@ export const findCardById = function*(action: PayloadAction<number>) {
   try {
     let response : CardDB = yield call(FIND_CARD_BY_ID, action.payload);
     yield put(getCardById(response))
+  } catch (error) {
+    
+  }
+}
+
+export const updateCardDescription = function*(action: PayloadAction<CardUpdateDescription>) {
+  try {
+    yield call(UPDATE_DESCRIPTION, action.payload)
   } catch (error) {
     
   }

@@ -1,33 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import DescriptionModal from './DescriptionModal';
-import WorksModal from './TasksModal';
-import { Card } from 'react-trello-ts/dist/types/Board';
-import ModalFeature from './ModalFeature';
-import HeadModal from './HeadModal';
+import DescriptionModal from './CardModalComp/DescriptionModal';
+import ModalFeature from './CardModalComp/ModalFeature';
+import HeadModal from './CardModalComp/HeadModal';
+import { findCardById } from '../../../../redux/reducers/cardSlice';
+import { cardSelector, workSelector } from '../../../../redux/selectors';
+import Works from './CardModalComp/Works';
+import { findWorksByCardId } from '../../../../redux/reducers/workSlice';
 
-interface CardModalProps {
-  card: Card | null;
+export interface CardModalProps {
+  cardId: string | null;
   onClose: () => void;
 }
 
-const CardModal = ({ card, onClose }: CardModalProps) => {
+export const CardContext = createContext<string | null>(null);
+
+const CardModal = ({ cardId, onClose }: CardModalProps) => {
   const dispatch = useDispatch();
+  // console.log('card', cardId);
 
-  console.log('card', card);
+  useEffect(() => {
+    if (!cardId) return;
+    dispatch(findCardById(+cardId));
+    dispatch(findWorksByCardId(+cardId))
+  }, [cardId]);
 
-  // const cardId = useSelector(modalSelector).selectCardId;
-  // useEffect(() => {
-  //   if (!cardId) return;
-  //   setTimeout(() => {
-  //     dispatch(findCardById(+cardId));
-  //   }, 200);
-  // }, [cardId]);
+  const selectCard = useSelector(cardSelector).selectCard;
+  const works = useSelector(workSelector).listWorks;
+  
+  const worksElement = works.map((work) => {
+    return (
+      <Works key={work.id} work={work} />
+    )
+  })
 
   return (
-    <Transition appear show={card ? true : false} as={Fragment}>
+    <Transition appear show={cardId ? true : false} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
         <Transition.Child
           as={Fragment}
@@ -53,18 +63,20 @@ const CardModal = ({ card, onClose }: CardModalProps) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full pr-[185px] relative z-10 min-h-[500px] max-w-[775px] transform rounded-2xl bg-[#323940] p-6 text-left align-middle shadow-xl transition-all">
-                <HeadModal onClose={onClose} />
-                <div className="flex gap-4 items-start max-h-[450px] overflow-y-scroll">
+                <HeadModal selectCard={selectCard} onClose={onClose} />
+                <div className="flex gap-4 items-start max-h-[450px] scrollable-div overflow-y-scroll">
                   <div className="form-left w-full">
                     {/* Description */}
-                    <DescriptionModal />
+                    <DescriptionModal cardId={cardId} />
                     {/* Description */}
                     {/* List Works */}
-                    <WorksModal />
+                    {worksElement}
                     {/* List Works */}
                   </div>
                   <div className="form-right relative flex flex-col">
-                    <ModalFeature />
+                    <CardContext.Provider value={cardId}>
+                      <ModalFeature />
+                    </CardContext.Provider>
                   </div>
                 </div>
               </Dialog.Panel>

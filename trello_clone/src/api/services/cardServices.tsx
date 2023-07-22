@@ -4,6 +4,7 @@ import {
   CardForm,
   CardPatch,
   CardPatchTest,
+  CardUpdateDescription,
 } from '../../types/Card.type';
 
 export const FIND_ALL_CARDS = async (): Promise<CardDB[]> => {
@@ -30,4 +31,10 @@ export const UPDATE_CARD_TEST = async (data: CardPatchTest) => {
 export const FIND_CARD_BY_ID = async (id: number): Promise<CardDB> => {
   let response = await instance.get('/cards/' + id);
   return response.data;
+};
+
+export const UPDATE_DESCRIPTION = async (
+  data: CardUpdateDescription
+): Promise<void> => {
+  await instance.patch('/cards/' + data.id, { description: data.description });
 };
