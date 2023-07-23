@@ -20,3 +20,8 @@ export const FIND_LIST_BY_ID = async (id: number): Promise<List> => {
   let response = await instance.get('/lists/' + id);
   return response.data;
 };
+
+export const FIND_ALL = async (): Promise<List[]> => {
+  let response = await instance.get('/lists');
+  return response.data;
+}

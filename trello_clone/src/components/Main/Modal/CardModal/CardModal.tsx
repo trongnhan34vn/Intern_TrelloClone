@@ -12,8 +12,8 @@ import { findWorksByCardId } from '../../../../redux/reducers/workSlice';
 import { CardDB } from '../../../../types/Card.type';
 
 export interface CardModalProps {
-  cardId?: string | null;
-  onClose?: () => void;
+  cardId: string | null;
+  onClose: () => void;
 }
 
 export const CardContext = createContext<CardDB | null>(null);
@@ -23,12 +23,12 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
 
   const selectCard = useSelector(cardSelector).selectCard;
   const works = useSelector(workSelector).listWorks;
-  
 
   useEffect(() => {
-    if (!selectCard) return;
-    dispatch(findWorksByCardId(selectCard.id))
-  }, [selectCard]);
+    if (!cardId) return;
+    dispatch(findWorksByCardId(+cardId))
+    dispatch(findCardById(+cardId))
+  }, [cardId]);
 
   const worksElement = works.map((work) => {
     return (
@@ -36,13 +36,9 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
     )
   })
 
-  const handleCloseModal = () => {
-    dispatch(getCardById(null))
-  }
-
   return (
-    <Transition appear show={selectCard ? true : false} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={handleCloseModal}>
+    <Transition appear show={cardId ? true : false} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -67,7 +63,7 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full pr-[185px] relative z-10 min-h-[500px] max-w-[775px] transform rounded-2xl bg-[#323940] p-6 text-left align-middle shadow-xl transition-all">
-                <HeadModal selectCard={selectCard} onClose={handleCloseModal} />
+                <HeadModal selectCard={selectCard} onClose={onClose} />
                 <div className="flex gap-4 items-start max-h-[450px] scrollable-div overflow-y-scroll">
                   <div className="form-left w-full">
                     {/* Description */}

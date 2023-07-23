@@ -14,27 +14,62 @@ import CardFormComp from './CardFormComp';
 import AddLinkCard from './AddLinkCard';
 import NewLaneSection from './NewLaneSection';
 import NewLaneForm from './NewLaneForm';
+import CardModal from '../../Modal/CardModal/CardModal';
 
-export default memo(function BoardComp() {
+export default function BoardComp() {
   const dispatch = useDispatch();
   const { tableId } = useParams();
   const [data, setData] = useState<BoardData>({
     lanes: [],
   });
   const [currentCard, setCurrentCard] = useState<string | null>(null);
-  useEffect(() => {
-    console.log('meow meow', data);
-  }, [data]);
 
   // get lists and cards on API
   useEffect(() => {
-    dispatch(cardSlice.findAllCards());
     if (!tableId) return;
-    dispatch(listSlice.findListsByTableId(parseInt(tableId)));
+    dispatch(cardSlice.findAllCards());
+    // dispatch(listSlice.findListsByTableId(parseInt(tableId)));
+    dispatch(listSlice.findAllList());
   }, []);
 
-  const lists = useSelector(listSelector).lists;
+  const lanes = useSelector(listSelector).lists;
   const cards = useSelector(cardSelector).listCards;
+
+  useEffect(() => {
+    if(!tableId) return
+    let arr = [];
+    for (let i = 0; i < lanes.length; i++) {
+      if (+tableId === lanes[i].tableId) {
+        let laneData: any = {
+          id: lanes[i].id,
+          title: lanes[i].name,
+          cards: [],
+          boardId: lanes[i].tableId,
+          order: lanes[i].order,
+        };
+
+        for (let j = 0; j < cards.length; j++) {
+          if (lanes[i].id === cards[j].listId) {
+            let cardData: any = {
+              id: cards[j].id,
+              title: cards[j].name,
+              draggable: true,
+              laneId: cards[j].listId,
+              order: cards[j].order,
+              describe: cards[j].description
+            };
+            laneData.cards.push(cardData);
+          }
+        }
+        laneData.cards.sort((a: any, b: any) => a.order - b.order);
+        arr.push(laneData);
+        arr.sort((a: any, b: any) => a.order - b.order);
+      }
+      setData({
+        lanes: arr,
+      });
+    }
+  }, [lanes, cards]);
 
   // filter card by list id
   const filterCartByListId = (listId: number): CardDB[] => {
@@ -61,6 +96,61 @@ export default memo(function BoardComp() {
     return arr;
   };
 
+  // Set data react trello
+  // useEffect(() => {
+  //   if(!tableId) return;
+  //   let arr: Lane[] = [];
+  //   let filterLanes = lanes.filter(lane => lane.tableId === Number(tableId))
+
+  //   for (let i = 0; i < filterLanes.length; i++) {
+  //     let filterCards = filterCartByListId(filterLanes[i].id);
+  //     let lane: Lane = {
+  //       id: filterLanes[i].id.toString(),
+  //       title: filterLanes[i].name,
+  //       label: '',
+  //       cards: exchangeData(filterCards),
+  //       order: filterLanes[i].order,
+  //     };
+  //     arr.push(lane);
+  //     arr.sort((a, b) => a.order - b.order);
+  //     console.log('lane ----->', arr);
+
+  //     setData({
+  //       lanes: arr,
+  //     });
+  //   }
+  // }, [lanes, cards]);
+
+  // add card
+
+  const createCard = (card: Card) => {
+    console.log('create card');
+
+    let laneId = card.laneId;
+    if (!laneId) return;
+
+    let cardArr = findCardsByLaneId(laneId);
+    if (!cardArr) return;
+
+    let newCard: CardForm = {
+      name: card.title ? card.title : '',
+      listId: Number(card.laneId),
+      order: cardArr.length,
+    };
+    dispatch(cardSlice.createCard(newCard));
+  };
+
+  // open modal
+  const handleClickModal = (cardId: string, metadata: any, card: Card) => {
+    setCurrentCard(cardId)
+  };
+
+  const findCardsByLaneId = (laneId: string): Card[] => {
+    let lane = data.lanes.find((lane) => lane.id === laneId);
+    if (!lane) return [];
+    return lane.cards || [];
+  };
+
   // drag and data
   const checkExist = (card: Card, arr: Card[]) => {
     return arr.find((c) => c.id === card.id);
@@ -82,59 +172,6 @@ export default memo(function BoardComp() {
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
     return arr;
   }
-
-  // Set data react trello
-  useEffect(() => {
-
-    let arr: Lane[] = [];
-
-    for (let i = 0; i < lists.length; i++) {
-      let filterCards = filterCartByListId(lists[i].id);
-      let lane: Lane = {
-        id: lists[i].id.toString(),
-        title: lists[i].name,
-        label: '',
-        cards: exchangeData(filterCards),
-        order: lists[i].order,
-      };
-      arr.push(lane);
-      arr.sort((a, b) => a.order - b.order);
-      console.log('lane ----->', arr);
-
-      setData({
-        lanes: arr,
-      });
-    }
-  }, [lists, cards]);
-
-  // add card
-  const createCard = (card: Card) => {
-    console.log('create card');
-
-    let laneId = card.laneId;
-    if (!laneId) return;
-
-    let cardArr = findCardsByLaneId(laneId);
-    if (!cardArr) return;
-
-    let newCard: CardForm = {
-      name: card.title ? card.title : '',
-      listId: Number(card.laneId),
-      order: cardArr.length,
-    };
-    dispatch(cardSlice.createCard(newCard));
-  };
-
-  // open modal
-  const handleClickModal = (cardId: string, metadata: any, card: Card) => {
-    dispatch(cardSlice.findCardById(+cardId));
-  };
-
-  const findCardsByLaneId = (laneId: string): Card[] => {
-    let lane = data.lanes.find((lane) => lane.id === laneId);
-    if (!lane) return [];
-    return lane.cards || [];
-  };
 
   const onCardMoveAcrossLanes = (
     fromLaneId: string,
@@ -196,22 +233,13 @@ export default memo(function BoardComp() {
     let listF: ListForm = {
       name: newList.title,
       tableId: Number(tableId),
-      order: lists.length,
+      order: lanes.length,
     };
     dispatch(listSlice.createList(listF));
   };
 
-  {
-    currentCard
-      ? console.log('re-render after click ------> ', data)
-      : console.log('chưa click');
-  }
-  const [Pug, setPug] = useState(false);
-
   return (
     <div>
-      <button onClick={() => setPug(true)}>test</button>
-
       <Board
         style={{ backgroundColor: 'transparent' }}
         components={{
@@ -238,6 +266,7 @@ export default memo(function BoardComp() {
         draggable
         data={data}
       />
+      <CardModal cardId={currentCard} onClose={() => setCurrentCard(null)} />
     </div>
   );
-});
+}

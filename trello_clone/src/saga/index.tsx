@@ -17,6 +17,7 @@ import {
 import * as tableSaga from './items/tableSaga';
 import {
   createList,
+  findAllList,
   findListById,
   findListsByTableId,
   updateDragList,
@@ -56,6 +57,7 @@ export const rootSaga = function* () {
     takeLatest(updateDragList.type, listSaga.updateDragList),
     takeLatest(createList.type, listSaga.createList),
     takeLatest(findListById.type, listSaga.findListById),
+    takeLatest(findAllList.type, listSaga.findAllLists),
     // CARDS
     takeLatest(findAllCards.type, cardSaga.findAllCards),
     takeLatest(createCard.type, cardSaga.createCard),

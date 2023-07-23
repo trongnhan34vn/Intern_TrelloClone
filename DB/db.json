@@ -161,14 +161,14 @@
     },
     {
       "name": "ăn",
-      "listId": 1,
-      "order": 2,
+      "listId": 2,
+      "order": 0,
       "createdAt": 1689904032944,
       "id": 2
     },
     {
       "name": "react trello",
-      "listId": 1,
+      "listId": 2,
       "order": 1,
       "createdAt": 1689906498444,
       "id": 3
