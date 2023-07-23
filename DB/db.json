@@ -132,14 +132,14 @@
     {
       "name": "học React",
       "tableId": 1,
-      "order": 1,
+      "order": 0,
       "createdAt": 1689903019206,
       "id": 1
     },
     {
       "name": "ngủ",
       "tableId": 1,
-      "order": 0,
+      "order": 1,
       "createdAt": 1689903160168,
       "id": 2
     },
@@ -154,22 +154,22 @@
   "cards": [
     {
       "name": "fix bug",
-      "listId": 2,
-      "order": 1,
+      "listId": 1,
+      "order": 0,
       "createdAt": 1689903960260,
       "id": 1
     },
     {
       "name": "ăn",
-      "listId": 2,
-      "order": 0,
+      "listId": 1,
+      "order": 2,
       "createdAt": 1689904032944,
       "id": 2
     },
     {
       "name": "react trello",
       "listId": 1,
-      "order": 0,
+      "order": 1,
       "createdAt": 1689906498444,
       "id": 3
     }

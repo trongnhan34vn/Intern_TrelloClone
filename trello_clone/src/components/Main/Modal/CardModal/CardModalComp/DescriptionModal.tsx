@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Card } from 'react-trello-ts/dist/types/Board';
 import { updateCardDescription } from '../../../../../redux/reducers/cardSlice';
-import { CardUpdateDescription } from '../../../../../types/Card.type';
+import { CardDB, CardUpdateDescription } from '../../../../../types/Card.type';
 
-export default function DescriptionModal(props: { cardId: string | null }) {
+export default function DescriptionModal(props: { card: CardDB | null }) {
   const dispatch = useDispatch();
   const [isEditing, setEditing] = useState(false);
   
@@ -21,9 +21,9 @@ export default function DescriptionModal(props: { cardId: string | null }) {
 
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!props.cardId) return;
+    if (!props.card) return;
     let card: CardUpdateDescription = {
-      id: +props.cardId,
+      id: +props.card,
       description: inputValue,
     };
     dispatch(updateCardDescription(card));

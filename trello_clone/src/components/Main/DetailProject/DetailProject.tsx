@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '../Modal/CardModal/CardModal';
 import SubNav from '../Subnav/SubNav';
-import TaskControll from './TaskControll/TaskControll';
+import TaskControll from './TaskControll/Board';
 
 export default function DetailProject() {
   const [isCreateTag, setIsCreateTag] = useState(false);

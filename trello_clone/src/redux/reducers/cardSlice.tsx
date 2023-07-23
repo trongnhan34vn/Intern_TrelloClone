@@ -9,7 +9,7 @@ import {
 
 interface CardState {
   listCards: CardDB[];
-  selectCard: CardDB | null
+  selectCard: CardDB | null;
 }
 
 const initState: CardState = {
@@ -30,7 +30,7 @@ const cardSlice = createSlice({
     updateCard: (state, action: PayloadAction<CardPatch>) => {},
     updateCardTest: (state, action: PayloadAction<CardPatchTest>) => {},
     findCardById: (state, action: PayloadAction<number>) => {},
-    getCardById: (state, action: PayloadAction<CardDB>) => {
+    getCardById: (state, action: PayloadAction<CardDB | null>) => {
       state.selectCard = action.payload
     },
     updateCardDescription: (state, action: PayloadAction<CardUpdateDescription>) => {}

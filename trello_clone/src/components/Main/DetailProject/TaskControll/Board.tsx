@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import '../../../../assets/css/react-trello.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -14,54 +14,31 @@ import CardFormComp from './CardFormComp';
 import AddLinkCard from './AddLinkCard';
 import NewLaneSection from './NewLaneSection';
 import NewLaneForm from './NewLaneForm';
-import CardModal from '../../Modal/CardModal/CardModal';
 
-const initDataState: BoardData = {
-  lanes: [],
-};
-
-export default function TaskControll() {
+export default memo(function BoardComp() {
   const dispatch = useDispatch();
   const { tableId } = useParams();
-  const [data, setData] = useState<BoardData>(initDataState);
+  const [data, setData] = useState<BoardData>({
+    lanes: [],
+  });
   const [currentCard, setCurrentCard] = useState<string | null>(null);
+  useEffect(() => {
+    console.log('meow meow', data);
+  }, [data]);
 
   // get lists and cards on API
   useEffect(() => {
+    dispatch(cardSlice.findAllCards());
     if (!tableId) return;
     dispatch(listSlice.findListsByTableId(parseInt(tableId)));
-    dispatch(cardSlice.findAllCards());
-    return;
-  }, [tableId]);
+  }, []);
 
   const lists = useSelector(listSelector).lists;
   const cards = useSelector(cardSelector).listCards;
 
-  // Set data react trello
-  useEffect(() => {
-    console.log('data change');
-    let sortedLists = [...lists].sort((a, b) => a.order - b.order);
-
-    let arr: Lane[] = [];
-    for (let i = 0; i < sortedLists.length; i++) {
-      let filterCards = filterCartByListId(sortedLists[i].id);
-      let lane: Lane = {
-        id: `${sortedLists[i].id}`,
-        title: sortedLists[i].name,
-        cards: exchangeData(filterCards),
-      };
-      arr.push(lane);
-      console.log('before set state', arr);
-      setData({
-        lanes: arr,
-      });
-    }
-  }, [lists, cards]);
-
   // filter card by list id
   const filterCartByListId = (listId: number): CardDB[] => {
-    let cardsDB = cards.filter((c) => c.listId === listId);
-    return [...cardsDB].sort((a, b) => a.order - b.order);
+    return cards.filter((c) => c.listId === listId);
   };
 
   // exchange data
@@ -69,13 +46,18 @@ export default function TaskControll() {
     let arr: Card[] = [];
     for (let i = 0; i < listCard.length; i++) {
       let card: Card = {
-        id: `${listCard[i].id}`,
+        id: listCard[i].id.toString(),
         laneId: `${listCard[i].listId}`,
         title: listCard[i].name,
+        label: '',
         draggable: true,
+        order: listCard[i].order,
       };
       arr.push(card);
+      arr.sort((a, b) => a.order - b.order);
     }
+    console.log('card ------> ', arr);
+
     return arr;
   };
 
@@ -100,6 +82,53 @@ export default function TaskControll() {
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
     return arr;
   }
+
+  // Set data react trello
+  useEffect(() => {
+
+    let arr: Lane[] = [];
+
+    for (let i = 0; i < lists.length; i++) {
+      let filterCards = filterCartByListId(lists[i].id);
+      let lane: Lane = {
+        id: lists[i].id.toString(),
+        title: lists[i].name,
+        label: '',
+        cards: exchangeData(filterCards),
+        order: lists[i].order,
+      };
+      arr.push(lane);
+      arr.sort((a, b) => a.order - b.order);
+      console.log('lane ----->', arr);
+
+      setData({
+        lanes: arr,
+      });
+    }
+  }, [lists, cards]);
+
+  // add card
+  const createCard = (card: Card) => {
+    console.log('create card');
+
+    let laneId = card.laneId;
+    if (!laneId) return;
+
+    let cardArr = findCardsByLaneId(laneId);
+    if (!cardArr) return;
+
+    let newCard: CardForm = {
+      name: card.title ? card.title : '',
+      listId: Number(card.laneId),
+      order: cardArr.length,
+    };
+    dispatch(cardSlice.createCard(newCard));
+  };
+
+  // open modal
+  const handleClickModal = (cardId: string, metadata: any, card: Card) => {
+    dispatch(cardSlice.findCardById(+cardId));
+  };
 
   const findCardsByLaneId = (laneId: string): Card[] => {
     let lane = data.lanes.find((lane) => lane.id === laneId);
@@ -142,24 +171,6 @@ export default function TaskControll() {
     }
   };
 
-  // add card
-  const createCard = (card: Card) => {
-    console.log('create card');
-
-    let laneId = card.laneId;
-    if (!laneId) return;
-
-    let cardArr = findCardsByLaneId(laneId);
-    if (!cardArr) return;
-
-    let newCard: CardForm = {
-      name: card.title ? card.title : '',
-      listId: Number(card.laneId),
-      order: cardArr.length,
-    };
-    dispatch(cardSlice.createCard(newCard));
-  };
-
   // drag list
   const dragList = (removeIndex: number, addedIndex: number) => {
     let dragLane = data.lanes[removeIndex];
@@ -190,14 +201,17 @@ export default function TaskControll() {
     dispatch(listSlice.createList(listF));
   };
 
-  // open modal
-  const handleClickModal = (cardId: string, card: Card) => {
-    console.log('click modal');
-    setCurrentCard(cardId);
-  };
+  {
+    currentCard
+      ? console.log('re-render after click ------> ', data)
+      : console.log('chưa click');
+  }
+  const [Pug, setPug] = useState(false);
 
   return (
     <div>
+      <button onClick={() => setPug(true)}>test</button>
+
       <Board
         style={{ backgroundColor: 'transparent' }}
         components={{
@@ -215,13 +229,7 @@ export default function TaskControll() {
         onDataChange={(data) => {
           console.log('new data -----> ', data);
         }}
-        onCardClick={(
-          cardId: Card['id'],
-          metadata: {
-            id: string;
-          },
-          card: Card
-        ) => handleClickModal(cardId, card)}
+        onCardClick={handleClickModal}
         onCardAdd={(card) => createCard(card)}
         laneDraggable
         cardDraggable
@@ -230,8 +238,6 @@ export default function TaskControll() {
         draggable
         data={data}
       />
-
-      <CardModal cardId={currentCard} onClose={() => setCurrentCard(null)} />
     </div>
   );
-}
+});
