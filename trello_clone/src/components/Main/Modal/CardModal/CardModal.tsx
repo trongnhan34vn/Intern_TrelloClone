@@ -5,11 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import DescriptionModal from './CardModalComp/DescriptionModal';
 import ModalFeature from './CardModalComp/ModalFeature';
 import HeadModal from './CardModalComp/HeadModal';
-import { findCardById, getCardById } from '../../../../redux/reducers/cardSlice';
+import {
+  findCardById,
+  getCardById,
+} from '../../../../redux/reducers/cardSlice';
 import { cardSelector, workSelector } from '../../../../redux/selectors';
 import Works from './CardModalComp/Works';
 import { findWorksByCardId } from '../../../../redux/reducers/workSlice';
 import { CardDB } from '../../../../types/Card.type';
+import CardInfo from './CardModalComp/CardInfo';
 
 export interface CardModalProps {
   cardId: string | null;
@@ -26,15 +30,13 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
 
   useEffect(() => {
     if (!cardId) return;
-    dispatch(findWorksByCardId(+cardId))
-    dispatch(findCardById(+cardId))
+    dispatch(findWorksByCardId(+cardId));
+    dispatch(findCardById(+cardId));
   }, [cardId]);
 
   const worksElement = works.map((work) => {
-    return (
-      <Works key={work.id} work={work} />
-    )
-  })
+    return <Works key={work.id} work={work} />;
+  });
 
   return (
     <Transition appear show={cardId ? true : false} as={Fragment}>
@@ -66,6 +68,9 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
                 <HeadModal selectCard={selectCard} onClose={onClose} />
                 <div className="flex gap-4 items-start max-h-[450px] scrollable-div overflow-y-scroll">
                   <div className="form-left w-full">
+                    <CardContext.Provider value={selectCard}>
+                      <CardInfo selectCard={selectCard} />
+                    </CardContext.Provider>
                     {/* Description */}
                     <DescriptionModal card={selectCard} />
                     {/* Description */}

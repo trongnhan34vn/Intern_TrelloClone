@@ -4,6 +4,7 @@ import {
   CardForm,
   CardPatch,
   CardPatchTest,
+  CardUpdateDate,
   CardUpdateDescription,
 } from '../../types/Card.type';
 
@@ -37,4 +38,11 @@ export const UPDATE_DESCRIPTION = async (
   data: CardUpdateDescription
 ): Promise<void> => {
   await instance.patch('/cards/' + data.id, { description: data.description });
+};
+
+export const UPDATE_DATE = async (data: CardUpdateDate): Promise<void> => {
+  await instance.patch('/cards/' + data.id, {
+    createdAt: data.createdAt,
+    endAt: data.endAt,
+  });
 };

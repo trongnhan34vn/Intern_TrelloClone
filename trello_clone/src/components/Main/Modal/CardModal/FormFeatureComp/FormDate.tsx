@@ -1,15 +1,51 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateCardDate } from '../../../../../redux/reducers/cardSlice';
+import { CardUpdateDate } from '../../../../../types/Card.type';
+import { convertDateToTimeStamp, convertTimeStampToDate } from '../../../../../utils/timeConvert';
+import { CardContext } from '../CardModal';
+import { FeatureContext } from '../CreateFeatureBtn';
+
+const initInput: CardUpdateDate = {
+  id: 0,
+  createdAt: 0,
+  endAt: 0,
+}
 
 const FormDate = () => {
-  const [inputValue, setInputValue] = useState({ name: '' });
+  const featureContext = useContext(FeatureContext);
+  const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState<CardUpdateDate>(initInput);
+  const selectCard = useContext(CardContext);
 
-  const handleSubmit = () => {};
+  useEffect(() => {
+    if (!selectCard) return;
+    setInputValue({
+      id: selectCard.id,
+      createdAt: selectCard.createdAt,
+      endAt: selectCard.endAt,
+    });
+  }, [selectCard]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    dispatch(updateCardDate(inputValue));
+    if(!featureContext) return;
+    featureContext.closeFn();
+    setInputValue(initInput);
+  };
 
   const activeButton = () => {
-    if (inputValue?.name.trim() !== '') {
+    if (inputValue.endAt !== 0) {
       return true;
     }
     return false;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    setInputValue({ ...inputValue, [name]: convertDateToTimeStamp(value) });
   };
   return (
     <form className="">
@@ -18,9 +54,9 @@ const FormDate = () => {
           Ngày bắt đầu
         </label>
         <input
-          // onChange={handleChange}
-          name="name"
-          // value={inputValue.name}
+          onChange={handleChange}
+          name="createdAt"
+          value={convertTimeStampToDate(inputValue.createdAt)}
           className="mt-[2px] border-[2px] border-[#A6C5E229] bg-[#22272B] text-[#B6C2CF] outline-[#EF5C48] text-sm leading-5 w-full py-1 px-2 rounded-[3px]"
           type="datetime-local"
           placeholder="Tìm kiếm Thành viên"
@@ -31,9 +67,13 @@ const FormDate = () => {
           Ngày kết thúc
         </label>
         <input
-          // onChange={handleChange}
-          name="name"
-          // value={inputValue.name}
+          onChange={handleChange}
+          name="endAt"
+          value={
+            inputValue.endAt === 0
+              ? ''
+              : convertTimeStampToDate(inputValue.endAt)
+          }
           type="datetime-local"
           className="mt-[2px] border-[2px] border-[#A6C5E229] bg-[#22272B] text-[#B6C2CF] outline-[#EF5C48] text-sm leading-5 w-full py-1 px-2 rounded-[3px]"
           placeholder="Tìm kiếm Thành viên"

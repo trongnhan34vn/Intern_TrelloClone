@@ -124,7 +124,6 @@ export default function BoardComp() {
   // add card
 
   const createCard = (card: Card) => {
-    console.log('create card');
 
     let laneId = card.laneId;
     if (!laneId) return;
@@ -179,7 +178,6 @@ export default function BoardComp() {
     cardId: string,
     index: string
   ) => {
-    console.log('on card move across lanes');
 
     let toLaneCards: Card[] = findCardsByLaneId(toLaneId);
     if (!toLaneCards) return;
@@ -254,9 +252,6 @@ export default function BoardComp() {
         onLaneAdd={(params) => createListFn(params)}
         handleDragEnd={() => {}}
         onCardMoveAcrossLanes={onCardMoveAcrossLanes}
-        onDataChange={(data) => {
-          console.log('new data -----> ', data);
-        }}
         onCardClick={handleClickModal}
         onCardAdd={(card) => createCard(card)}
         laneDraggable

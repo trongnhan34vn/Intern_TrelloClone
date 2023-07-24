@@ -23,18 +23,11 @@ import {
   updateDragList,
 } from '../redux/reducers/listSlice';
 import * as listSaga from './items/listSaga';
-import {
-  createCard,
-  deleteCard,
-  findAllCards,
-  findCardById,
-  updateCard,
-  updateCardTest,
-} from '../redux/reducers/cardSlice';
+import * as cardSlice from '../redux/reducers/cardSlice';
 import * as cardSaga from './items/cardSaga';
 import { createWork, deleteWork, findWorksByCardId } from '../redux/reducers/workSlice';
 import * as workSaga from './items/workSaga';
-import { createTask, findAll } from '../redux/reducers/taskSlice';
+import { changeStatus, createTask, findAll } from '../redux/reducers/taskSlice';
 import * as taskSaga from './items/taskSaga';
 
 export const rootSaga = function* () {
@@ -59,12 +52,14 @@ export const rootSaga = function* () {
     takeLatest(findListById.type, listSaga.findListById),
     takeLatest(findAllList.type, listSaga.findAllLists),
     // CARDS
-    takeLatest(findAllCards.type, cardSaga.findAllCards),
-    takeLatest(createCard.type, cardSaga.createCard),
-    takeLatest(deleteCard.type, cardSaga.deleteCard),
-    takeLatest(updateCard.type, cardSaga.updateCard),
-    takeLatest(updateCardTest.type, cardSaga.updateCardTest),
-    takeLatest(findCardById.type, cardSaga.findCardById),
+    takeLatest(cardSlice.findAllCards.type, cardSaga.findAllCards),
+    takeLatest(cardSlice.createCard.type, cardSaga.createCard),
+    takeLatest(cardSlice.deleteCard.type, cardSaga.deleteCard),
+    takeLatest(cardSlice.updateCard.type, cardSaga.updateCard),
+    takeLatest(cardSlice.updateCardTest.type, cardSaga.updateCardTest),
+    takeLatest(cardSlice.findCardById.type, cardSaga.findCardById),
+    takeLatest(cardSlice.updateCardDescription.type,cardSaga.updateCardDescription),
+    takeLatest(cardSlice.updateCardDate.type, cardSaga.updateCardDate),
     // WORKS
     takeLatest(createWork.type, workSaga.createWork),
     takeLatest(findWorksByCardId.type, workSaga.findWorksByCardId),
@@ -72,5 +67,6 @@ export const rootSaga = function* () {
     // TASKS
     takeLatest(createTask.type, taskSaga.createTask),
     takeLatest(findAll.type, taskSaga.findAll),
+    takeLatest(changeStatus.type, taskSaga.changeStatus)
   ]);
 };
