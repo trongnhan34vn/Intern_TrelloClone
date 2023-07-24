@@ -13,12 +13,10 @@ import ProjectManage from './components/Main/ProjectManage/ProjectManage';
 import DetailProject from './components/Main/DetailProject/DetailProject';
 import MainHome from './components/Main/Home/MainHome';
 import LoadingOverlayComp from './components/LoadingOverlay/LoadingOverlayComp';
-import CardModal from './components/Main/Modal/CardModal/CardModal';
 
 function App() {
   return (
     <div className="App">
-      <CardModal />
       <Routes>
         <Route path="/test" element={<LoadingOverlayComp />} />
 

@@ -24,6 +24,12 @@ const listSlice = createSlice({
     getListById: (state, action: PayloadAction<List>) => {
       state.selectList = action.payload;
     },
+    findAllList: () => {
+      
+    },
+    getAllList: (state, action: PayloadAction<List[]>) => {
+      state.lists = action.payload
+    }
   },
 });
 
@@ -35,4 +41,6 @@ export const {
   createList,
   findListById,
   getListById,
+  findAllList,
+  getAllList
 } = listSlice.actions;
