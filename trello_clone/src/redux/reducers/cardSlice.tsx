@@ -4,6 +4,7 @@ import {
   CardForm,
   CardPatch,
   CardPatchTest,
+  CardUpdateDate,
   CardUpdateDescription,
 } from '../../types/Card.type';
 
@@ -33,7 +34,10 @@ const cardSlice = createSlice({
     getCardById: (state, action: PayloadAction<CardDB | null>) => {
       state.selectCard = action.payload
     },
-    updateCardDescription: (state, action: PayloadAction<CardUpdateDescription>) => {}
+    updateCardDescription: (state, action: PayloadAction<CardUpdateDescription>) => {},
+    updateCardDate: (state, action: PayloadAction<CardUpdateDate>) => {
+
+    }
   },
 });
 
@@ -47,5 +51,6 @@ export const {
   updateCardTest,
   findCardById,
   getCardById,
-  updateCardDescription
+  updateCardDescription,
+  updateCardDate
 } = cardSlice.actions;

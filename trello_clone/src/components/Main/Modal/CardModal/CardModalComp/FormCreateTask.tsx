@@ -6,6 +6,9 @@ import { TaskForm } from '../../../../../types/Task.type';
 const initState: TaskForm = {
   name: '',
   workId: 0,
+  endAt: 0,
+  members: [],
+  status: false
 };
 
 interface CreateTaskProps {
@@ -18,7 +21,7 @@ const FormCreateTask = ({ workId }: CreateTaskProps) => {
   const [isEditing, setEditing] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue({
+    setInputValue({...inputValue,
       name: e.target.value,
       workId: workId,
     });

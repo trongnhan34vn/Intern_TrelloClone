@@ -1,8 +1,6 @@
-
-
 export interface CardForm {
-  name: string ;
-  listId: number ;
+  name: string;
+  listId: number;
   order: number;
 }
 
@@ -10,21 +8,27 @@ export interface CardDB extends CardForm {
   id: number;
   createdAt: number;
   description: string;
-  endAt: number
+  endAt: number;
 }
 
 export interface CardPatch {
-  id: number | undefined ;
-  listId: number ;
-  order: number
+  id: number | undefined;
+  listId: number;
+  order: number;
 }
 
 export interface CardPatchTest extends CardForm {
-  id: number
-  order: number
+  id: number;
+  order: number;
 }
 
 export interface CardUpdateDescription {
-  id: number
-  description: string
+  id: number;
+  description: string;
+}
+
+export interface CardUpdateDate {
+  id: number;
+  createdAt: number;
+  endAt: number;
 }

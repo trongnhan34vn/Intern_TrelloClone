@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import Spinner from '../../../../../assets/svg/Spinner';
 import { createWork } from '../../../../../redux/reducers/workSlice';
 import { WorkForm } from '../../../../../types/Work.type';
 import { CardContext } from '../CardModal';
@@ -14,23 +13,18 @@ const workInitState: WorkForm = {
 
 export default function FormWork() {
   const dispatch = useDispatch();
-  const cardId = useContext(CardContext);
+  const card = useContext(CardContext);
   const [inputValue, setInputValue] = useState<WorkForm>(workInitState);
-  const [loadingButton, setLoadingButton] = useState<boolean>(false);
   const featureContext = useContext(FeatureContext);
 
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    
     if (!featureContext) return;
     e.preventDefault();
-    setLoadingButton(true)
-    setTimeout(() => {
-      dispatch(createWork(inputValue));
-      setLoadingButton(false);
-      setInputValue(workInitState);
-      featureContext.closeFn();
-    }, 2000);
+    dispatch(createWork(inputValue));
+    setInputValue(workInitState);
+    featureContext.closeFn();
   };
-  
 
   const activeButton = () => {
     if (inputValue.name.trim() !== '') {
@@ -40,8 +34,8 @@ export default function FormWork() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!cardId) return;
-    setInputValue({ ...inputValue, name: e.target.value, cardId: +cardId });
+    if (!card) return;
+    setInputValue({ ...inputValue, name: e.target.value, cardId: +card.id });
   };
   return (
     <form className="">
@@ -70,14 +64,7 @@ export default function FormWork() {
               }
               w-full font-normal transition-all ease-in duration-200 mb-2 mt-4 text-sm leading-5 rounded-[3px] py-[6px] px-3 bg-[#579DFF]`}
         >
-          {loadingButton ? (
-            <span className="inline-flex items-center justify-center w-full h-full">
-              <Spinner />
-              <span className="text-[#fff]">Loading...</span>
-            </span>
-          ) : (
-            <span>Tiếp tục</span>
-          )}
+          <span>Tiếp tục</span>
         </button>
       </div>
     </form>

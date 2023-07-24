@@ -153,6 +153,7 @@
   ],
   "cards": [
     {
+      "endAt": 0,
       "name": "fix bug",
       "listId": 1,
       "order": 0,
@@ -164,14 +165,16 @@
       "listId": 2,
       "order": 0,
       "createdAt": 1689904032944,
-      "id": 2
+      "id": 2,
+      "endAt": 0
     },
     {
       "name": "react trello",
       "listId": 2,
       "order": 1,
       "createdAt": 1689906498444,
-      "id": 3
+      "id": 3,
+      "endAt": 1691236500000
     }
   ],
   "works": [
@@ -184,17 +187,17 @@
     },
     {
       "cardId": 3,
-      "name": "anh Nam gucci",
+      "name": "anh Nam gucciiii",
       "process": 0,
-      "createdAt": 1689931213596,
-      "id": 5
+      "createdAt": 1690170164228,
+      "id": 7
     },
     {
       "cardId": 3,
-      "name": "học cùng Khoa Pug",
+      "name": "học mãi vẫn ngu",
       "process": 0,
-      "createdAt": 1689990984543,
-      "id": 6
+      "createdAt": 1690170427071,
+      "id": 8
     }
   ],
   "tasks": [
@@ -204,19 +207,35 @@
       "name": "học",
       "endAt": 0,
       "createdAt": 1689931213596,
-      "members": []
+      "members": [],
+      "status": false
     },
     {
-      "name": "anh nam",
-      "workId": 5,
-      "createdAt": 1689956605028,
+      "name": "anh Nam 10 điểm",
+      "workId": 7,
+      "endAt": 0,
+      "members": [],
+      "status": true,
+      "createdAt": 1690170442415,
       "id": 2
     },
     {
-      "name": "anh Nam vippro",
-      "workId": 5,
-      "createdAt": 1689956659074,
+      "name": "không có nhưng",
+      "workId": 7,
+      "endAt": 0,
+      "members": [],
+      "status": true,
+      "createdAt": 1690170454910,
       "id": 3
+    },
+    {
+      "name": "anh Nam",
+      "workId": 7,
+      "endAt": 0,
+      "members": [],
+      "status": false,
+      "createdAt": 1690173895959,
+      "id": 4
     }
   ]
 }

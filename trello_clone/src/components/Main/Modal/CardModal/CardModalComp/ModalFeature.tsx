@@ -7,7 +7,7 @@ export interface ModalFeatureProps {
   icon: string;
 }
 
-const listFeatures: ModalFeatureProps[] = [
+export const listFeatures: ModalFeatureProps[] = [
   {
     code: 'TV',
     name: 'Thành viên',

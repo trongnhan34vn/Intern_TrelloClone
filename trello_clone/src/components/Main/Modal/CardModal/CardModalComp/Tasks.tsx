@@ -1,16 +1,37 @@
-import React from 'react';
-import { Task } from '../../../../../types/Task.type';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeStatus } from '../../../../../redux/reducers/taskSlice';
+import { Task, TaskStatus } from '../../../../../types/Task.type';
 
 interface TaskProps {
   task: Task;
 }
 
-export default function Tasks({task}:TaskProps) {
+export default function Tasks({ task }: TaskProps) {
+  const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState<TaskStatus>({
+    id: task.id,
+    status: task.status,
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+    setInputValue({ id: id, status: !inputValue.status });
+  };
+
+  useEffect(() => {
+    dispatch(changeStatus(inputValue))
+  },[inputValue])
+
   return (
     <div className="hover:bg-[#A6C5E229] rounded-[4px] box-border justify-between flex items-center">
       <div className="flex items-center px-2 py-1">
         <div className="flex items-center justify-start mr-3">
-          <input className="block -mb-[2px] p-2" type="checkbox" />
+          <input
+            checked={inputValue.status}
+            onChange={(e) => handleChange(e, task.id)}
+            className="block -mb-[2px] p-2"
+            type="checkbox"
+          />
         </div>
         <div className="flex items-center">
           <span className="text-[16px] text-[#9FADBC]">{task.name}</span>

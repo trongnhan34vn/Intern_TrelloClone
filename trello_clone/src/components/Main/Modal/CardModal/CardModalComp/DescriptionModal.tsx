@@ -4,10 +4,14 @@ import { Card } from 'react-trello-ts/dist/types/Board';
 import { updateCardDescription } from '../../../../../redux/reducers/cardSlice';
 import { CardDB, CardUpdateDescription } from '../../../../../types/Card.type';
 
-export default function DescriptionModal(props: { card: CardDB | null }) {
+interface DescriptionModalProps {
+  card: CardDB | null;
+}
+
+export default function DescriptionModal({ card }: DescriptionModalProps) {
   const dispatch = useDispatch();
   const [isEditing, setEditing] = useState(false);
-  
+
   const handleSetCloseEdit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setEditing(false);
@@ -21,13 +25,19 @@ export default function DescriptionModal(props: { card: CardDB | null }) {
 
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!props.card) return;
-    let card: CardUpdateDescription = {
-      id: +props.card,
+    if (!card) return;
+    let cardUpdate: CardUpdateDescription = {
+      id: +card,
       description: inputValue,
     };
-    dispatch(updateCardDescription(card));
+    dispatch(updateCardDescription(cardUpdate));
   };
+
+  const returnDescription = () => {
+    if(!card) return
+    if(card.description.trim() !== '') return card.description
+    return 'Thêm vào mô tả danh sách'
+  }
 
   return (
     <div className="item">
@@ -44,7 +54,7 @@ export default function DescriptionModal(props: { card: CardDB | null }) {
               : 'h-[54px] opacity-100 py-2 px-3 '
           } transition-all ease-in duration-200 bg-[#A1BDD914] hover:bg-[#A6C5E229] cursor-pointer text-sm rounded-[3px] text-[#9FADBC]`}
         >
-          Thêm mô tả chi tiết...
+         {returnDescription()}
         </div>
         <form
           className={`${
@@ -56,7 +66,7 @@ export default function DescriptionModal(props: { card: CardDB | null }) {
             onChange={handleChange}
             placeholder="Điền vào mô tả công việc..."
             className="h-[223px] w-full resize-none outline-none p-5 bg-[#22272B] text-[#B6C2CF] text-[14px]"
-          ></textarea>
+          />
           <div className="text-[14px]">
             <button
               disabled={inputValue.length === 0 ? false : true}
