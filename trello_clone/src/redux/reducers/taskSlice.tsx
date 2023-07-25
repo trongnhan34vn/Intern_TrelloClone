@@ -6,8 +6,8 @@ interface TaskState {
 }
 
 const initState: TaskState = {
-  listTask: []
-}
+  listTask: [],
+};
 
 const taskSlice = createSlice({
   name: 'task',
@@ -16,11 +16,9 @@ const taskSlice = createSlice({
     createTask: (state, action: PayloadAction<TaskForm>) => {},
     findAll: () => {},
     getAll: (state, action: PayloadAction<Task[]>) => {
-      state.listTask = action.payload
+      state.listTask = action.payload;
     },
-    changeStatus: (state, action: PayloadAction<TaskStatus>) => {
-
-    }
+    changeStatus: (state, action: PayloadAction<TaskStatus>) => {},
   },
 });
 

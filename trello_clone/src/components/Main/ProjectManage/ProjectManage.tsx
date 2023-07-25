@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userInitState } from '../../../constant/userState';
 import { findProjectsByUserId } from '../../../redux/reducers/projectSlice';
-import { findTableByProjectId } from '../../../redux/reducers/tableSlice';
+import { findAll, findTableByProjectId } from '../../../redux/reducers/tableSlice';
 import { projectSelector, tableSelector } from '../../../redux/selectors';
 import { Project } from '../../../types/Project.type';
 import { User } from '../../../types/User.type';
@@ -22,6 +22,7 @@ export default function ProjectManage() {
   // Request danh sách project theo userId
   useEffect(() => {
     dispatch(findProjectsByUserId(userLogin.id));
+    dispatch(findAll())
   }, []);
 
   const listProjects: Project[] = useSelector(projectSelector).listProjects;
@@ -29,32 +30,6 @@ export default function ProjectManage() {
   const sortListProjects = listProjects.slice().sort((a, b) => {
     return b.id - a.id;
   });
-
-  // listProjects.forEach(element => {
-  //   dispatch(findTableByProjectId(element.id))
-  // });
-
-  // state = 0
-  const tables = useSelector(tableSelector).listTable;
-
-  const [dispatchCount, setDispatchCount] = useState<number>(0);
-  useEffect(() => {
-    if (listProjects.length > 0) {
-      console.log(listProjects);
-      
-      dispatch(findTableByProjectId(listProjects[dispatchCount]?.id));
-    }
-  }, [dispatchCount, listProjects]);
-
-  useEffect(() => {
-    if (dispatchCount < listProjects.length) {
-      setDispatchCount((pre) => pre + 1);
-    }
-  }, [tables]);
-
-  useEffect(() => {
-    console.log(tables);
-  }, [tables]);
 
   const projectTagElement = sortListProjects.map((project) => {
     return <ProjectTag key={project.id} project={project} />;

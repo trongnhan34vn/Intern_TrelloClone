@@ -1,7 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put } from "redux-saga/effects";
-import { CREATE_PROJECT, FIND_PROJECTS_BY_USERID } from "../../api/services/projectServices";
-import { getProjectsByUserId } from "../../redux/reducers/projectSlice";
+import { CREATE_PROJECT, FIND_BY_ID, FIND_PROJECTS_BY_USERID } from "../../api/services/projectServices";
+import { getById, getProjectsByUserId } from "../../redux/reducers/projectSlice";
 import { Project, ProjectDTO } from "../../types/Project.type";
 
 
@@ -23,6 +23,15 @@ export const createProject = function* ({ payload }: PayloadAction<ProjectDTO>) 
       type: 'fake-action'
     };
     yield findProjectsByUserId(fakeAction);
+  } catch (error) {
+    
+  }
+}
+
+export const findById = function* ({payload}: PayloadAction<number>) {
+  try {
+    let response: Project = yield call(FIND_BY_ID, payload)
+    yield put(getById(response))
   } catch (error) {
     
   }

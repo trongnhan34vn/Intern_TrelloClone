@@ -4,11 +4,13 @@ import { Table, TableDTO } from '../../types/Table.type';
 interface TableState {
   latestTable: Table | null;
   listTable: Table[];
+  selectTable: Table | null;
 }
 
 const initialState: TableState = {
   latestTable: null,
   listTable: [],
+  selectTable: null,
 };
 
 const tableSlice = createSlice({
@@ -26,6 +28,14 @@ const tableSlice = createSlice({
     getTablesByProjectId: (state, action: PayloadAction<Table[]>) => {
       state.listTable = [...state.listTable, ...action.payload];
     },
+    findAll: () => {},
+    getAll: (state, action: PayloadAction<Table[]>) => {
+      state.listTable = action.payload;
+    },
+    findById: (state, action: PayloadAction<number>) => {},
+    getById: (state, action: PayloadAction<Table>) => {
+      state.selectTable = action.payload;
+    },
   },
 });
 
@@ -36,4 +46,8 @@ export const {
   resetTableJustAdded,
   findTableByProjectId,
   getTablesByProjectId,
+  findAll,
+  getAll,
+  findById,
+  getById,
 } = tableSlice.actions;

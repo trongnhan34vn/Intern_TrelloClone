@@ -2,12 +2,13 @@ export interface CardForm {
   name: string;
   listId: number;
   order: number;
+  description: string;
+  status: boolean
 }
 
 export interface CardDB extends CardForm {
   id: number;
   createdAt: number;
-  description: string;
   endAt: number;
 }
 
@@ -17,9 +18,12 @@ export interface CardPatch {
   order: number;
 }
 
-export interface CardPatchTest extends CardForm {
+export interface CardPatchTest {
   id: number;
   order: number;
+  name: string;
+  listId: number;
+  description: string;
 }
 
 export interface CardUpdateDescription {
@@ -31,4 +35,9 @@ export interface CardUpdateDate {
   id: number;
   createdAt: number;
   endAt: number;
+}
+
+export interface CardUpdateStatus {
+  id: number;
+  status: boolean
 }

@@ -135,6 +135,8 @@ export default function BoardComp() {
       name: card.title ? card.title : '',
       listId: Number(card.laneId),
       order: cardArr.length,
+      description:"",
+      status: false,
     };
     dispatch(cardSlice.createCard(newCard));
   };
@@ -201,6 +203,7 @@ export default function BoardComp() {
         name: toLaneCards && toLaneCards[i].name,
         order: i,
         listId: listTemp,
+        description: ""
       };
       dispatch(cardSlice.updateCardTest(cardU));
     }

@@ -10,3 +10,8 @@ export const FIND_PROJECTS_BY_USERID = async (id: number) : Promise<Project[]> =
   let response = await instance.get(`/projects?userid=${id}`);
   return response.data;
 }
+
+export const FIND_BY_ID = async (id: number) : Promise<Project> => {
+  let response = await instance.get(`/projects/${id}`);
+  return response.data;
+}

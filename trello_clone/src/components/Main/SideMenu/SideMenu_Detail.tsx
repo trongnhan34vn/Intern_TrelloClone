@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { projectSelector } from '../../../redux/selectors';
 
 export default function SideMenu_Detail() {
+  const selectProject = useSelector(projectSelector).selectProject;
+
   return (
     <div className="w-[260px] block bg-[hsla(206,13.7%,10%,0.9)] absolute h-[calc(100vh_-_64px)] left-0 top-0 z-10">
       <div className="flex items-center min-h-10 py-[8px] px-[12px] border-b-[1px] border-b-[hsla(211,18%,68%,0.16)]">
@@ -11,7 +15,7 @@ export default function SideMenu_Detail() {
         </div>
         <div className="flex-1 ml-2 mr-1 text-left">
           <span className="text-[#9FADBC] leading-5 text-sm font-semibold text-ellipsis overflow-hidden whitespace-pre-wrap">
-            không gian làm việc của anh Nam Gucci
+            {selectProject ? selectProject.name : ''}
           </span>
           <p className="text-[#9FADBC] text-xs">Miễn phí</p>
         </div>
@@ -87,7 +91,11 @@ export default function SideMenu_Detail() {
             href=""
             className="flex text-[14px] text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
           >
-            <img src="" alt="ảnh" className='w-6 h-5 flex items-center justify-center pr-2 ' />
+            <img
+              src=""
+              alt="ảnh"
+              className="w-6 h-5 flex items-center justify-center pr-2 "
+            />
             <p className="ml-3 overflow-hidden text-ellipsis whitespace-nowrap">
               Nguyễn Nhân
             </p>
@@ -96,7 +104,11 @@ export default function SideMenu_Detail() {
             href=""
             className="flex text-[14px] text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
           >
-            <img src="" alt="ảnh" className='w-6 h-5 flex items-center justify-center pr-2 ' />
+            <img
+              src=""
+              alt="ảnh"
+              className="w-6 h-5 flex items-center justify-center pr-2 "
+            />
             <p className="ml-3 overflow-hidden text-ellipsis whitespace-nowrap">
               Nam béo
             </p>
