@@ -5,8 +5,14 @@
       "password": "$2a$10$.AkaYRV4z8TaoYRHEWxuN.LC/CBixYRlHKuCy9jS/NEGPVgqGlWG2",
       "fullName": "Nguyễn Nhân",
       "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtemuTAkckBKkwARkxJge6LwQ3Y8Nev9TK5oudmSVW-Qw5k=s96-c",
-      "id": 3,
-      "projects": []
+      "id": 1
+    },
+    {
+      "email": "nambeo@gmail.com",
+      "password": "$2a$10$TRdjKJ9xv74mIEFKCxbWdugae4ep6pOy4Gd/kc6ImLvPLjzxeeIgK",
+      "fullName": "",
+      "imageUrl": "",
+      "id": 2
     }
   ],
   "typeProjects": [
@@ -43,7 +49,7 @@
     {
       "name": "Khoa Pug Entertainment",
       "typeProjectId": 3,
-      "userId": 3,
+      "userId": 1,
       "description": "Khoa Vip Pro",
       "createdAt": 1689325298469,
       "id": 1
@@ -51,7 +57,7 @@
     {
       "name": "Nam béo",
       "typeProjectId": 3,
-      "userId": 3,
+      "userId": 1,
       "description": "",
       "createdAt": 1689408413492,
       "id": 2
@@ -223,7 +229,7 @@
       "workId": 7,
       "endAt": 0,
       "members": [],
-      "status": true,
+      "status": false,
       "createdAt": 1690170454910,
       "id": 3
     },

@@ -1,15 +1,17 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, useContext, useRef, useState } from 'react';
 import AuthenSupport from './AuthenSupport';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import { useDispatch } from 'react-redux';
-import { login } from '../../redux/reducers/userSlice';
+import { login, register } from '../../redux/reducers/userSlice';
+import { LoadingContext } from '../../layouts/AuthenLayout/AuthenLayout';
 
 export default function Form() {
   const [inputValue, setInputValue] = useState({
     email: '',
     password: '',
   });
+  const loadingContext = useContext(LoadingContext);
   const [openInputPassword, setOpenInputPassword] = useState(false);
   const form = useRef<HTMLFormElement>(null);
   const location = useLocation();
@@ -83,30 +85,39 @@ export default function Form() {
       return true;
     }
     return false;
-  }
+  };
 
   const handleSubmit = (e: any) => {
+    if(!loadingContext) return;
     e.preventDefault();
     if (validateEmail(inputValue.email)) {
       setOpenInputPassword(true);
       if (validatePassword(inputValue.password)) {
-        let userLogin = { 
-          email : inputValue.email,
-          password: inputValue.password
-        }
+        let userLogin = {
+          email: inputValue.email,
+          password: inputValue.password,
+        };
         dispatch(login(userLogin));
+        loadingContext.setActive()
+        setTimeout(() => {
+          loadingContext.setInActive()
+        },3000)
       }
     }
   };
 
+  const navigate = useNavigate();
   const sendEmail = (e: any) => {
     e.preventDefault();
+    if(!loadingContext) return
+    loadingContext.setActive();
     const currentForm = form.current;
+
     // this prevents sending emails if there is no form.
     // in case currentForm cannot possibly ever be null,
     // you could alert the user or throw an Error, here
     if (currentForm == null) return;
-    console.log(currentForm);
+
     if (!isLogin) {
       if (buttonElement().status && validateEmail(inputValue.email)) {
         // the compiler is smart enough to know that currentForm here is of type HTMLFormElement
@@ -119,7 +130,26 @@ export default function Form() {
           )
           .then(
             (result) => {
-              console.log(result.text);
+              
+              console.log(result);
+              if (result.text === 'OK') {
+                let userRegis = {
+                  email: inputValue.email,
+                  password: 'pikachu123',
+                  fullName: '',
+                  imageUrl: '',
+                };
+                dispatch(
+                  register({
+                    type: 'normal',
+                    user: userRegis,
+                  })
+                );
+                setTimeout(() => {
+                  navigate('/email-check');
+                  loadingContext.setInActive();
+                }, 3000);
+              }
             },
             (error) => {
               console.log('error ----> ', error.text);
@@ -148,29 +178,46 @@ export default function Form() {
           type="text"
           placeholder="Email"
         />
-        <input
-          onChange={handleChange}
-          name="password"
-          value={inputValue.password}
-          className={`${
-            openInputPassword
-              ? 'h-10 mb-5 p-[7px] border-[2px] w-full'
-              : 'opacity-0 h-0 mb-0 p-0 border-none w-0'
-          } transition-all ease-in duration-200 outline-none relative top-0 focus:border-[#4c9aff] text-sm border-[#dfe1e6] rounded`}
-          type="password"
-          placeholder="Password"
-        />
+        {isLogin ? (
+          <input
+            onChange={handleChange}
+            name="password"
+            value={inputValue.password}
+            className={`${
+              openInputPassword
+                ? 'h-10 mb-5 p-[7px] border-[2px] w-full'
+                : 'opacity-0 h-0 mb-0 p-0 border-none w-0'
+            } transition-all ease-in duration-200 outline-none relative top-0 focus:border-[#4c9aff] text-sm border-[#dfe1e6] rounded`}
+            type="password"
+            placeholder="Password"
+          />
+        ) : (
+          <></>
+        )}
+
         {policyElement}
-        <button
-          onClick={handleSubmit}
-          disabled={buttonElement().disabled}
-          type="submit"
-          className={`cursor w-full ${
-            buttonElement().css
-          } inline-block rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]`}
-        >
-          Tiếp tục
-        </button>
+        {isLogin ? (
+          <button
+            onClick={handleSubmit}
+            disabled={buttonElement().disabled}
+            type="submit"
+            className={`cursor w-full ${
+              buttonElement().css
+            } inline-block rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]`}
+          >
+            Tiếp tục
+          </button>
+        ) : (
+          <button
+            disabled={buttonElement().disabled}
+            type="submit"
+            className={`cursor w-full ${
+              buttonElement().css
+            } inline-block rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]`}
+          >
+            Tiếp tục
+          </button>
+        )}
       </form>
 
       <div

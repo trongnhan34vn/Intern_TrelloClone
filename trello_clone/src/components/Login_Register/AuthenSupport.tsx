@@ -36,7 +36,9 @@ export default function AuthenSupport() {
   const responseFacebook = (res: any) => {
     console.log(res);
   };
-  const accessToken = useSelector(userSelector).accessToken;
+  
+  const accessToken = useSelector(userSelector).loginResponse.accessToken;
+
   useEffect(() => {
     if (accessToken && accessToken != '') {
       setTimeout(() => {

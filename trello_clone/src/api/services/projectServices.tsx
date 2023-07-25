@@ -7,7 +7,7 @@ export const CREATE_PROJECT = async (project: ProjectDTO) => {
 }
 
 export const FIND_PROJECTS_BY_USERID = async (id: number) : Promise<Project[]> => {
-  let response = await instance.get(`/projects?userid=${id}`);
+  let response = await instance.get(`/projects?userId=${id}`);
   return response.data;
 }
 

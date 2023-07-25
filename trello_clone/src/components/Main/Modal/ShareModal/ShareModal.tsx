@@ -11,10 +11,14 @@ const ShareModal = ({ shareModal, onClose }: ShareModal) => {
   const userLocal = localStorage.getItem('userLogin');
   const currentUser = userLocal ? JSON.parse(userLocal) : null;
 
-  const getAcronym = (name: string) => {
-    
+  const getAcronym = (name: string | null) => {
+    if(!name) return;
+    let strArr = name.split(' ');
+    let firstChar= strArr[0].charAt(0);
+    let secondChar = strArr[1].charAt(0);
+    return firstChar + secondChar;
   }
-
+  
   return (
     <Transition appear show={shareModal} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -54,11 +58,11 @@ const ShareModal = ({ shareModal, onClose }: ShareModal) => {
                 <FormShare />
                 <div className="pt-4 flex items-center ">
                   <div className="bg-red-500 mr-3 rounded-[50%] w-8 h-8 flex justify-center items-center">
-                    <span className=""></span>
+                    <span className="">{getAcronym(currentUser?.fullName)}</span>
                   </div>
                   <div className="flex flex-col justify-between text-[14px] text-[#B6C2CF]">
-                    <span className='font-bold'>{currentUser ? currentUser.fullName: ''} (bạn)</span>
-                    <span className=''>{currentUser ? currentUser.email: ''}</span>
+                    <span className='font-bold'>{currentUser ? currentUser?.fullName: ''} (bạn)</span>
+                    <span className=''>{currentUser ? currentUser?.email: ''}</span>
                   </div>
                 </div>
               </Dialog.Panel>
