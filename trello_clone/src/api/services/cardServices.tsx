@@ -6,6 +6,7 @@ import {
   CardPatchTest,
   CardUpdateDate,
   CardUpdateDescription,
+  CardUpdateStatus,
 } from '../../types/Card.type';
 
 export const FIND_ALL_CARDS = async (): Promise<CardDB[]> => {
@@ -45,4 +46,8 @@ export const UPDATE_DATE = async (data: CardUpdateDate): Promise<void> => {
     createdAt: data.createdAt,
     endAt: data.endAt,
   });
+};
+
+export const UPDATE_STATUS = async (data: CardUpdateStatus): Promise<void> => {
+  await instance.patch('/cards/' + data.id, { status: data.status });
 };

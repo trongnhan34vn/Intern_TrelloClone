@@ -1,8 +1,8 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put } from "redux-saga/effects";
-import { CREATE_CARD, DELETE_CARD, FIND_ALL_CARDS, FIND_CARD_BY_ID, UPDATE_CARD, UPDATE_CARD_TEST, UPDATE_DATE, UPDATE_DESCRIPTION } from "../../api/services/cardServices";
+import { CREATE_CARD, DELETE_CARD, FIND_ALL_CARDS, FIND_CARD_BY_ID, UPDATE_CARD, UPDATE_CARD_TEST, UPDATE_DATE, UPDATE_DESCRIPTION, UPDATE_STATUS } from "../../api/services/cardServices";
 import { getAllCards, getCardById } from "../../redux/reducers/cardSlice";
-import { CardDB, CardForm, CardPatch, CardPatchTest, CardUpdateDate, CardUpdateDescription } from "../../types/Card.type";
+import { CardDB, CardForm, CardPatch, CardPatchTest, CardUpdateDate, CardUpdateDescription, CardUpdateStatus } from "../../types/Card.type";
 
 export const findAllCards = function* () {
   try {
@@ -72,6 +72,19 @@ export const updateCardDescription = function*(action: PayloadAction<CardUpdateD
 export const updateCardDate = function* ({payload}: PayloadAction<CardUpdateDate>) {
   try {
     yield call(UPDATE_DATE, payload);
+    let fakeAction: PayloadAction<number> = {
+      type: 'fake action',
+      payload: payload.id
+    }
+    yield findCardById(fakeAction)
+  } catch (error) {
+    
+  }
+}
+
+export const updateCardStatus = function* ({payload}: PayloadAction<CardUpdateStatus>) {
+  try {
+    yield call(UPDATE_STATUS, payload)
     let fakeAction: PayloadAction<number> = {
       type: 'fake action',
       payload: payload.id

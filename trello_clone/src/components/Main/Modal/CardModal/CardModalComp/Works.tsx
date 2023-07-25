@@ -82,7 +82,8 @@ export default function Works({ work }: WorkProps) {
           <div className="w-full ml-[10px]">
             <div className="rounded-[4px] h-2 w-full overflow-hidden relative bg-[#3A444C]">
               <div
-                className={`translate-x-[-${getFinishedTaskPercent()}%] transition-all ease-in-out duration-200 rounded-[4px] h-2 w-full overflow-hidden absolute top-0 left-0 bg-green-400`}
+              style={{transform: `translateX(-${getFinishedTaskPercent()}%)`}}
+                className={`transition-all ease-in-out duration-200 rounded-[4px] h-2 w-full overflow-hidden absolute top-0 left-0 bg-green-400`}
               ></div>
             </div>
           </div>

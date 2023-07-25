@@ -6,6 +6,7 @@ import {
   CardPatchTest,
   CardUpdateDate,
   CardUpdateDescription,
+  CardUpdateStatus,
 } from '../../types/Card.type';
 
 interface CardState {
@@ -15,7 +16,7 @@ interface CardState {
 
 const initState: CardState = {
   listCards: [],
-  selectCard: null
+  selectCard: null,
 };
 
 const cardSlice = createSlice({
@@ -32,12 +33,16 @@ const cardSlice = createSlice({
     updateCardTest: (state, action: PayloadAction<CardPatchTest>) => {},
     findCardById: (state, action: PayloadAction<number>) => {},
     getCardById: (state, action: PayloadAction<CardDB | null>) => {
-      state.selectCard = action.payload
+      state.selectCard = action.payload;
     },
-    updateCardDescription: (state, action: PayloadAction<CardUpdateDescription>) => {},
-    updateCardDate: (state, action: PayloadAction<CardUpdateDate>) => {
-
-    }
+    updateCardDescription: (
+      state,
+      action: PayloadAction<CardUpdateDescription>
+    ) => {},
+    updateCardDate: (state, action: PayloadAction<CardUpdateDate>) => {},
+    updateCardStatus: (state, action: PayloadAction<CardUpdateStatus>) => {
+      
+    },
   },
 });
 
@@ -52,5 +57,6 @@ export const {
   findCardById,
   getCardById,
   updateCardDescription,
-  updateCardDate
+  updateCardDate,
+  updateCardStatus,
 } = cardSlice.actions;
