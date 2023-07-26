@@ -1,7 +1,7 @@
 import { all, takeLatest } from 'redux-saga/effects';
 import * as projectSlice from '../redux/reducers/projectSlice';
 import { findAllTypes } from '../redux/reducers/typeProjectSlice';
-import { login, register } from '../redux/reducers/userSlice';
+import * as userSlice from '../redux/reducers/userSlice';
 import * as typeSaga from './items/typeSaga';
 import * as userSaga from './items/userSaga';
 import * as projectSaga from './items/projectSaga';
@@ -25,8 +25,9 @@ import * as taskSaga from './items/taskSaga';
 export const rootSaga = function* () {
   yield all([
     // USER
-    takeLatest(register.type, userSaga.register),
-    takeLatest(login.type, userSaga.login),
+    takeLatest(userSlice.register.type, userSaga.register),
+    takeLatest(userSlice.login.type, userSaga.login),
+    takeLatest(userSlice.searchByEmail.type, userSaga.searchByEmail),
     // TYPES
     takeLatest(findAllTypes.type, typeSaga.findAllTypeProjects),
     // PROJECTS

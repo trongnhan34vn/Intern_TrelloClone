@@ -23,7 +23,7 @@ export default function ProjectManage() {
   useEffect(() => {
     dispatch(findProjectsByUserId(userLogin.id));
     dispatch(findAll())
-  }, []);
+  }, [userLogin]);
 
   const listProjects: Project[] = useSelector(projectSelector).listProjects;
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Background from '../../components/Login_Register/Background';
 import Logo from '../../components/Login_Register/Logo';
@@ -7,41 +7,41 @@ import { useSelector } from 'react-redux';
 import { userSelector } from '../../redux/selectors';
 import { User } from '../../types/User.type';
 
+interface LoadingContext {
+  setActive: () => void;
+  setInActive: () => void;
+}
+
+export const LoadingContext = createContext<LoadingContext | null>(null);
+
 export default function AuthenLayout() {
   const [isActive, setActive] = useState<boolean>(false);
-  const token : string | null = useSelector(userSelector).accessToken;
-  const userLogin : User | null = useSelector(userSelector).user;
+  const userLogin: User | null = useSelector(userSelector).loginResponse.user;
 
   useEffect(() => {
-    if(userLogin) {
+    if (userLogin) {
       localStorage.setItem('userLogin', JSON.stringify(userLogin));
     }
-  },[userLogin])
+  }, [userLogin]);
 
-  useEffect(() => {
-    if (token) {
-      setActive(true);
-    }
-  }, [token]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if(isActive) {
-        setActive(false);
-      }
-    }, 3000);
-  }, [isActive]);
   return (
-    <LoadingOverlay 
-      classNamePrefix='fixed'
+    <LoadingOverlay
+      classNamePrefix="fixed"
       active={isActive}
       spinner
       text="Loading..."
     >
       <div>
-        <Logo />
-        <Outlet />
-        <Background />
+        <LoadingContext.Provider
+          value={{
+            setActive: () => setActive(true),
+            setInActive: () => setActive(false),
+          }}
+        >
+          <Logo />
+          <Outlet />
+          <Background />
+        </LoadingContext.Provider>
       </div>
     </LoadingOverlay>
   );

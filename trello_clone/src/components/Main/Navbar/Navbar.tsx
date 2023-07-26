@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { User } from '../../../types/User.type';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar(props: {
   openModal: () => void;
@@ -7,6 +8,7 @@ export default function Navbar(props: {
   toggleFn: () => void;
   state: boolean;
 }) {
+  const navigate = useNavigate()
   const { toggleFn, state } = props;
   const handleToggleProfileDropdown = () => {
     toggleFn();
@@ -20,6 +22,11 @@ export default function Navbar(props: {
       setUserLogin(JSON.parse(userLocalStore))
     }
   },[userLocalStore])
+
+  const signOut = () => {
+    localStorage.removeItem('userLogin');
+    navigate('/');
+  }
 
   return (
     <nav className="bg-gray-800">
@@ -202,15 +209,15 @@ export default function Navbar(props: {
                 >
                   Settings
                 </a>
-                <a
-                  href="#"
+                <button
+                onClick={signOut}
                   className="block px-4 py-2 text-sm text-gray-700"
                   role="menuitem"
                   tabIndex={-1}
                   id="user-menu-item-2"
                 >
                   Sign out
-                </a>
+                </button>
               </div>
             </div>
           </div>

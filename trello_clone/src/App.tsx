@@ -13,6 +13,7 @@ import ProjectManage from './components/Main/ProjectManage/ProjectManage';
 import DetailProject from './components/Main/DetailProject/DetailProject';
 import MainHome from './components/Main/Home/MainHome';
 import LoadingOverlayComp from './components/LoadingOverlay/LoadingOverlayComp';
+import EmailCheck from './components/Login_Register/EmailCheck';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route element={<AuthenLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/email-check" element={<EmailCheck />} />
         </Route>
         {/* Authen Layout */}
       </Routes>
