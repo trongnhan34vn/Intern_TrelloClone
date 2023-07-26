@@ -1,71 +1,104 @@
-import { Listbox, Menu, Transition } from '@headlessui/react';
-import React, { Fragment, useEffect, useState } from 'react';
-import { Roles } from '../../../../enum/Roles';
+import { Combobox, Listbox, Menu, Transition } from '@headlessui/react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Roles } from '../../../../enum/Roles';
+import { createMember } from '../../../../redux/reducers/memberSlice';
 import { searchByEmail } from '../../../../redux/reducers/userSlice';
-import { userSelector } from '../../../../redux/selectors';
+import { projectSelector, userSelector } from '../../../../redux/selectors';
+import { MemberForm } from '../../../../types/Member.type';
+import { User } from '../../../../types/User.type';
+import { SubnavContext } from '../../DetailProject/DetailProject';
+import InputSearch from './InputSearch';
+import SelectRoles from './SelectRoles';
+
+const roles = [Roles.MEMBER, Roles.OBSERVER];
 
 const FormShare = () => {
-  const dispatch = useDispatch()
-  const [selected, setSelected] = useState(null);
-  const handleSelect = (e: React.FormEvent<HTMLButtonElement>) => {};
+  const dispatch = useDispatch();
+  const [selectRoles, setSelectRoles] = useState(roles[0]);
+  const [selectUser, setSelectUser] = useState<User | null>(null);
+  const [query, setQuery] = useState<string>('');
+  const [selectUsers, setSelectUsers] = useState<User[]>([]);
+
+  const userLocal = localStorage.getItem('userLogin');
+  const currentUser: User = userLocal ? JSON.parse(userLocal) : null;
 
   const users = useSelector(userSelector).users;
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-    dispatch(searchByEmail(value));
+
+  const selectProject = useSelector(projectSelector).selectProject;
+
+  const subNavContext = useContext(SubnavContext);
+
+  useEffect(() => {
+    dispatch(searchByEmail(query));
+  }, [query]);
+
+  const exchangeToMember = (user: User) => {
+    let member: MemberForm = {
+      email: user.email,
+      fullName: user.fullName,
+      imgUrl: user.imageUrl,
+      tableId: subNavContext? subNavContext.tableId : 0,
+      role: Roles.MEMBER,
+    };
+    return member;
   };
+
+  useEffect(() => {
+    if (!selectUser) return;
+    if (!checkExists(selectUser, selectUsers)) {
+      console.log("in");
+      setSelectUsers([...selectUsers, selectUser]);
+      let member = exchangeToMember(selectUser);
+      setMembers([...members, member]);
+    }
+  }, [selectUser]);
+
+  const [members, setMembers] = useState<MemberForm[]>([]);
+
+  const checkExists = (user: User, users: User[]) => {
+    return users.find((u) => u.id === user.id);
+  };
+
+  useEffect(() => {
+    let arr = members;
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].role = selectRoles
+    }
+    setMembers(arr);
+  },[selectRoles])
+
+  const handleSubmit = () => {
+    for (let i = 0; i < members.length; i++) {
+      dispatch(createMember(members[i]))
+    }
+
+  }
 
   return (
     <div>
       <div className="flex items-center">
-        <input
-          onChange={handleChange}
-          placeholder="Địa chỉ email hoặc tên"
-          type="text"
-          className="bg-[#22272B] text-[14px] mr-2 border-[2px] rounded-[3px] min-h-[32px] outline-none border-[#A6C5E229] py-[6px] pr-1 pl-3 max-w-[341px] w-full text-[#B6C2CF]"
+        <div className="relative w-full max-w-[341px] mr-2">
+          <InputSearch
+            selectUser={selectUser}
+            setSelectUser={setSelectUser}
+            users={users}
+            query={query}
+            setQuery={setQuery}
+            currentUser={currentUser}
+            members={members}
+            setMembers={setMembers}
+            setSelectUsers={setSelectUsers}
+            selectUsers={selectUsers}
+          />
+        </div>
+        <SelectRoles
+          selectRoles={selectRoles}
+          setSelectRoles={setSelectRoles}
+          roles={roles}
         />
-        <Listbox value={selected} onChange={setSelected}>
-          <div className="relative">
-            <Listbox.Button className="relative cursor-default h-[37px] text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-              <button className="flex mr-2 rounded-[3px] px-[10px] py-1 bg-[#A1BDD914] h-[37px] text-[#B6C2CF] items-center">
-                <span className="text-[14px] leading-[32px] mr-1">
-                  Thành viên
-                </span>
-                <i className="fa-solid text-[12px] fa-angle-down"></i>
-              </button>
-            </Listbox.Button>
-            <Transition
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="absolute text-[#B6C2CF] right-2 top-[calc(100%_+_4px)] max-h-60 w-full overflow-auto rounded-[3px] bg-[#282E33] py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                <Listbox.Option
-                  className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-4 pr-4`
-                  }
-                  value={1}
-                >
-                  {({ selected }) => (
-                    <>
-                      <span
-                        className={`block truncate ${
-                          selected ? 'font-medium' : 'font-normal'
-                        }`}
-                      >
-                        Thành viên
-                      </span>
-                    </>
-                  )}
-                </Listbox.Option>
-              </Listbox.Options>
-            </Transition>
-          </div>
-        </Listbox>
-        <button className="bg-[#579DFF] rounded-[3px] h-[37px] text-[14px] py-[6px] px-[12px]">
+
+        <button onClick={handleSubmit} className="bg-[#579DFF] hover:opacity-90 opacity-100 transition-all ease-in-out duration-200 rounded-[3px] h-[37px] text-[14px] py-[6px] px-[12px]">
           Chia sẻ
         </button>
       </div>

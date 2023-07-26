@@ -1,49 +1,86 @@
-import { Listbox, Menu, Transition } from '@headlessui/react';
+import { Combobox, Listbox, Menu, Transition } from '@headlessui/react';
 import React, { Fragment, useState } from 'react';
 
 const Test = () => {
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState(null);
+  const [query, setQuery] = useState('');
+  const people = [
+    { id: 1, name: 'Wade Cooper' },
+    { id: 2, name: 'Arlene Mccoy' },
+    { id: 3, name: 'Devon Webb' },
+    { id: 4, name: 'Tom Cook' },
+    { id: 5, name: 'Tanya Fox' },
+    { id: 6, name: 'Hellen Schmidt' },
+  ];
+
+  const filteredPeople =
+    query === ''
+      ? people
+      : people.filter((person) =>
+          person.name
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(query.toLowerCase().replace(/\s+/g, ''))
+        );
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Combobox value={selected} onChange={setSelected}>
       <div className="relative mt-1">
-        <Listbox.Button className="relative cursor-default rounded-lg  pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-          <button className="flex mr-2 rounded-[3px] px-[10px] py-1 bg-[#A1BDD914] h-[37px] text-[#B6C2CF] items-center">
-            <span className="text-[14px] leading-[32px] mr-1">Thành viên</span>
-            <i className="fa-solid text-[12px] fa-angle-down"></i>
-          </button>
-        </Listbox.Button>
+        <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+          <Combobox.Input
+            placeholder="Địa chỉ email hoặc tên"
+            type="text"
+            className="bg-[#22272B] w-full text-[14px]  border-[2px] rounded-[3px] min-h-[32px] outline-none border-[#A6C5E229] py-[6px] pr-1 pl-3 max-w-[341px] text-[#B6C2CF]"
+          />
+        </div>
         <Transition
           as={Fragment}
           leave="transition ease-in duration-100"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
+          afterLeave={() => setQuery('')}
         >
-          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-           
-              <Listbox.Option
-                className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                    active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
-                  }`
-                }
-                value={1}
-              >
-                {({ selected }) => (
-                  <>
-                    <span
-                      className={`block truncate ${
-                        selected ? 'font-medium' : 'font-normal'
-                      }`}
-                    >
-                      Nhân
-                    </span>
-                  </>
-                )}
-              </Listbox.Option>
-          </Listbox.Options>
+          <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            {filteredPeople.length === 0 && query !== '' ? (
+              <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                Nothing found.
+              </div>
+            ) : (
+              filteredPeople.map((person) => (
+                <Combobox.Option
+                  key={person.id}
+                  className={({ active }) =>
+                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                      active ? 'bg-teal-600 text-white' : 'text-gray-900'
+                    }`
+                  }
+                  value={person}
+                >
+                  {({ selected, active }) => (
+                    <>
+                      <span
+                        className={`block truncate ${
+                          selected ? 'font-medium' : 'font-normal'
+                        }`}
+                      >
+                        {person.name}
+                      </span>
+                      {selected ? (
+                        <span
+                          className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                            active ? 'text-white' : 'text-teal-600'
+                          }`}
+                        >
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Combobox.Option>
+              ))
+            )}
+          </Combobox.Options>
         </Transition>
       </div>
-    </Listbox>
+    </Combobox>
   );
 };
 

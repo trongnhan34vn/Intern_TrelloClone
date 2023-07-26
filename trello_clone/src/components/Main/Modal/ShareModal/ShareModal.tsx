@@ -1,5 +1,6 @@
 import { Dialog, Listbox, Transition } from '@headlessui/react';
 import React, { Fragment } from 'react';
+import { getAcronym } from '../../../../utils/getAcronym';
 import FormShare from './FormShare';
 
 interface ShareModal {
@@ -11,14 +12,6 @@ const ShareModal = ({ shareModal, onClose }: ShareModal) => {
   const userLocal = localStorage.getItem('userLogin');
   const currentUser = userLocal ? JSON.parse(userLocal) : null;
 
-  const getAcronym = (name: string | null) => {
-    if(!name) return;
-    let strArr = name.split(' ');
-    let firstChar= strArr[0].charAt(0);
-    let secondChar = strArr[1].charAt(0);
-    return firstChar + secondChar;
-  }
-  
   return (
     <Transition appear show={shareModal} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -45,7 +38,7 @@ const ShareModal = ({ shareModal, onClose }: ShareModal) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full relative z-10 min-h-[200px] max-w-[580px] transform rounded-2xl bg-[#323940] px-5 py-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full relative z-10 min-h-[200px] max-w-[610px] transform rounded-2xl bg-[#323940] px-5 py-6 text-left align-middle shadow-xl transition-all">
                 <header className="text-[#B6C2CF] mr-6 mb-4 flex justify-between">
                   <h3 className="text-[20px] font-semibold">Chia sẻ bảng</h3>
                   <button

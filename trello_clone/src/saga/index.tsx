@@ -13,14 +13,12 @@ import * as listSlice from '../redux/reducers/listSlice';
 import * as listSaga from './items/listSaga';
 import * as cardSlice from '../redux/reducers/cardSlice';
 import * as cardSaga from './items/cardSaga';
-import {
-  createWork,
-  deleteWork,
-  findWorksByCardId,
-} from '../redux/reducers/workSlice';
+import * as workSlice from '../redux/reducers/workSlice';
 import * as workSaga from './items/workSaga';
-import { changeStatus, createTask, findAll } from '../redux/reducers/taskSlice';
+import * as taskSlice from '../redux/reducers/taskSlice';
 import * as taskSaga from './items/taskSaga';
+import * as memberSlice from '../redux/reducers/memberSlice';
+import * as memberSaga from './items/memberSaga';
 
 export const rootSaga = function* () {
   yield all([
@@ -67,12 +65,14 @@ export const rootSaga = function* () {
     takeLatest(cardSlice.updateCardDate.type, cardSaga.updateCardDate),
     takeLatest(cardSlice.updateCardStatus.type, cardSaga.updateCardStatus),
     // WORKS
-    takeLatest(createWork.type, workSaga.createWork),
-    takeLatest(findWorksByCardId.type, workSaga.findWorksByCardId),
-    takeLatest(deleteWork.type, workSaga.deleteWork),
+    takeLatest(workSlice.createWork.type, workSaga.createWork),
+    takeLatest(workSlice.findWorksByCardId.type, workSaga.findWorksByCardId),
+    takeLatest(workSlice.deleteWork.type, workSaga.deleteWork),
     // TASKS
-    takeLatest(createTask.type, taskSaga.createTask),
-    takeLatest(findAll.type, taskSaga.findAll),
-    takeLatest(changeStatus.type, taskSaga.changeStatus),
+    takeLatest(taskSlice.createTask.type, taskSaga.createTask),
+    takeLatest(taskSlice.findAll.type, taskSaga.findAll),
+    takeLatest(taskSlice.changeStatus.type, taskSaga.changeStatus),
+    // MEMBERS
+    takeLatest(memberSlice.createMember.type, memberSaga.createMember),
   ]);
 };

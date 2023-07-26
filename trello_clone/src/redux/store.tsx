@@ -11,6 +11,7 @@ import cardSlice from './reducers/cardSlice';
 import modalSlice from './reducers/modalSlice';
 import workSlice from './reducers/workSlice';
 import taskSlice from './reducers/taskSlice';
+import memberSlice from './reducers/memberSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,7 +19,7 @@ const store = configureStore({
   reducer: {
     user: userSlice,
     type: typeProjectSlice,
-		project: projectSlice,
+    project: projectSlice,
     background: backgroundSlice,
     table: tableSlice,
     list: listSlice,
@@ -26,6 +27,7 @@ const store = configureStore({
     modal: modalSlice,
     work: workSlice,
     task: taskSlice,
+    member: memberSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

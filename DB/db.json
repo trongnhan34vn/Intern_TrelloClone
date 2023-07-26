@@ -242,5 +242,25 @@
       "createdAt": 1690173895959,
       "id": 4
     }
+  ],
+  "members": [
+    {
+      "email": "nambeo@gmail.com",
+      "fullName": "",
+      "imgUrl": "",
+      "projectId": 1,
+      "role": "Thành viên",
+      "createdAt": 1690366121639,
+      "id": 1
+    },
+    {
+      "email": "trongnhan34vn@gmail.com",
+      "fullName": "Nguyễn Nhân",
+      "imgUrl": "https://lh3.googleusercontent.com/a/AAcHTtemuTAkckBKkwARkxJge6LwQ3Y8Nev9TK5oudmSVW-Qw5k=s96-c",
+      "projectId": 1,
+      "role": "Thành viên",
+      "createdAt": 1690366121668,
+      "id": 2
+    }
   ]
 }
