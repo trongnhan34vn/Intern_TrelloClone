@@ -11,7 +11,7 @@ export interface Member extends MemberForm {
   id: number;
 }
 
-export interface MemberUpdateForm {
+export interface MemberUpdateRole {
   id: number;
   role: Roles;
 }

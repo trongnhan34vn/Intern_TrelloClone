@@ -76,6 +76,7 @@ export const rootSaga = function* () {
     takeLatest(taskSlice.changeStatus.type, taskSaga.changeStatus),
     // MEMBERS
     takeLatest(memberSlice.createMember.type, memberSaga.createMember),
-    takeLatest(memberSlice.findByTableId.type, memberSaga.findByTableId)
+    takeLatest(memberSlice.findByTableId.type, memberSaga.findByTableId),
+    takeLatest(memberSlice.updateRole.type, memberSaga.updateRole),
   ]);
 };

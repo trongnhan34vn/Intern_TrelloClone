@@ -3,9 +3,10 @@ import { call, put } from 'redux-saga/effects';
 import {
   CREATE_MEMBER,
   FIND_BY_TABLE_ID,
+  UPDATE_ROLE,
 } from '../../api/services/memberServices';
 import { getByTableId } from '../../redux/reducers/memberSlice';
-import { Member, MemberForm } from '../../types/Member.type';
+import { Member, MemberForm, MemberUpdateRole } from '../../types/Member.type';
 
 export const createMember = function* ({ payload }: PayloadAction<MemberForm>) {
   try {
@@ -24,3 +25,11 @@ export const findByTableId = function* ({ payload }: PayloadAction<number>) {
     yield put(getByTableId(response));
   } catch (error) {}
 };
+
+export const updateRole = function* ({ payload }: PayloadAction<MemberUpdateRole>) {
+  try {
+    yield call(UPDATE_ROLE, payload);
+  } catch (error) {
+    
+  }
+}

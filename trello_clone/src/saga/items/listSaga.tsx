@@ -14,6 +14,13 @@ import {
 } from '../../redux/reducers/listSlice';
 import { DragList, List, ListForm } from '../../types/List.type';
 
+export const findAllLists = function* () {
+  try {
+    let response: List[] = yield call(FIND_ALL);
+    yield put(getAllList(response));
+  } catch (error) {}
+};
+
 export const findListsByTableId = function* (action: PayloadAction<number>) {
   try {
     let response: List[] = yield call(FIND_LISTS_BY_TABLE_ID, action.payload);
@@ -30,6 +37,7 @@ export const updateDragList = function* (action: PayloadAction<DragList>) {
 export const createList = function* (action: PayloadAction<ListForm>) {
   try {
     yield call(CREATE_LIST, action.payload);
+    yield findAllLists()
   } catch (error) {}
 };
 
@@ -40,9 +48,4 @@ export const findListById = function* (action: PayloadAction<number>) {
   } catch (error) {}
 };
 
-export const findAllLists = function* () {
-  try {
-    let response: List[] = yield call(FIND_ALL);
-    yield put(getAllList(response));
-  } catch (error) {}
-};
+

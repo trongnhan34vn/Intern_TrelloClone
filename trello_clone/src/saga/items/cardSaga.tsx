@@ -16,6 +16,7 @@ export const findAllCards = function* () {
 export const createCard = function* (action: PayloadAction<CardForm>) {
   try {
     yield call(CREATE_CARD, action.payload)
+    yield findAllCards()
   } catch (error) {
     
   }

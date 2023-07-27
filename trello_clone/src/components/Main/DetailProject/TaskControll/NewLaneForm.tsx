@@ -36,7 +36,7 @@ export default function NewLaneForm(props: {
           onChange={handleChange}
           type="text"
           value={inputValue.title}
-          className="bg-[#22272B] px-3 py-2 w-full h-full rounded-[3px] block mb-2"
+          className="bg-[#22272B] px-3 py-2 text-[14px] text-[#B6C2CF] w-full h-full rounded-[3px] block mb-2"
           placeholder="Nhập tiêu đề danh sách"
         />
         <div className="flex">

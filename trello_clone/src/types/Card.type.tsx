@@ -4,12 +4,12 @@ export interface CardForm {
   order: number;
   description: string;
   status: boolean
+  endAt: number;
 }
 
 export interface CardDB extends CardForm {
   id: number;
   createdAt: number;
-  endAt: number;
 }
 
 export interface CardPatch {

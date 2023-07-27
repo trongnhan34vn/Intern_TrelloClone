@@ -20,13 +20,13 @@ export default function CardFormComp(props: {
 
   return (
     <div className="create-tag py-[6px] transition-all ease-in-out duration-200 mb-2">
-      <div className="w-full mb-[7px] bg-[#fff] pt-2 pr-2 pb-1 pl-3 shadow-[0_1px_1px_#091e4240] rounded-[8px] overflow-hidden h-14">
+      <div className="w-full mb-[7px] bg-[#22272B] pt-2 pr-2 pb-1 pl-3 shadow-[0_1px_1px_#091e4240] rounded-[8px] overflow-hidden h-14">
         <textarea
           onChange={handleChange}
           value={inputValue ? inputValue.title : ''}
           name="title"
           placeholder="Nhập tiêu đề cho thẻ này..."
-          className="w-full h-full text-sm resize-none outline-none"
+          className="w-full bg-[#22272B] text-[#B6C2CF] h-full text-sm resize-none outline-none"
         ></textarea>
       </div>
       <div className="flex">

@@ -137,6 +137,7 @@ export default function BoardComp() {
       order: cardArr.length,
       description:"",
       status: false,
+      endAt: 0
     };
     dispatch(cardSlice.createCard(newCard));
   };
