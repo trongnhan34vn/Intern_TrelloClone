@@ -26,6 +26,8 @@ export const rootSaga = function* () {
     takeLatest(userSlice.register.type, userSaga.register),
     takeLatest(userSlice.login.type, userSaga.login),
     takeLatest(userSlice.searchByEmail.type, userSaga.searchByEmail),
+    takeLatest(userSlice.findById.type, userSaga.findById),
+    takeLatest(userSlice.findAll.type, userSaga.findAll),
     // TYPES
     takeLatest(findAllTypes.type, typeSaga.findAllTypeProjects),
     // PROJECTS
@@ -74,5 +76,6 @@ export const rootSaga = function* () {
     takeLatest(taskSlice.changeStatus.type, taskSaga.changeStatus),
     // MEMBERS
     takeLatest(memberSlice.createMember.type, memberSaga.createMember),
+    takeLatest(memberSlice.findByTableId.type, memberSaga.findByTableId)
   ]);
 };

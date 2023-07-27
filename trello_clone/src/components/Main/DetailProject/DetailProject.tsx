@@ -39,7 +39,6 @@ export default function DetailProject() {
     if (!bg) return;
     return bg.bgUrl;
   };
-  console.log(getBackgroundURL());
 
   // const createTagElement = () => {
   //   if (!isCreateTag) {

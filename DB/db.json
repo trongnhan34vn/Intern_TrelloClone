@@ -13,6 +13,13 @@
       "fullName": "",
       "imageUrl": "",
       "id": 2
+    },
+    {
+      "email": "khoapug@gmail.com",
+      "password": "$2a$10$TRdjKJ9xv74mIEFKCxbWdugae4ep6pOy4Gd/kc6ImLvPLjzxeeIgK",
+      "fullName": "",
+      "imageUrl": "",
+      "id": 3
     }
   ],
   "typeProjects": [
@@ -61,6 +68,14 @@
       "description": "",
       "createdAt": 1689408413492,
       "id": 2
+    },
+    {
+      "name": "anh Nam Gucci",
+      "typeProjectId": 3,
+      "userId": 2,
+      "description": "",
+      "createdAt": 1690431101675,
+      "id": 3
     }
   ],
   "backgrounds": [
@@ -132,6 +147,41 @@
       "bgId": 3,
       "createdAt": 1689408576439,
       "id": 7
+    },
+    {
+      "name": "học Java",
+      "projectId": 3,
+      "bgId": 6,
+      "createdAt": 1690431139433,
+      "id": 8
+    },
+    {
+      "name": "Khoa Pug",
+      "projectId": 3,
+      "bgId": 2,
+      "createdAt": 1690431285151,
+      "id": 9
+    },
+    {
+      "name": "Pikachu",
+      "projectId": 3,
+      "bgId": 1,
+      "createdAt": 1690431405944,
+      "id": 10
+    },
+    {
+      "name": "a đù",
+      "projectId": 3,
+      "bgId": 5,
+      "createdAt": 1690447122902,
+      "id": 11
+    },
+    {
+      "name": "aaaaab",
+      "projectId": 3,
+      "bgId": 6,
+      "createdAt": 1690453267522,
+      "id": 12
     }
   ],
   "lists": [
@@ -155,6 +205,13 @@
       "order": 2,
       "createdAt": 1689903649758,
       "id": 3
+    },
+    {
+      "name": "nam",
+      "tableId": 10,
+      "order": 3,
+      "createdAt": 1690446244276,
+      "id": 4
     }
   ],
   "cards": [
@@ -245,22 +302,67 @@
   ],
   "members": [
     {
-      "email": "nambeo@gmail.com",
-      "fullName": "",
-      "imgUrl": "",
-      "projectId": 1,
+      "userId": 2,
+      "tableId": 1,
       "role": "Thành viên",
-      "createdAt": 1690366121639,
+      "createdAt": 1690429145084,
       "id": 1
     },
     {
-      "email": "trongnhan34vn@gmail.com",
-      "fullName": "Nguyễn Nhân",
-      "imgUrl": "https://lh3.googleusercontent.com/a/AAcHTtemuTAkckBKkwARkxJge6LwQ3Y8Nev9TK5oudmSVW-Qw5k=s96-c",
-      "projectId": 1,
+      "userId": 3,
+      "tableId": 1,
       "role": "Thành viên",
-      "createdAt": 1690366121668,
+      "createdAt": 1690429145084,
       "id": 2
+    },
+    {
+      "tableId": 10,
+      "userId": 2,
+      "role": "Quản trị viên",
+      "createdAt": 1690431405995,
+      "id": 3
+    },
+    {
+      "userId": 1,
+      "tableId": 10,
+      "role": "Quan sát viên",
+      "createdAt": 1690443805278,
+      "id": 4
+    },
+    {
+      "userId": 3,
+      "tableId": 10,
+      "role": "Thành viên",
+      "createdAt": 1690443821601,
+      "id": 5
+    },
+    {
+      "tableId": 11,
+      "userId": 2,
+      "role": "Quản trị viên",
+      "createdAt": 1690447122974,
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "tableId": 11,
+      "role": "Thành viên",
+      "createdAt": 1690447205073,
+      "id": 7
+    },
+    {
+      "userId": 3,
+      "tableId": 11,
+      "role": "Thành viên",
+      "createdAt": 1690448200691,
+      "id": 8
+    },
+    {
+      "tableId": 12,
+      "userId": 2,
+      "role": "Quản trị viên",
+      "createdAt": 1690453267594,
+      "id": 9
     }
   ]
 }

@@ -10,3 +10,8 @@ export interface MemberForm {
 export interface Member extends MemberForm {
   id: number;
 }
+
+export interface MemberUpdateForm {
+  id: number;
+  role: Roles;
+}
