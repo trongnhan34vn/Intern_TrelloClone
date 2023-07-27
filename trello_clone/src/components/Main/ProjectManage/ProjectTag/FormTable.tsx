@@ -2,13 +2,20 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../../../assets/svg/Spinner';
-import { createTable, resetTableJustAdded } from '../../../../redux/reducers/tableSlice';
+import { Roles } from '../../../../enum/Roles';
+import { createMember } from '../../../../redux/reducers/memberSlice';
+import {
+  createTable,
+  resetTableJustAdded,
+} from '../../../../redux/reducers/tableSlice';
 import {
   backgroundSelector,
   projectSelector,
   tableSelector,
 } from '../../../../redux/selectors';
+import { MemberForm } from '../../../../types/Member.type';
 import { TableDTO } from '../../../../types/Table.type';
+import { User } from '../../../../types/User.type';
 import ListBackgrounds from './ListBackgrounds';
 import { ProjectContext } from './ProjectTag';
 
@@ -28,6 +35,9 @@ export default function FormTable(props: { closeFn: () => void }) {
       {project.name}
     </option>
   ));
+
+  const userLocal = localStorage.getItem('userLogin');
+  const currentUser: User | null = userLocal ? JSON.parse(userLocal) : null;
 
   // get table just added
   const tableJustAdded = useSelector(tableSelector).latestTable;
@@ -50,6 +60,17 @@ export default function FormTable(props: { closeFn: () => void }) {
     selectBGId && setInputValue({ ...inputValue, bgId: selectBGId });
   }, [selectBGId]);
 
+  const createAdminMember = () => {
+    if (!tableJustAdded) return;
+    if (!currentUser) return;
+    let admin: MemberForm = {
+      tableId: tableJustAdded.id,
+      userId: currentUser.id,
+      role: Roles.ADMIN,
+    };
+    dispatch(createMember(admin));
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(createTable(inputValue));
@@ -63,11 +84,12 @@ export default function FormTable(props: { closeFn: () => void }) {
 
   useEffect(() => {
     if (tableJustAdded) {
+      createAdminMember();
       // Navigate đến trang table
       setTimeout(() => {
         navigate(`/main-app/detail-project/${tableJustAdded.id}`);
-        dispatch(resetTableJustAdded())
-      }, 5000);
+        dispatch(resetTableJustAdded());
+      }, 3000);
     }
   }, [tableJustAdded]);
 
@@ -149,7 +171,7 @@ export default function FormTable(props: { closeFn: () => void }) {
           </div>
           <div>
             <button
-              disabled= {!activeButton()}
+              disabled={!activeButton()}
               onClick={handleSubmit}
               className={`
               ${

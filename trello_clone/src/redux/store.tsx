@@ -12,6 +12,7 @@ import modalSlice from './reducers/modalSlice';
 import workSlice from './reducers/workSlice';
 import taskSlice from './reducers/taskSlice';
 import memberSlice from './reducers/memberSlice';
+import notifySlice from './reducers/notifySlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -28,6 +29,7 @@ const store = configureStore({
     work: workSlice,
     task: taskSlice,
     member: memberSlice,
+    notify: notifySlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
