@@ -35,10 +35,8 @@ const FormShare = () => {
 
   const exchangeToMember = (user: User) => {
     let member: MemberForm = {
-      email: user.email,
-      fullName: user.fullName,
-      imgUrl: user.imageUrl,
-      tableId: subNavContext? subNavContext.tableId : 0,
+      userId: user.id,
+      tableId: subNavContext ? subNavContext.tableId : 0,
       role: Roles.MEMBER,
     };
     return member;
@@ -47,7 +45,7 @@ const FormShare = () => {
   useEffect(() => {
     if (!selectUser) return;
     if (!checkExists(selectUser, selectUsers)) {
-      console.log("in");
+      console.log('in');
       setSelectUsers([...selectUsers, selectUser]);
       let member = exchangeToMember(selectUser);
       setMembers([...members, member]);
@@ -63,17 +61,16 @@ const FormShare = () => {
   useEffect(() => {
     let arr = members;
     for (let i = 0; i < arr.length; i++) {
-      arr[i].role = selectRoles
+      arr[i].role = selectRoles;
     }
     setMembers(arr);
-  },[selectRoles])
+  }, [selectRoles]);
 
   const handleSubmit = () => {
     for (let i = 0; i < members.length; i++) {
-      dispatch(createMember(members[i]))
+      dispatch(createMember(members[i]));
     }
-
-  }
+  };
 
   return (
     <div>
@@ -98,7 +95,10 @@ const FormShare = () => {
           roles={roles}
         />
 
-        <button onClick={handleSubmit} className="bg-[#579DFF] hover:opacity-90 opacity-100 transition-all ease-in-out duration-200 rounded-[3px] h-[37px] text-[14px] py-[6px] px-[12px]">
+        <button
+          onClick={handleSubmit}
+          className="bg-[#579DFF] hover:opacity-90 opacity-100 transition-all ease-in-out duration-200 rounded-[3px] h-[37px] text-[14px] py-[6px] px-[12px]"
+        >
           Chia sẻ
         </button>
       </div>

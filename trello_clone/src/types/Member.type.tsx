@@ -1,15 +1,12 @@
-import { Roles } from "../enum/Roles"
-
-
+import { Roles } from '../enum/Roles';
 
 export interface MemberForm {
-  fullName: string
-  email: string
-  imgUrl: string
-  tableId: number
-  role: Roles
+  userId: number;
+  tableId: number;
+  role: Roles;
+  projectId?: number;
 }
 
 export interface Member extends MemberForm {
-  id: number
+  id: number;
 }
