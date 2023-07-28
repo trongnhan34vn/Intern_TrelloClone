@@ -7,6 +7,7 @@ import { userSelector } from '../../../../../redux/selectors';
 import { Member, MemberUpdateCard } from '../../../../../types/Member.type';
 import { User } from '../../../../../types/User.type';
 import { CardContext } from '../CardModal';
+import { SubnavContext } from '../../../DetailProject/DetailProject';
 
 interface MemberProps {
   member: Member;
@@ -17,11 +18,10 @@ interface MemberProps {
 const MemberComp = ({ member, inputValue, search }: MemberProps) => {
   const dispatch = useDispatch();
   const { tableId } = useParams();
-  useEffect(() => {
-    dispatch(userSlice.findAll());
-  }, [member]);
+  const subnavContext = useContext(SubnavContext);
   const cardContext = useContext(CardContext);
-  const users = useSelector(userSelector).users;
+
+  const users = subnavContext? subnavContext.users : [];
   const usersFilter: User[] = users.filter((user) => user.id === member.userId);
   const searchFilter: User[] = search.filter(
     (user) => user.id === member.userId

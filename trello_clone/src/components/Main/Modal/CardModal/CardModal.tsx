@@ -29,6 +29,7 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
   const dispatch = useDispatch();
 
   const selectCard = useSelector(cardSelector).selectCard;
+
   const works = useSelector(workSelector).listWorks;
 
   const subnavContext = useContext(SubnavContext);
@@ -79,9 +80,9 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
             >
               <Dialog.Panel className="w-full pr-[185px] relative z-10 min-h-[500px] max-w-[775px] transform rounded-2xl bg-[#323940] p-6 text-left align-middle shadow-xl transition-all">
                 <HeadModal selectCard={selectCard} onClose={onClose} />
-                <div className="flex gap-4 items-start h-[420px] scrollable-div overflow-y-scroll">
-                  <div className="form-left w-full h-full">
-                    <CardContext.Provider value={selectCard}>
+                <CardContext.Provider value={selectCard}>
+                  <div className="flex gap-4 items-start h-[420px] scrollable-div overflow-y-scroll">
+                    <div className="form-left w-full h-full">
                       <div className="flex ml-7 mb-8">
                         {membersFilter.length !== 0 ? (
                           <CardMembers members={membersFilter} />
@@ -95,20 +96,21 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
                           <></>
                         )}
                       </div>
-                    </CardContext.Provider>
-                    {/* Description */}
-                    <DescriptionModal card={selectCard} />
-                    {/* Description */}
-                    {/* List Works */}
-                    {worksElement}
-                    {/* List Works */}
+
+                      {/* Description */}
+                      <DescriptionModal card={selectCard} />
+                      {/* Description */}
+                      {/* List Works */}
+                      {worksElement}
+                      {/* List Works */}
+                    </div>
+                    <div className="form-right relative flex flex-col">
+                      <CardContext.Provider value={selectCard}>
+                        <ModalFeature />
+                      </CardContext.Provider>
+                    </div>
                   </div>
-                  <div className="form-right relative flex flex-col">
-                    <CardContext.Provider value={selectCard}>
-                      <ModalFeature />
-                    </CardContext.Provider>
-                  </div>
-                </div>
+                </CardContext.Provider>
               </Dialog.Panel>
             </Transition.Child>
           </div>

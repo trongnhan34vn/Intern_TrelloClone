@@ -177,9 +177,9 @@
       "name": "đêm trở gió",
       "listId": 2,
       "order": 0,
-      "description": "",
-      "status": false,
-      "endAt": 0,
+      "description": "hà nội đêm trở gió",
+      "status": true,
+      "endAt": 1691110980000,
       "createdAt": 1690535930512,
       "id": 1
     },
@@ -194,8 +194,35 @@
       "id": 2
     }
   ],
-  "works": [],
-  "tasks": [],
+  "works": [
+    {
+      "cardId": 1,
+      "name": "fix bug",
+      "process": 0,
+      "createdAt": 1690549920170,
+      "id": 1
+    }
+  ],
+  "tasks": [
+    {
+      "name": "back end",
+      "workId": 1,
+      "endAt": 0,
+      "status": true,
+      "createdAt": 1690550023625,
+      "id": 1,
+      "member": 1
+    },
+    {
+      "name": "front-end",
+      "workId": 1,
+      "endAt": 0,
+      "status": false,
+      "createdAt": 1690550039589,
+      "id": 2,
+      "member": 1
+    }
+  ],
   "members": [
     {
       "tableId": 1,

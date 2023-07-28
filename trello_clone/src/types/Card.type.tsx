@@ -23,7 +23,7 @@ export interface CardPatchTest {
   order: number;
   name: string;
   listId: number;
-  description: string;
+  description?: string;
 }
 
 export interface CardUpdateDescription {

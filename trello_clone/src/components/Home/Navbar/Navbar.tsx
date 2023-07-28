@@ -1,5 +1,6 @@
 import React from 'react';
 import { logoElement } from '../../../assets/svg/logo';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   return (
@@ -122,15 +123,18 @@ export default function Navbar() {
         </div>
       </div>
       <div>
-        <a className="text-black text-xl font-semibold py-8 px-6" href="">
-          Đăng nhập
-        </a>
-        <a
-          className="text-white text-xl font-semibold py-8 px-6 bg-[#0065FF] transition-all duration-200 ease-in-out hover:bg-[#0747A6] text"
-          href=""
+        <Link
+          to={'/login'}
+          className="text-black text-xl font-semibold py-8 px-6"
         >
-          Tải Trello miễn phí
-        </a>
+          Đăng nhập
+        </Link>
+        <Link
+          to={'/register'}
+          className="text-white text-xl font-semibold py-8 px-6 bg-[#0065FF] transition-all duration-200 ease-in-out hover:bg-[#0747A6] text"
+        >
+          Đăng kí Trello miễn phí
+        </Link>
       </div>
     </nav>
   );

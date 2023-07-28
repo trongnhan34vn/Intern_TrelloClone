@@ -7,7 +7,6 @@ const initState: TaskForm = {
   name: '',
   workId: 0,
   endAt: 0,
-  members: [],
   status: false
 };
 
@@ -31,6 +30,7 @@ const FormCreateTask = ({ workId }: CreateTaskProps) => {
     e.preventDefault();
     dispatch(createTask(inputValue));
     handleSetCloseEdit(e);
+    setInputValue({...inputValue, name: ''})
   };
 
   const handleSetCloseEdit = (e: React.FormEvent<HTMLButtonElement>) => {

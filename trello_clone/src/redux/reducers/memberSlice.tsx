@@ -4,6 +4,7 @@ import {
   MemberForm,
   MemberUpdateCard,
   MemberUpdateRole,
+  MemberUpdateTask,
 } from '../../types/Member.type';
 
 interface MemberState {
@@ -25,6 +26,7 @@ const memberSlice = createSlice({
     },
     updateRole: (state, action: PayloadAction<MemberUpdateRole>) => {},
     updateCard: (state, action: PayloadAction<MemberUpdateCard>) => {},
+    updateTask: (state, action: PayloadAction<MemberUpdateTask>) => {}
   },
 });
 
@@ -35,4 +37,5 @@ export const {
   getByTableId,
   updateRole,
   updateCard,
+  updateTask
 } = memberSlice.actions;
