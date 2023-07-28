@@ -7,6 +7,7 @@ import { notify } from '../../../../redux/reducers/notifySlice';
 import { searchByEmail } from '../../../../redux/reducers/userSlice';
 import { projectSelector, userSelector } from '../../../../redux/selectors';
 import { Member, MemberForm } from '../../../../types/Member.type';
+import { Notify } from '../../../../types/Notify.type';
 import { User } from '../../../../types/User.type';
 import { SubnavContext } from '../../DetailProject/DetailProject';
 import InputSearch from './InputSearch';
@@ -96,15 +97,23 @@ const FormShare = ({ memberList }: FormShare) => {
           if (!checkExist(memberList, members[i].userId)) {
             dispatch(createMember(members[i]));
           } else {
-            dispatch(notify('You have already shared table with this user!'));
+            let notifyError: Notify = {
+              type: 'error',
+              message: 'You have already shared table with this user!'
+            }
+            dispatch(notify(notifyError));
           }
         }
       }, 3000);
     } else {
-      dispatch(notify('Please choose member you want to share!'));
+      let notifyError: Notify = {
+        type: 'error',
+        message: 'Please choose member you want to share!'
+      }
+      dispatch(notify(notifyError));
     }
     setTimeout(() => {
-      dispatch(notify(''));
+      dispatch(notify(null));
     }, 1000)
   };
 

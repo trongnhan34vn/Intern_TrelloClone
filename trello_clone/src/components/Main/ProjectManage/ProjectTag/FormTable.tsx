@@ -84,12 +84,14 @@ export default function FormTable(props: { closeFn: () => void }) {
 
   useEffect(() => {
     if (tableJustAdded) {
+      console.log("setting");
+      
       createAdminMember();
       // Navigate đến trang table
       setTimeout(() => {
         navigate(`/main-app/detail-project/${tableJustAdded.id}`);
-        dispatch(resetTableJustAdded());
       }, 3000);
+      dispatch(resetTableJustAdded());
     }
   }, [tableJustAdded]);
 

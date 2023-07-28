@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +14,9 @@ import Works from './CardModalComp/Works';
 import { findWorksByCardId } from '../../../../redux/reducers/workSlice';
 import { CardDB } from '../../../../types/Card.type';
 import CardInfo from './CardModalComp/CardInfo';
+import { SubnavContext } from '../../DetailProject/DetailProject';
+import { Member } from '../../../../types/Member.type';
+import CardMembers from './CardModalComp/CardMembers';
 
 export interface CardModalProps {
   cardId: string | null;
@@ -27,6 +30,10 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
 
   const selectCard = useSelector(cardSelector).selectCard;
   const works = useSelector(workSelector).listWorks;
+
+  const subnavContext = useContext(SubnavContext);
+  const members: Member[] = subnavContext ? subnavContext.members : [];
+  const membersFilter = members.filter((member) => member.cardId !== undefined);
 
   useEffect(() => {
     if (!cardId) return;
@@ -70,17 +77,25 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full pr-[185px] relative z-10 min-h-[700px] max-w-[775px] transform rounded-2xl bg-[#323940] p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full pr-[185px] relative z-10 min-h-[500px] max-w-[775px] transform rounded-2xl bg-[#323940] p-6 text-left align-middle shadow-xl transition-all">
                 <HeadModal selectCard={selectCard} onClose={onClose} />
-                <div className="flex gap-4 items-start h-[600px] scrollable-div overflow-y-scroll">
+                <div className="flex gap-4 items-start h-[420px] scrollable-div overflow-y-scroll">
                   <div className="form-left w-full h-full">
-                    {checkCardHasEndDate() ? (
-                      <CardContext.Provider value={selectCard}>
-                        <CardInfo selectCard={selectCard} />
-                      </CardContext.Provider>
-                    ) : (
-                      <></>
-                    )}
+                    <CardContext.Provider value={selectCard}>
+                      <div className="flex ml-7 mb-8">
+                        {membersFilter.length !== 0 ? (
+                          <CardMembers members={membersFilter} />
+                        ) : (
+                          <></>
+                        )}
+
+                        {checkCardHasEndDate() ? (
+                          <CardInfo selectCard={selectCard} />
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    </CardContext.Provider>
                     {/* Description */}
                     <DescriptionModal card={selectCard} />
                     {/* Description */}

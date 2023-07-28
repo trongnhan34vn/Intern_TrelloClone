@@ -40,13 +40,15 @@ const Members = ({ member, currentUser }: MembersProps) => {
     }
   }, [member]);
 
-  useEffect(() => {
+  const handleChange = (value: Roles) => {
     let memberUpdateRoles: MemberUpdateRole = {
-      role: selectRoles,
+      role: value,
       id: member.id,
+      tableId: member.tableId ? member.tableId : 0,
     };
-    dispatch(memberSlice.updateRole(memberUpdateRoles))
-  }, [selectRoles]);
+    setSelectRoles(value);
+    dispatch(memberSlice.updateRole(memberUpdateRoles));
+  };
 
   const usersFilter = users.filter((user) => user.id === member.userId);
 
@@ -56,7 +58,7 @@ const Members = ({ member, currentUser }: MembersProps) => {
       <div key={user.id} className="flex pt-4  items-center justify-between">
         <div className="flex items-center ">
           <div className=" mr-3 rounded-[50%] w-8 h-8 flex justify-center items-center">
-            <img className='rounded-[50%]'  src={user.imageUrl} alt="" />
+            <img className="rounded-[50%]" src={user.imageUrl} alt="" />
           </div>
           <div className="flex flex-col justify-between text-[14px] text-[#B6C2CF]">
             <span className="font-bold">
@@ -67,6 +69,7 @@ const Members = ({ member, currentUser }: MembersProps) => {
           </div>
         </div>
         <SelectRoles
+          handleChange={handleChange}
           selectRoles={selectRoles}
           setSelectRoles={setSelectRoles}
           roles={roles}

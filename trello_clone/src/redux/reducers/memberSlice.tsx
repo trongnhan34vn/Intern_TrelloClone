@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Member, MemberForm, MemberUpdateRole } from '../../types/Member.type';
+import {
+  Member,
+  MemberForm,
+  MemberUpdateCard,
+  MemberUpdateRole,
+} from '../../types/Member.type';
 
 interface MemberState {
   members: Member[];
@@ -18,12 +23,16 @@ const memberSlice = createSlice({
     getByTableId: (state, action: PayloadAction<Member[]>) => {
       state.members = action.payload;
     },
-    updateRole: (state, action: PayloadAction<MemberUpdateRole> ) => {
-
-    } 
+    updateRole: (state, action: PayloadAction<MemberUpdateRole>) => {},
+    updateCard: (state, action: PayloadAction<MemberUpdateCard>) => {},
   },
 });
 
 export default memberSlice.reducer;
-export const { createMember, findByTableId, getByTableId, updateRole } =
-  memberSlice.actions;
+export const {
+  createMember,
+  findByTableId,
+  getByTableId,
+  updateRole,
+  updateCard,
+} = memberSlice.actions;

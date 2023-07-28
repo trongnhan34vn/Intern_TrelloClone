@@ -1,18 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Notify } from '../../types/Notify.type';
 
 interface NotifyState {
-  notify: string;
+  notify: Notify | null;
 }
 
 const initialState: NotifyState = {
-  notify: '',
+  notify: null,
 };
 
 const notifySlice = createSlice({
   name: 'notify',
   initialState: initialState,
   reducers: {
-    notify: (state, action: PayloadAction<string>) => {
+    notify: (state, action: PayloadAction<Notify | null>) => {
       state.notify = action.payload;
     },
   },

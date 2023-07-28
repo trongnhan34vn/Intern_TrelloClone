@@ -48,7 +48,7 @@ const CardInfo = ({ selectCard }: CardInfoProps) => {
   };
 
   return (
-    <div className="ml-7 mb-8">
+    <div className="ml-7">
       <h3 className="text-[#9FADBC] text-left text-[12px] font-bold mb-2">
         Ngày
       </h3>

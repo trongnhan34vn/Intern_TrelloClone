@@ -40,7 +40,7 @@ const HeadModal = ({onClose, selectCard}: HeadModalProps ) => {
           onChange={() => {}}
         ></textarea>
       </div>
-      <div className="ml-7 mb-10">
+      <div className="ml-7 mb-8">
         <p className="text-[#9FADBC] text-sm">
           trong danh sách{' '}
           <a className="underline" href="">
