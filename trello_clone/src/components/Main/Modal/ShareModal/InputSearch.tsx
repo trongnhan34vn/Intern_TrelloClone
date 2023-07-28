@@ -47,14 +47,15 @@ const InputSearch = ({
 
   const selectUsersElement = selectUsers.map((user, index) => {
     return (
-      <span
+      <div
+        key={user.id}
         className={`mt-1 ml-1 justify-between text-[14px] text-[#B6C2CF] flex px-1 rounded-[3px] bg-[#A1BDD914]`}
       >
         <span className="mr-1">{user.email}</span>
         <button onClick={() => removeChip(index)}>
           <i className="fa-solid fa-xmark"></i>
         </button>
-      </span>
+      </div>
     );
   });
 

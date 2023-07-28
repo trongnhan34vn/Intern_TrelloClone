@@ -3,17 +3,18 @@ import { call, put } from 'redux-saga/effects';
 import {
   CREATE_MEMBER,
   FIND_BY_TABLE_ID,
+  UPDATE_CARD,
   UPDATE_ROLE,
 } from '../../api/services/memberServices';
 import { getByTableId } from '../../redux/reducers/memberSlice';
-import { Member, MemberForm, MemberUpdateRole } from '../../types/Member.type';
+import { Member, MemberForm, MemberUpdateCard, MemberUpdateRole } from '../../types/Member.type';
 
 export const createMember = function* ({ payload }: PayloadAction<MemberForm>) {
   try {
     yield call(CREATE_MEMBER, payload);
     let fakeAction: PayloadAction<number> = {
       type: 're-call findByTableId',
-      payload: payload.tableId
+      payload: payload.tableId ? payload.tableId : 0
     }
     yield findByTableId(fakeAction);
   } catch (error) {}
@@ -29,6 +30,24 @@ export const findByTableId = function* ({ payload }: PayloadAction<number>) {
 export const updateRole = function* ({ payload }: PayloadAction<MemberUpdateRole>) {
   try {
     yield call(UPDATE_ROLE, payload);
+    let fakeAction: PayloadAction<number> = {
+      type: 'recall-find',
+      payload: payload.tableId
+    } 
+    yield findByTableId(fakeAction);
+  } catch (error) {
+    
+  }
+}
+
+export const updateCard = function* ({ payload }: PayloadAction<MemberUpdateCard>) {
+  try {
+    yield call(UPDATE_CARD, payload)
+    let fakeAction: PayloadAction<number> = {
+      type: 'recall-find',
+      payload: payload.tableId
+    } 
+    yield findByTableId(fakeAction);
   } catch (error) {
     
   }

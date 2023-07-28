@@ -4,23 +4,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { notifySelector, tableSelector } from '../redux/selectors';
 import * as notifySlice from '../redux/reducers/notifySlice';
+import { Notify } from '../types/Notify.type';
 
 export default function Main() {
-  const notifyMessage = useSelector(notifySelector).notify;
+  const notifyEntity = useSelector(notifySelector).notify;
+  
   // Init toast
-  const notifySuccess = () =>
-    toast.success(notifyMessage, {
-      icon: '👏',
-      style: {
-        borderRadius: '10px',
-        background: '#282E33',
-        color: '#fff',
-        textAlign: 'center',
-      },
-    });
-
-    const notifyError = () =>
-    toast.error(notifyMessage, {
+  const getNotifications = () => {
+    if (!notifyEntity) return;
+    console.log(notifyEntity);
+    
+    if (notifyEntity.type === 'success') {
+      return toast.success(notifyEntity.message, {
+        icon: '👏',
+        style: {
+          borderRadius: '10px',
+          background: '#282E33',
+          color: '#fff',
+          textAlign: 'center',
+        },
+      });
+    }
+    return toast.error(notifyEntity.message, {
       // icon: '👏',
       style: {
         borderRadius: '10px',
@@ -29,23 +34,28 @@ export default function Main() {
         textAlign: 'center',
       },
     });
+  };
   // get table just added
   const dispatch = useDispatch();
   const tableJustAdded = useSelector(tableSelector).latestTable;
+
   useEffect(() => {
-    if (tableJustAdded && notifyMessage.length !== 0) {
+    if (tableJustAdded) {
+      let notify: Notify = {
+        type: 'success',
+        message: 'Create table successfully!',
+      };
       setTimeout(() => {
-        dispatch(notifySlice.notify('Create table successfully!'));
-        notifySuccess();
+        dispatch(notifySlice.notify(notify));
+        // getNotifications();
       }, 2000);
     }
   }, [tableJustAdded]);
 
   useEffect(() => {
-    if (notifyMessage.length !== 0) {
-      notifyError();
-    }
-  }, [notifyMessage]);
+    if (!notifyEntity) return;
+    getNotifications();
+  }, [notifyEntity]);
 
   return (
     <>

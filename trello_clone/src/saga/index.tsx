@@ -78,5 +78,6 @@ export const rootSaga = function* () {
     takeLatest(memberSlice.createMember.type, memberSaga.createMember),
     takeLatest(memberSlice.findByTableId.type, memberSaga.findByTableId),
     takeLatest(memberSlice.updateRole.type, memberSaga.updateRole),
+    takeLatest(memberSlice.updateCard.type, memberSaga.updateCard),
   ]);
 };
