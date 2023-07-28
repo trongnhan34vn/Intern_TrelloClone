@@ -60,6 +60,7 @@ const CardInfo = ({ selectCard }: CardInfoProps) => {
           type="checkbox"
         />
         <Popover.Button className="mb-2 min-w-1/2 outline-none ">
+      
           <h3 className="bg-[#A1BDD914] pl-7 flex items-center text-left hover:bg-[#A6C5E229] rounded-[3px] text-[#B6C2CF] py-[6px] pr-4 text-[14px] font-normal ">
             <div className="mr-3">
               <span>

@@ -137,7 +137,7 @@ export default function Form() {
                   email: inputValue.email,
                   password: 'pikachu123',
                   fullName: '',
-                  imageUrl: '',
+                  imageUrl: 'https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf',
                 };
                 dispatch(
                   register({

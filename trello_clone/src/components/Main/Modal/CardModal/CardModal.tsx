@@ -38,6 +38,12 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
     return <Works key={work.id} work={work} />;
   });
 
+  const checkCardHasEndDate = () => {
+    if (!selectCard) return;
+    if (selectCard.endAt !== 0) return true;
+    return false;
+  };
+
   return (
     <Transition appear show={cardId ? true : false} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -64,13 +70,17 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full pr-[185px] relative z-10 min-h-[500px] max-w-[775px] transform rounded-2xl bg-[#323940] p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full pr-[185px] relative z-10 min-h-[700px] max-w-[775px] transform rounded-2xl bg-[#323940] p-6 text-left align-middle shadow-xl transition-all">
                 <HeadModal selectCard={selectCard} onClose={onClose} />
-                <div className="flex gap-4 items-start max-h-[450px] scrollable-div overflow-y-scroll">
-                  <div className="form-left w-full">
-                    <CardContext.Provider value={selectCard}>
-                      <CardInfo selectCard={selectCard} />
-                    </CardContext.Provider>
+                <div className="flex gap-4 items-start h-[600px] scrollable-div overflow-y-scroll">
+                  <div className="form-left w-full h-full">
+                    {checkCardHasEndDate() ? (
+                      <CardContext.Provider value={selectCard}>
+                        <CardInfo selectCard={selectCard} />
+                      </CardContext.Provider>
+                    ) : (
+                      <></>
+                    )}
                     {/* Description */}
                     <DescriptionModal card={selectCard} />
                     {/* Description */}

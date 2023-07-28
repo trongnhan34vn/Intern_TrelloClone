@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Roles } from '../../../../enum/Roles';
-import { Member, MemberUpdateForm } from '../../../../types/Member.type';
+import { Member, MemberUpdateRole } from '../../../../types/Member.type';
 import { getAcronym } from '../../../../utils/getAcronym';
 import SelectRoles from './SelectRoles';
 import * as userSlice from '../../../../redux/reducers/userSlice';
 import { userSelector } from '../../../../redux/selectors';
 import { User } from '../../../../types/User.type';
+import * as memberSlice from '../../../../redux/reducers/memberSlice';
 
 interface MembersProps {
   member: Member;
@@ -40,10 +41,11 @@ const Members = ({ member, currentUser }: MembersProps) => {
   }, [member]);
 
   useEffect(() => {
-    let memberUpdateRoles: MemberUpdateForm = {
+    let memberUpdateRoles: MemberUpdateRole = {
       role: selectRoles,
       id: member.id,
     };
+    dispatch(memberSlice.updateRole(memberUpdateRoles))
   }, [selectRoles]);
 
   const usersFilter = users.filter((user) => user.id === member.userId);
@@ -53,8 +55,8 @@ const Members = ({ member, currentUser }: MembersProps) => {
     return (
       <div key={user.id} className="flex pt-4  items-center justify-between">
         <div className="flex items-center ">
-          <div className="bg-red-500 mr-3 rounded-[50%] w-8 h-8 flex justify-center items-center">
-            <span className="">{getAcronym(user ? user.fullName : null)}</span>
+          <div className=" mr-3 rounded-[50%] w-8 h-8 flex justify-center items-center">
+            <img className='rounded-[50%]'  src={user.imageUrl} alt="" />
           </div>
           <div className="flex flex-col justify-between text-[14px] text-[#B6C2CF]">
             <span className="font-bold">

@@ -11,14 +11,14 @@
       "email": "nambeo@gmail.com",
       "password": "$2a$10$TRdjKJ9xv74mIEFKCxbWdugae4ep6pOy4Gd/kc6ImLvPLjzxeeIgK",
       "fullName": "",
-      "imageUrl": "",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf",
       "id": 2
     },
     {
       "email": "khoapug@gmail.com",
       "password": "$2a$10$TRdjKJ9xv74mIEFKCxbWdugae4ep6pOy4Gd/kc6ImLvPLjzxeeIgK",
       "fullName": "",
-      "imageUrl": "",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf",
       "id": 3
     }
   ],
@@ -114,255 +114,92 @@
   ],
   "tables": [
     {
-      "name": "abcxyz",
-      "projectId": 1,
-      "bgId": 1,
-      "createdAt": 1689330039958,
+      "name": "anh Nam vô địch",
+      "projectId": 3,
+      "bgId": 7,
+      "createdAt": 1690471528202,
       "id": 1
-    },
-    {
-      "name": "ú tà tà",
-      "projectId": 1,
-      "bgId": 2,
-      "createdAt": 1689342301307,
-      "id": 2
-    },
-    {
-      "name": "đừng bug nữa tao mệt r",
-      "projectId": 1,
-      "bgId": 1,
-      "createdAt": 1689342367365,
-      "id": 3
-    },
-    {
-      "name": "Pikachu",
-      "projectId": 2,
-      "bgId": 0,
-      "createdAt": 1689408554614,
-      "id": 6
-    },
-    {
-      "name": "Long",
-      "projectId": 2,
-      "bgId": 3,
-      "createdAt": 1689408576439,
-      "id": 7
-    },
-    {
-      "name": "học Java",
-      "projectId": 3,
-      "bgId": 6,
-      "createdAt": 1690431139433,
-      "id": 8
-    },
-    {
-      "name": "Khoa Pug",
-      "projectId": 3,
-      "bgId": 2,
-      "createdAt": 1690431285151,
-      "id": 9
-    },
-    {
-      "name": "Pikachu",
-      "projectId": 3,
-      "bgId": 1,
-      "createdAt": 1690431405944,
-      "id": 10
-    },
-    {
-      "name": "a đù",
-      "projectId": 3,
-      "bgId": 5,
-      "createdAt": 1690447122902,
-      "id": 11
-    },
-    {
-      "name": "aaaaab",
-      "projectId": 3,
-      "bgId": 6,
-      "createdAt": 1690453267522,
-      "id": 12
     }
   ],
   "lists": [
     {
-      "name": "học React",
+      "name": "đ hiểu",
       "tableId": 1,
-      "order": 1,
-      "createdAt": 1689903019206,
+      "order": 0,
+      "createdAt": 1690472391551,
       "id": 1
     },
     {
-      "name": "ngủ",
+      "name": "kiểu gì",
       "tableId": 1,
-      "order": 0,
-      "createdAt": 1689903160168,
+      "order": 1,
+      "createdAt": 1690472400303,
       "id": 2
-    },
-    {
-      "name": "a",
-      "tableId": 1,
-      "order": 2,
-      "createdAt": 1689903649758,
-      "id": 3
-    },
-    {
-      "name": "nam",
-      "tableId": 10,
-      "order": 3,
-      "createdAt": 1690446244276,
-      "id": 4
     }
   ],
   "cards": [
     {
-      "status": false,
-      "endAt": 0,
-      "name": "fix bug",
-      "description": "",
-      "listId": 2,
+      "name": "học đe",
+      "listId": 1,
       "order": 0,
-      "createdAt": 1689903960260,
+      "endAt": 0,
+      "description": "",
+      "status": false,
+      "createdAt": 1690472406120,
       "id": 1
     },
     {
-      "status": false,
-      "name": "ăn",
-      "description": "",
+      "name": "học luôn",
       "listId": 1,
-      "order": 0,
-      "createdAt": 1689904032944,
-      "id": 2,
-      "endAt": 0
-    },
-    {
-      "status": true,
-      "name": "react trello",
-      "listId": 1,
-      "description": "",
       "order": 1,
-      "createdAt": 1689906498444,
-      "id": 3,
-      "endAt": 1691236500000
+      "endAt": 0,
+      "description": "",
+      "status": false,
+      "createdAt": 1690472416648,
+      "id": 2
     }
   ],
   "works": [
     {
-      "id": 1,
-      "name": "học react",
-      "process": 0,
       "cardId": 1,
-      "createdAt": 0
-    },
-    {
-      "cardId": 3,
-      "name": "anh Nam gucciiii",
+      "name": "được nè",
       "process": 0,
-      "createdAt": 1690170164228,
-      "id": 7
+      "createdAt": 1690473249879,
+      "id": 1
     }
   ],
   "tasks": [
     {
+      "name": "tao bảo là được",
       "workId": 1,
-      "id": 1,
-      "name": "học",
-      "endAt": 0,
-      "createdAt": 1689931213596,
-      "members": [],
-      "status": false
-    },
-    {
-      "name": "anh Nam 10 điểm",
-      "workId": 7,
-      "endAt": 0,
-      "members": [],
-      "status": true,
-      "createdAt": 1690170442415,
-      "id": 2
-    },
-    {
-      "name": "không có nhưng",
-      "workId": 7,
       "endAt": 0,
       "members": [],
       "status": false,
-      "createdAt": 1690170454910,
-      "id": 3
-    },
-    {
-      "name": "anh Nam",
-      "workId": 7,
-      "endAt": 0,
-      "members": [],
-      "status": false,
-      "createdAt": 1690173895959,
-      "id": 4
+      "createdAt": 1690473261102,
+      "id": 1
     }
   ],
   "members": [
     {
-      "userId": 2,
       "tableId": 1,
-      "role": "Thành viên",
-      "createdAt": 1690429145084,
+      "userId": 2,
+      "role": "Quản trị viên",
+      "createdAt": 1690471528216,
       "id": 1
     },
     {
-      "userId": 3,
+      "userId": 1,
       "tableId": 1,
       "role": "Thành viên",
-      "createdAt": 1690429145084,
+      "createdAt": 1690475006991,
       "id": 2
     },
     {
-      "tableId": 10,
-      "userId": 2,
-      "role": "Quản trị viên",
-      "createdAt": 1690431405995,
+      "userId": 3,
+      "tableId": 1,
+      "role": "Thành viên",
+      "createdAt": 1690476034746,
       "id": 3
-    },
-    {
-      "userId": 1,
-      "tableId": 10,
-      "role": "Quan sát viên",
-      "createdAt": 1690443805278,
-      "id": 4
-    },
-    {
-      "userId": 3,
-      "tableId": 10,
-      "role": "Thành viên",
-      "createdAt": 1690443821601,
-      "id": 5
-    },
-    {
-      "tableId": 11,
-      "userId": 2,
-      "role": "Quản trị viên",
-      "createdAt": 1690447122974,
-      "id": 6
-    },
-    {
-      "userId": 1,
-      "tableId": 11,
-      "role": "Thành viên",
-      "createdAt": 1690447205073,
-      "id": 7
-    },
-    {
-      "userId": 3,
-      "tableId": 11,
-      "role": "Thành viên",
-      "createdAt": 1690448200691,
-      "id": 8
-    },
-    {
-      "tableId": 12,
-      "userId": 2,
-      "role": "Quản trị viên",
-      "createdAt": 1690453267594,
-      "id": 9
     }
   ]
 }

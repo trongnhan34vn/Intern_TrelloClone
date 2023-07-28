@@ -18,16 +18,12 @@ const ShareModal = ({ shareModal, onClose }: ShareModal) => {
   const userLocal = localStorage.getItem('userLogin');
   const currentUser: User | null = userLocal ? JSON.parse(userLocal) : null;
   const subNavContext = useContext(SubnavContext);
-  const members = useSelector(memberSelector).members;
+
+  const members = subNavContext? subNavContext.members : [];
 
   const membersElement = members.map((member) => {
     return <Members key={member.id} member={member} currentUser={currentUser} />;
   });
-
-  useEffect(() => {
-    if (!subNavContext) return;
-    dispatch(memberSlice.findByTableId(subNavContext.tableId));
-  }, [subNavContext]);
 
   return (
     <Transition appear show={shareModal} as={Fragment}>
