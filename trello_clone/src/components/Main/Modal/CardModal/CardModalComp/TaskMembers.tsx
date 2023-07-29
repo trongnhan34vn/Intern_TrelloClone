@@ -3,34 +3,43 @@ import { Member, MemberUpdateTask } from '../../../../../types/Member.type';
 import { SubnavContext } from '../../../DetailProject/DetailProject';
 import { useParams } from 'react-router-dom';
 import { FeatureContext } from '../CreateFeatureBtn';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateTask } from '../../../../../redux/reducers/memberSlice';
 import { TaskUpdateMember } from '../../../../../types/Task.type';
 import { updateMember } from '../../../../../redux/reducers/taskSlice';
+import { userSelector } from '../../../../../redux/selectors';
 
 interface TaskMembersProps {
   member: Member;
+  inputValue: string;
 }
 
-export const TaskMembers = ({ member }: TaskMembersProps) => {
+export const TaskMembers = ({ member, inputValue }: TaskMembersProps) => {
   const dispatch = useDispatch();
-  const { tableId } = useParams();
   const subNavContext = useContext(SubnavContext);
   const featureContext = useContext(FeatureContext);
   const task = featureContext ? featureContext.task : null;
   const users = subNavContext ? subNavContext.users : [];
   const usersFilter = users.filter((user) => user.id === member.userId);
+  const searchUsers = useSelector(userSelector).search;
+  const searchFilters = searchUsers.filter((user) => user.id === member.userId);
 
   const handleUpdateTask = (id: number) => {
+
     if(!task) return;
     let taskUpdate: TaskUpdateMember = {
-      member: id,
+      member: (member.id === task.member) ? null : id,
       id: task.id,
     }
     dispatch(updateMember(taskUpdate))
   };
 
-  const memberElement = usersFilter.map((user) => {
+  const returnUser  = () => {
+    if(inputValue.trim() === '') return usersFilter
+    return searchFilters;
+  }
+
+  const memberElement = returnUser().map((user) => {
     return (
       <div
         key={user.id}

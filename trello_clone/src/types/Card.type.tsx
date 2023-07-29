@@ -41,3 +41,8 @@ export interface CardUpdateStatus {
   id: number;
   status: boolean
 }
+
+export interface CardUpdateName {
+  id: number;
+  name: string;
+}

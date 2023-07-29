@@ -1,25 +1,34 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CardContext } from '../CardModal';
 import { SubnavContext } from '../../../DetailProject/DetailProject';
 import { TaskMembers } from './TaskMembers';
+import { useDispatch } from 'react-redux';
+import { searchByEmail } from '../../../../../redux/reducers/userSlice';
 
 const FormTaskMember = () => {
   const selectCard = useContext(CardContext);
   const subnavContext = useContext(SubnavContext);
-
+  const dispatch = useDispatch();
   const members = subnavContext ? subnavContext.members : [];
   
   const membersFilter = selectCard
     ? members.filter((member) => member.cardId === selectCard.id)
     : [];
 
-  const membersElement = membersFilter.map((member) => {
-    return <TaskMembers key={member.id} member={member} />;
-  });
-
   const [inputValue, setInputValue] = useState('');
 
-  const handleChange = () => {};
+
+  const membersElement = membersFilter.map((member) => {
+    return <TaskMembers inputValue={inputValue} key={member.id} member={member} />;
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  useEffect(() => {
+    dispatch(searchByEmail(inputValue));
+  },[inputValue])
 
   return (
     <form className="">

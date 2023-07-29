@@ -22,3 +22,7 @@ export const CHANGE_STATUS = async (data: TaskStatus): Promise<void> => {
 export const UPDATE_MEMBER = async (data: TaskUpdateMember): Promise<void> => {
   await instance.patch(`/tasks/${data.id}`, { member: data.member });
 };
+
+export const DELETE  = async (id: number): Promise<void> => { 
+  await instance.delete(`/tasks/${id}`);
+}

@@ -16,27 +16,28 @@ const feature: ModalFeatureProps = {
 interface AssignmentTaskProps {
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
   task: Task;
-  assignUser: User|null;
+  assignUser: User | null | undefined;
+  assignMember: Member | undefined;
 }
 
 const AssignmentTask = ({
   setActive,
   task,
-  assignUser
+  assignUser,
+  assignMember,
 }: AssignmentTaskProps) => {
+
+
   return (
     <Popover className="relative flex">
       <Popover.Button className="w-full outline-none">
-        <button className="focus:bg-[#A6C5E229] w-7 flex items-center justify-center mr-1 h-7 rounded-[4px] hover:bg-[#A6C5E229] transition-all ease-in duration-200 opacity-80  hover:opacity-100">
-          {task.member ? (
-            <img
-              className="w-7 h-7 rounded-[50%]"
-              src={assignUser ? assignUser.imageUrl : ''}
-            />
+        <div className="focus:bg-[#A6C5E229] w-7 flex items-center justify-center mr-1 h-7 rounded-[4px] hover:bg-[#A6C5E229] transition-all ease-in duration-200 opacity-80  hover:opacity-100">
+          {assignUser && task.member && assignMember && task.member === assignMember.id && assignUser.id === assignMember.userId ? (
+            <img className="w-7 h-7 rounded-[50%]" src={assignUser.imageUrl} />
           ) : (
             <i className="fa-solid text-[14px] text-[#fff] fa-user-plus"></i>
           )}
-        </button>
+        </div>
       </Popover.Button>
       <Transition
         as={Fragment}
@@ -49,7 +50,7 @@ const AssignmentTask = ({
       >
         <Popover.Panel className="absolute -left-[850%] top-[118%] z-50">
           {({ close, open }) => {
-            setActive(open);
+            // setActive(open);
             return (
               <FeatureContext.Provider
                 value={{ feature: feature, closeFn: close, task: task }}

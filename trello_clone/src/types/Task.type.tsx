@@ -21,5 +21,5 @@ export interface TaskStatus {
 
 export interface TaskUpdateMember {
   id: number;
-  member: number;
+  member: number | null;
 }

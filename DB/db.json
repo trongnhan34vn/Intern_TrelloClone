@@ -153,14 +153,14 @@
     {
       "name": "Hà Nội",
       "tableId": 1,
-      "order": 0,
+      "order": 1,
       "createdAt": 1690535921264,
       "id": 1
     },
     {
       "name": "Nam bíu",
       "tableId": 1,
-      "order": 1,
+      "order": 0,
       "createdAt": 1690535956278,
       "id": 2
     },
@@ -175,11 +175,11 @@
   "cards": [
     {
       "name": "đêm trở gió",
-      "listId": 2,
+      "listId": 1,
       "order": 0,
       "description": "hà nội đêm trở gió",
       "status": true,
-      "endAt": 1691110980000,
+      "endAt": 1691154540000,
       "createdAt": 1690535930512,
       "id": 1
     },
@@ -192,6 +192,26 @@
       "endAt": 0,
       "createdAt": 1690536436781,
       "id": 2
+    },
+    {
+      "name": "hà nội",
+      "listId": 2,
+      "order": 0,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1690611245628,
+      "id": 3
+    },
+    {
+      "name": "nam",
+      "listId": 1,
+      "order": 1,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1690612709877,
+      "id": 4
     }
   ],
   "works": [
@@ -217,10 +237,19 @@
       "name": "front-end",
       "workId": 1,
       "endAt": 0,
-      "status": false,
+      "status": true,
       "createdAt": 1690550039589,
       "id": 2,
-      "member": 1
+      "member": 2
+    },
+    {
+      "name": "deploy",
+      "workId": 1,
+      "endAt": 0,
+      "status": false,
+      "createdAt": 1690608806918,
+      "id": 3,
+      "member": 2
     }
   ],
   "members": [
@@ -235,7 +264,7 @@
     {
       "userId": 1,
       "tableId": 1,
-      "role": "Quan sát viên",
+      "role": "Thành viên",
       "createdAt": 1690535901504,
       "id": 2,
       "cardId": 1
