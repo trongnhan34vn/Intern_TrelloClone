@@ -267,7 +267,7 @@
       "name": "front-end",
       "workId": 1,
       "endAt": 0,
-      "status": true,
+      "status": false,
       "createdAt": 1690550039589,
       "id": 2,
       "member": 1
@@ -280,6 +280,14 @@
       "createdAt": 1690608806918,
       "id": 3,
       "member": 2
+    },
+    {
+      "name": "sale",
+      "workId": 1,
+      "endAt": 0,
+      "status": false,
+      "createdAt": 1690736525943,
+      "id": 4
     }
   ],
   "members": [
@@ -289,7 +297,7 @@
       "role": "Quản trị viên",
       "createdAt": 1690535845792,
       "id": 1,
-      "cardId": 1
+      "cardId": null
     },
     {
       "userId": 1,
@@ -297,7 +305,7 @@
       "role": "Thành viên",
       "createdAt": 1690535901504,
       "id": 2,
-      "cardId": 1
+      "cardId": null
     },
     {
       "tableId": 2,

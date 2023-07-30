@@ -20,6 +20,10 @@ const memberSlice = createSlice({
   initialState: initialState,
   reducers: {
     createMember: (state, action: PayloadAction<MemberForm>) => {},
+    findAll: () => {},
+    getAll: (state, action: PayloadAction<Member[]>) => {
+      state.members = action.payload;
+    },
     findByTableId: (state, action: PayloadAction<number>) => {},
     getByTableId: (state, action: PayloadAction<Member[]>) => {
       state.members = action.payload;
@@ -37,5 +41,7 @@ export const {
   getByTableId,
   updateRole,
   updateCard,
-  updateTask
+  updateTask,
+  findAll,
+  getAll
 } = memberSlice.actions;

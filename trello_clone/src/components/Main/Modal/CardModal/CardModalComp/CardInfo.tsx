@@ -8,9 +8,10 @@ import FormFeatureLayout from '../FormFeatureLayout';
 
 interface CardInfoProps {
   selectCard: CardDB | null;
+  checkListMembers: () => boolean;
 }
 
-const CardInfo = ({ selectCard }: CardInfoProps) => {
+const CardInfo = ({ selectCard, checkListMembers }: CardInfoProps) => {
   const dispatch = useDispatch();
 
   const feature = {
@@ -52,7 +53,7 @@ const CardInfo = ({ selectCard }: CardInfoProps) => {
   };
 
   return (
-    <div className="ml-7">
+    <div className={`${checkListMembers() ? 'ml-7' : ''}`}>
       <h3 className="text-[#9FADBC] text-left text-[12px] font-bold mb-2">
         Ngày
       </h3>

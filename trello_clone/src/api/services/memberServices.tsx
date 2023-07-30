@@ -21,3 +21,8 @@ export const UPDATE_CARD = async (data: MemberUpdateCard): Promise<void> => {
 export const UPDATE_TASK = async (data: MemberUpdateTask): Promise<void> => {
   await instance.patch('/members/'+ data.id, {taskId: data.taskId});
 }
+
+export const FIND_ALL = async (): Promise<Member[]> => {
+  let response = await instance.get('/members');
+  return response.data;
+}

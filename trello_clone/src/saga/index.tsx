@@ -83,5 +83,6 @@ export const rootSaga = function* () {
     takeLatest(memberSlice.updateRole.type, memberSaga.updateRole),
     takeLatest(memberSlice.updateCard.type, memberSaga.updateCard),
     takeLatest(memberSlice.updateTask.type, memberSaga.updateTask),
+    takeLatest(memberSlice.findAll.type, memberSaga.findAll)
   ]);
 };

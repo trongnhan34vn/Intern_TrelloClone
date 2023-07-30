@@ -16,7 +16,6 @@ export const createTable = function*(action : PayloadAction<TableDTO>) {
 export const findTableByProjectId = function* (action: PayloadAction<number>){
   try {
     let response : Table[] = yield call(FIND_TABLES_BY_PROJECT_ID, action.payload);
-    
     yield put(getTablesByProjectId(response));
   } catch (error) {
 

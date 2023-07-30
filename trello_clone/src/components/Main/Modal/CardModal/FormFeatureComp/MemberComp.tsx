@@ -34,11 +34,16 @@ const MemberComp = ({ member, inputValue, search }: MemberProps) => {
     return usersFilter;
   };
 
+  const checkExist = (cardId: number) => {
+    if(member.cardId === cardId) return true;
+    return false;
+  }
+
   const handleUpdateCard = (id: number) => {
     if (!cardContext) return;
     let card: MemberUpdateCard = {
       id: id,
-      cardId: cardContext.id,
+      cardId: checkExist(cardContext.id) ? null : cardContext.id,
       tableId: tableId ? +tableId : 0,
     };
     dispatch(memberSlice.updateCard(card));

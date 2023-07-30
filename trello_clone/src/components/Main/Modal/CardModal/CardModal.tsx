@@ -34,7 +34,14 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
 
   const subnavContext = useContext(SubnavContext);
   const members: Member[] = subnavContext ? subnavContext.members : [];
-  const membersFilter = members.filter((member) => member.cardId !== undefined);
+  const membersFilter = cardId
+    ? members.filter(
+        (member) =>
+          member.cardId !== undefined &&
+          member.cardId !== null &&
+          member.cardId === +cardId
+      )
+    : [];
 
   useEffect(() => {
     if (!cardId) return;
@@ -52,13 +59,14 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
     return false;
   };
 
+  const checkListMembers = () => {
+    if(membersFilter.length === 0) return false
+    return true;
+  }
+
   return (
     <Transition appear show={cardId ? true : false} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-10"
-        onClose={onClose}
-      >
+      <Dialog as="div" className="relative z-10" onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -83,20 +91,24 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full pr-[185px] relative z-10 min-h-[500px] max-w-[775px] transform rounded-2xl bg-[#323940] p-6 text-left align-middle shadow-xl transition-all">
-                <HeadModal cardId={cardId} selectCard={selectCard} onClose={onClose} />
+                <HeadModal
+                  cardId={cardId}
+                  selectCard={selectCard}
+                  onClose={onClose}
+                />
 
                 <CardContext.Provider value={selectCard}>
                   <div className="flex gap-4 items-start h-[420px] scrollable-div overflow-y-scroll">
                     <div className="form-left w-full h-full">
                       <div className="flex ml-7 mb-8">
-                        {membersFilter.length !== 0 ? (
+                        {checkListMembers() ? (
                           <CardMembers members={membersFilter} />
                         ) : (
                           <></>
                         )}
 
                         {checkCardHasEndDate() ? (
-                          <CardInfo selectCard={selectCard} />
+                          <CardInfo checkListMembers={checkListMembers} selectCard={selectCard} />
                         ) : (
                           <></>
                         )}
