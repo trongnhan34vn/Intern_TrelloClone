@@ -76,6 +76,22 @@
       "description": "",
       "createdAt": 1690431101675,
       "id": 3
+    },
+    {
+      "name": "anh Nam vô địch",
+      "typeProjectId": 4,
+      "userId": 2,
+      "description": "",
+      "createdAt": 1690643343255,
+      "id": 4
+    },
+    {
+      "name": "trelllo",
+      "typeProjectId": 4,
+      "userId": 2,
+      "description": "",
+      "createdAt": 1690643433803,
+      "id": 5
     }
   ],
   "backgrounds": [
@@ -147,6 +163,20 @@
       "bgId": 2,
       "createdAt": 1690539727892,
       "id": 5
+    },
+    {
+      "name": "anh Nam",
+      "projectId": 4,
+      "bgId": 1,
+      "createdAt": 1690643379924,
+      "id": 6
+    },
+    {
+      "name": "bug quá",
+      "projectId": 3,
+      "bgId": 6,
+      "createdAt": 1690643453911,
+      "id": 7
     }
   ],
   "lists": [
@@ -174,7 +204,7 @@
   ],
   "cards": [
     {
-      "name": "đêm trở gió",
+      "name": "Hà nội đêm trở gió",
       "listId": 1,
       "order": 0,
       "description": "hà nội đêm trở gió",
@@ -231,7 +261,7 @@
       "status": true,
       "createdAt": 1690550023625,
       "id": 1,
-      "member": 1
+      "member": null
     },
     {
       "name": "front-end",
@@ -240,7 +270,7 @@
       "status": true,
       "createdAt": 1690550039589,
       "id": 2,
-      "member": 2
+      "member": 1
     },
     {
       "name": "deploy",
@@ -297,6 +327,20 @@
       "role": "Quản trị viên",
       "createdAt": 1690539727940,
       "id": 6
+    },
+    {
+      "tableId": 6,
+      "userId": 2,
+      "role": "Quản trị viên",
+      "createdAt": 1690643379952,
+      "id": 7
+    },
+    {
+      "tableId": 7,
+      "userId": 2,
+      "role": "Quản trị viên",
+      "createdAt": 1690643453955,
+      "id": 8
     }
   ]
 }

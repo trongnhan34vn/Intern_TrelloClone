@@ -25,13 +25,14 @@ export const TaskMembers = ({ member, inputValue }: TaskMembersProps) => {
   const searchFilters = searchUsers.filter((user) => user.id === member.userId);
 
   const handleUpdateTask = (id: number) => {
-
+    if(!featureContext) return
     if(!task) return;
     let taskUpdate: TaskUpdateMember = {
       member: (member.id === task.member) ? null : id,
       id: task.id,
     }
     dispatch(updateMember(taskUpdate))
+    featureContext.closeFn()
   };
 
   const returnUser  = () => {

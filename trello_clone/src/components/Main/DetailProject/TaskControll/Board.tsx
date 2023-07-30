@@ -92,8 +92,6 @@ export default function BoardComp() {
       arr.push(card);
       arr.sort((a, b) => a.order - b.order);
     }
-    console.log('card ------> ', arr);
-
     return arr;
   };
 

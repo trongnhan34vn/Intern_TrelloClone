@@ -25,7 +25,7 @@ export default function CreateTableBtn() {
   const listBGs = useSelector(backgroundSelector).listBGs;
 
   return (
-    <li className="mb-[2%] mr-[2%] z-[999] relative cursor-pointer list-none">
+    <li className="mb-[2%] mr-[2%] relative cursor-pointer list-none">
       <Popover>
         <Popover.Button>
           <div className="hover:bg-[#A6C5E229] transition-all ease-in-out duration-150 rounded-[3px] font-normal bg-[#A1BDD914] h-[96px] text-center align-middle p-2 bg-cover table-cell w-[200px]">
@@ -43,7 +43,7 @@ export default function CreateTableBtn() {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Popover.Panel className="absolute -top-3/4 -right-1">
+          <Popover.Panel className="absolute z-50 -top-3/4 -right-1">
             {({ close }) => (
               <BGContext.Provider value={listBGs}>
                 <FormTable closeFn={close} />

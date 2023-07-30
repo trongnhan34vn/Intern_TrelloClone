@@ -4,27 +4,44 @@ import { useDispatch, useSelector } from 'react-redux';
 import { findListById } from '../../../../../redux/reducers/listSlice';
 import { listSelector } from '../../../../../redux/selectors';
 import { CardDB, CardUpdateName } from '../../../../../types/Card.type';
-import { useOutsideClick } from '../../../../../utils/onClickOutsideHook';
-import { updateCardName } from '../../../../../redux/reducers/cardSlice';
+import * as cardSlice from '../../../../../redux/reducers/cardSlice';
 
 interface HeadModalProps {
   onClose: () => void;
   selectCard: CardDB | null;
+  cardId?: string | null;
 }
 
-const HeadModal = ({ onClose, selectCard }: HeadModalProps) => {
+const HeadModal = ({ onClose, selectCard, cardId }: HeadModalProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!selectCard) return;
     dispatch(findListById(selectCard.listId));
-    setInputValue(selectCard.name)
+    setInputValue(selectCard.name);
   }, [selectCard]);
 
   const selectList = useSelector(listSelector).selectList;
   const ref: any = useRef();
 
   const [inputValue, setInputValue] = useState<string>('');
+
+  const updateCardName = () => {
+    if(!selectCard) return;
+    if(inputValue.trim() !== '') {
+      let card = {
+        id: selectCard.id,
+        name: inputValue
+      }
+      dispatch(cardSlice.updateCardName(card))
+    }
+  };
+
+  useEffect(() => {
+    if(!cardId) {
+      updateCardName()
+    }
+  },[cardId])
 
   return (
     <Dialog.Title
@@ -42,9 +59,8 @@ const HeadModal = ({ onClose, selectCard }: HeadModalProps) => {
       <div className="flex items-center mb-2">
         <i className="fa-solid fa-print text-[#9FADBC] "></i>
         <textarea
-        
           className="mt-[-10px] overflow-hidden h-7 bg-[#0000] align-middle text-[20px] border-none rounded-[3px] text-[#9FADBC] font-bold my-[-4px] max-h-[256px] min-h-[20px] py-1 pr-2 pl-3 resize-none w-[224px]"
-          value={inputValue} 
+          value={inputValue}
           ref={ref}
           onChange={(e) => {
             setInputValue(e.target.value);

@@ -54,7 +54,11 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
 
   return (
     <Transition appear show={cardId ? true : false} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={onClose}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={onClose}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -79,7 +83,8 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full pr-[185px] relative z-10 min-h-[500px] max-w-[775px] transform rounded-2xl bg-[#323940] p-6 text-left align-middle shadow-xl transition-all">
-                <HeadModal selectCard={selectCard} onClose={onClose} />
+                <HeadModal cardId={cardId} selectCard={selectCard} onClose={onClose} />
+
                 <CardContext.Provider value={selectCard}>
                   <div className="flex gap-4 items-start h-[420px] scrollable-div overflow-y-scroll">
                     <div className="form-left w-full h-full">
