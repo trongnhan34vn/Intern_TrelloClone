@@ -64,6 +64,7 @@ export const rootSaga = function* () {
       cardSlice.updateCardDescription.type,
       cardSaga.updateCardDescription
     ),
+    takeLatest(cardSlice.updateCardName.type, cardSaga.updateCardName),
     takeLatest(cardSlice.updateCardDate.type, cardSaga.updateCardDate),
     takeLatest(cardSlice.updateCardStatus.type, cardSaga.updateCardStatus),
     // WORKS
@@ -74,10 +75,14 @@ export const rootSaga = function* () {
     takeLatest(taskSlice.createTask.type, taskSaga.createTask),
     takeLatest(taskSlice.findAll.type, taskSaga.findAll),
     takeLatest(taskSlice.changeStatus.type, taskSaga.changeStatus),
+    takeLatest(taskSlice.updateMember.type, taskSaga.updateMember),
+    takeLatest(taskSlice.remove.type, taskSaga.remove),
     // MEMBERS
     takeLatest(memberSlice.createMember.type, memberSaga.createMember),
     takeLatest(memberSlice.findByTableId.type, memberSaga.findByTableId),
     takeLatest(memberSlice.updateRole.type, memberSaga.updateRole),
     takeLatest(memberSlice.updateCard.type, memberSaga.updateCard),
+    takeLatest(memberSlice.updateTask.type, memberSaga.updateTask),
+    takeLatest(memberSlice.findAll.type, memberSaga.findAll)
   ]);
 };

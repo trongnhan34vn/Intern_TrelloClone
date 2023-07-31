@@ -12,9 +12,10 @@ export default function ListTables() {
   const tableFilters = tables.filter(table => table.projectId === project.id);
   const tableElement = tableFilters.map(table => {
     return (
-      <Table key={table.id} table={table} />
+      <Table project={project} key={table.id} table={table} />
     )
   })
+
   return (
     <ul className="flex flex-wrap justify-starts w-[900px]">
       {tableElement}

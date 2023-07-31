@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { LoadingContext } from '../../../../layouts/MainLayout.tsx/MainLayout';
 import { backgroundSelector } from '../../../../redux/selectors';
 import { Table } from '../../../../types/Table.type';
+import { Project } from '../../../../types/Project.type';
 
 interface TableProps {
   table: Table
+  project: Project
 }
 
-export default function TableComp({table}: TableProps) {
+export default function TableComp({table, project}: TableProps) {
   const navigate = useNavigate()
   const loadingContext = useContext(LoadingContext);
   const backgrounds = useSelector(backgroundSelector).listBGs;
@@ -24,7 +26,7 @@ export default function TableComp({table}: TableProps) {
     if(!loadingContext) return
     loadingContext.setActive();
     setTimeout(() => {
-      navigate(`/main-app/detail-project/${table.id}`);
+      navigate(`/main-app/detail-project/${table.id}/${project.id}`);
       loadingContext.setInActive();
     },3000)
   }

@@ -6,6 +6,7 @@ import {
   CardPatchTest,
   CardUpdateDate,
   CardUpdateDescription,
+  CardUpdateName,
   CardUpdateStatus,
 } from '../../types/Card.type';
 
@@ -40,9 +41,8 @@ const cardSlice = createSlice({
       action: PayloadAction<CardUpdateDescription>
     ) => {},
     updateCardDate: (state, action: PayloadAction<CardUpdateDate>) => {},
-    updateCardStatus: (state, action: PayloadAction<CardUpdateStatus>) => {
-      
-    },
+    updateCardStatus: (state, action: PayloadAction<CardUpdateStatus>) => {},
+    updateCardName: (state, action: PayloadAction<CardUpdateName>) => {},
   },
 });
 
@@ -59,4 +59,5 @@ export const {
   updateCardDescription,
   updateCardDate,
   updateCardStatus,
+  updateCardName,
 } = cardSlice.actions;

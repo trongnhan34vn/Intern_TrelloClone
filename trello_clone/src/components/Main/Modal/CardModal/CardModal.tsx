@@ -29,11 +29,19 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
   const dispatch = useDispatch();
 
   const selectCard = useSelector(cardSelector).selectCard;
+
   const works = useSelector(workSelector).listWorks;
 
   const subnavContext = useContext(SubnavContext);
   const members: Member[] = subnavContext ? subnavContext.members : [];
-  const membersFilter = members.filter((member) => member.cardId !== undefined);
+  const membersFilter = cardId
+    ? members.filter(
+        (member) =>
+          member.cardId !== undefined &&
+          member.cardId !== null &&
+          member.cardId === +cardId
+      )
+    : [];
 
   useEffect(() => {
     if (!cardId) return;
@@ -51,6 +59,11 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
     return false;
   };
 
+  const checkListMembers = () => {
+    if(membersFilter.length === 0) return false
+    return true;
+  }
+
   return (
     <Transition appear show={cardId ? true : false} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -63,7 +76,7 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black bg-opacity-70" />
         </Transition.Child>
 
         <div className="fixed inset-16">
@@ -78,37 +91,43 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full pr-[185px] relative z-10 min-h-[500px] max-w-[775px] transform rounded-2xl bg-[#323940] p-6 text-left align-middle shadow-xl transition-all">
-                <HeadModal selectCard={selectCard} onClose={onClose} />
-                <div className="flex gap-4 items-start h-[420px] scrollable-div overflow-y-scroll">
-                  <div className="form-left w-full h-full">
-                    <CardContext.Provider value={selectCard}>
+                <HeadModal
+                  cardId={cardId}
+                  selectCard={selectCard}
+                  onClose={onClose}
+                />
+
+                <CardContext.Provider value={selectCard}>
+                  <div className="flex gap-4 items-start h-[420px] scrollable-div overflow-y-scroll">
+                    <div className="form-left w-full h-full">
                       <div className="flex ml-7 mb-8">
-                        {membersFilter.length !== 0 ? (
+                        {checkListMembers() ? (
                           <CardMembers members={membersFilter} />
                         ) : (
                           <></>
                         )}
 
                         {checkCardHasEndDate() ? (
-                          <CardInfo selectCard={selectCard} />
+                          <CardInfo checkListMembers={checkListMembers} selectCard={selectCard} />
                         ) : (
                           <></>
                         )}
                       </div>
-                    </CardContext.Provider>
-                    {/* Description */}
-                    <DescriptionModal card={selectCard} />
-                    {/* Description */}
-                    {/* List Works */}
-                    {worksElement}
-                    {/* List Works */}
+
+                      {/* Description */}
+                      <DescriptionModal card={selectCard} />
+                      {/* Description */}
+                      {/* List Works */}
+                      {worksElement}
+                      {/* List Works */}
+                    </div>
+                    <div className="form-right relative flex flex-col">
+                      <CardContext.Provider value={selectCard}>
+                        <ModalFeature />
+                      </CardContext.Provider>
+                    </div>
                   </div>
-                  <div className="form-right relative flex flex-col">
-                    <CardContext.Provider value={selectCard}>
-                      <ModalFeature />
-                    </CardContext.Provider>
-                  </div>
-                </div>
+                </CardContext.Provider>
               </Dialog.Panel>
             </Transition.Child>
           </div>

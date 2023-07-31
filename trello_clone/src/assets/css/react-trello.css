@@ -7,12 +7,19 @@
 
 .react-trello-lane > header {
   height: 28px;
+  width: 230px;
+}
+
+.react-trello-card > header > span {
+  width: 230px;
 }
 
 .react-trello-card textarea {
+
   pointer-events: none;
   cursor: pointer;
-  overflow: visible;
+  overflow: hidden;
+  width: 100%;
 }
 
 .react-trello-card:hover {

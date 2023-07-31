@@ -1,5 +1,5 @@
 import instance from '..';
-import { Member, MemberForm, MemberUpdateCard, MemberUpdateRole } from '../../types/Member.type';
+import { Member, MemberForm, MemberUpdateCard, MemberUpdateRole, MemberUpdateTask } from '../../types/Member.type';
 
 export const CREATE_MEMBER = async (data: MemberForm) => {
   await instance.post('/members', data);
@@ -16,4 +16,13 @@ export const UPDATE_ROLE = async (data: MemberUpdateRole): Promise<void> => {
 
 export const UPDATE_CARD = async (data: MemberUpdateCard): Promise<void> => {
   await instance.patch('/members/'+ data.id, {cardId: data.cardId});
+}
+
+export const UPDATE_TASK = async (data: MemberUpdateTask): Promise<void> => {
+  await instance.patch('/members/'+ data.id, {taskId: data.taskId});
+}
+
+export const FIND_ALL = async (): Promise<Member[]> => {
+  let response = await instance.get('/members');
+  return response.data;
 }

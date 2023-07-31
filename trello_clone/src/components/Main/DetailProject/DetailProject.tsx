@@ -8,18 +8,22 @@ import {
   backgroundSelector,
   memberSelector,
   tableSelector,
+  userSelector,
 } from '../../../redux/selectors';
 import SubNav from '../Subnav/SubNav';
 import TaskControll from './TaskControll/Board';
 import { Table } from '../../../types/Table.type';
 import * as memberSlice from '../../../redux/reducers/memberSlice';
 import { Member } from '../../../types/Member.type';
+import { findAll } from '../../../redux/reducers/userSlice';
+import { User } from '../../../types/User.type';
 
 
 export interface SubNavState {
   tableId: number;
   selectTable: Table | null;
   members: Member[]
+  users: User[]
 }
 
 export const SubnavContext = createContext<SubNavState | null>(null);
@@ -32,10 +36,12 @@ export default function DetailProject() {
     if (!tableId) return;
     dispatch(tableSlice.findById(+tableId));
     dispatch(findAllBGs());
+    dispatch(findAll())
   }, [tableId]);
 
   const selectTable = useSelector(tableSelector).selectTable;
   const backgrounds = useSelector(backgroundSelector).listBGs;
+  const users = useSelector(userSelector).users;
 
   useEffect(() => {
     if (!selectTable) return;
@@ -66,7 +72,8 @@ export default function DetailProject() {
               value={{
                 tableId: tableId ? +tableId : 0,
                 selectTable: selectTable,
-                members: members
+                members: members,
+                users: users
               }}
             >
               <SubNav />

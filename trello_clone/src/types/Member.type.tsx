@@ -6,6 +6,7 @@ export interface MemberForm {
   role: Roles;
   projectId?: number;
   cardId?: number;
+  taskId?: number;
 }
 
 export interface Member extends MemberForm {
@@ -20,6 +21,12 @@ export interface MemberUpdateRole {
 
 export interface MemberUpdateCard {
   id: number;
-  cardId: number;
+  cardId: number | null;
+  tableId: number;
+}
+
+export interface MemberUpdateTask {
+  id: number;
+  taskId: number;
   tableId: number;
 }

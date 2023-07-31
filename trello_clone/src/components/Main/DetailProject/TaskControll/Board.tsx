@@ -36,7 +36,7 @@ export default function BoardComp() {
   const cards = useSelector(cardSelector).listCards;
 
   useEffect(() => {
-    if(!tableId) return
+    if (!tableId) return;
     let arr = [];
     for (let i = 0; i < lanes.length; i++) {
       if (+tableId === lanes[i].tableId) {
@@ -56,7 +56,7 @@ export default function BoardComp() {
               draggable: true,
               laneId: cards[j].listId,
               order: cards[j].order,
-              describe: cards[j].description
+              describe: cards[j].description,
             };
             laneData.cards.push(cardData);
           }
@@ -85,14 +85,13 @@ export default function BoardComp() {
         laneId: `${listCard[i].listId}`,
         title: listCard[i].name,
         label: '',
+        description: listCard[i].description,
         draggable: true,
         order: listCard[i].order,
       };
       arr.push(card);
       arr.sort((a, b) => a.order - b.order);
     }
-    console.log('card ------> ', arr);
-
     return arr;
   };
 
@@ -124,7 +123,6 @@ export default function BoardComp() {
   // add card
 
   const createCard = (card: Card) => {
-
     let laneId = card.laneId;
     if (!laneId) return;
 
@@ -135,16 +133,16 @@ export default function BoardComp() {
       name: card.title ? card.title : '',
       listId: Number(card.laneId),
       order: cardArr.length,
-      description:"",
+      description: '',
       status: false,
-      endAt: 0
+      endAt: 0,
     };
     dispatch(cardSlice.createCard(newCard));
   };
 
   // open modal
   const handleClickModal = (cardId: string, metadata: any, card: Card) => {
-    setCurrentCard(cardId)
+    setCurrentCard(cardId);
   };
 
   const findCardsByLaneId = (laneId: string): Card[] => {
@@ -181,7 +179,6 @@ export default function BoardComp() {
     cardId: string,
     index: string
   ) => {
-
     let toLaneCards: Card[] = findCardsByLaneId(toLaneId);
     if (!toLaneCards) return;
     let fromLaneCards: Card[] = findCardsByLaneId(fromLaneId);
@@ -204,7 +201,7 @@ export default function BoardComp() {
         name: toLaneCards && toLaneCards[i].name,
         order: i,
         listId: listTemp,
-        description: ""
+        description: toLaneCards[i].description,
       };
       dispatch(cardSlice.updateCardTest(cardU));
     }

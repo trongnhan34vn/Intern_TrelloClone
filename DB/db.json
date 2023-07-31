@@ -76,6 +76,22 @@
       "description": "",
       "createdAt": 1690431101675,
       "id": 3
+    },
+    {
+      "name": "anh Nam vô địch",
+      "typeProjectId": 4,
+      "userId": 2,
+      "description": "",
+      "createdAt": 1690643343255,
+      "id": 4
+    },
+    {
+      "name": "trelllo",
+      "typeProjectId": 4,
+      "userId": 2,
+      "description": "",
+      "createdAt": 1690643433803,
+      "id": 5
     }
   ],
   "backgrounds": [
@@ -147,20 +163,34 @@
       "bgId": 2,
       "createdAt": 1690539727892,
       "id": 5
+    },
+    {
+      "name": "anh Nam",
+      "projectId": 4,
+      "bgId": 1,
+      "createdAt": 1690643379924,
+      "id": 6
+    },
+    {
+      "name": "bug quá",
+      "projectId": 3,
+      "bgId": 6,
+      "createdAt": 1690643453911,
+      "id": 7
     }
   ],
   "lists": [
     {
       "name": "Hà Nội",
       "tableId": 1,
-      "order": 0,
+      "order": 1,
       "createdAt": 1690535921264,
       "id": 1
     },
     {
       "name": "Nam bíu",
       "tableId": 1,
-      "order": 1,
+      "order": 0,
       "createdAt": 1690535956278,
       "id": 2
     },
@@ -174,12 +204,12 @@
   ],
   "cards": [
     {
-      "name": "đêm trở gió",
-      "listId": 2,
+      "name": "Hà nội đêm trở gió",
+      "listId": 1,
       "order": 0,
-      "description": "",
-      "status": false,
-      "endAt": 0,
+      "description": "hà nội đêm trở gió",
+      "status": true,
+      "endAt": 1691154540000,
       "createdAt": 1690535930512,
       "id": 1
     },
@@ -192,10 +222,74 @@
       "endAt": 0,
       "createdAt": 1690536436781,
       "id": 2
+    },
+    {
+      "name": "hà nội",
+      "listId": 2,
+      "order": 0,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1690611245628,
+      "id": 3
+    },
+    {
+      "name": "nam",
+      "listId": 1,
+      "order": 1,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1690612709877,
+      "id": 4
     }
   ],
-  "works": [],
-  "tasks": [],
+  "works": [
+    {
+      "cardId": 1,
+      "name": "fix bug",
+      "process": 0,
+      "createdAt": 1690549920170,
+      "id": 1
+    }
+  ],
+  "tasks": [
+    {
+      "name": "back end",
+      "workId": 1,
+      "endAt": 0,
+      "status": true,
+      "createdAt": 1690550023625,
+      "id": 1,
+      "member": null
+    },
+    {
+      "name": "front-end",
+      "workId": 1,
+      "endAt": 0,
+      "status": false,
+      "createdAt": 1690550039589,
+      "id": 2,
+      "member": 1
+    },
+    {
+      "name": "deploy",
+      "workId": 1,
+      "endAt": 0,
+      "status": false,
+      "createdAt": 1690608806918,
+      "id": 3,
+      "member": 2
+    },
+    {
+      "name": "sale",
+      "workId": 1,
+      "endAt": 0,
+      "status": false,
+      "createdAt": 1690736525943,
+      "id": 4
+    }
+  ],
   "members": [
     {
       "tableId": 1,
@@ -203,15 +297,15 @@
       "role": "Quản trị viên",
       "createdAt": 1690535845792,
       "id": 1,
-      "cardId": 1
+      "cardId": null
     },
     {
       "userId": 1,
       "tableId": 1,
-      "role": "Quan sát viên",
+      "role": "Thành viên",
       "createdAt": 1690535901504,
       "id": 2,
-      "cardId": 1
+      "cardId": null
     },
     {
       "tableId": 2,
@@ -241,6 +335,20 @@
       "role": "Quản trị viên",
       "createdAt": 1690539727940,
       "id": 6
+    },
+    {
+      "tableId": 6,
+      "userId": 2,
+      "role": "Quản trị viên",
+      "createdAt": 1690643379952,
+      "id": 7
+    },
+    {
+      "tableId": 7,
+      "userId": 2,
+      "role": "Quản trị viên",
+      "createdAt": 1690643453955,
+      "id": 8
     }
   ]
 }

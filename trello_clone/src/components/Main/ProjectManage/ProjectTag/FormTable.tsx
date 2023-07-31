@@ -89,7 +89,7 @@ export default function FormTable(props: { closeFn: () => void }) {
       createAdminMember();
       // Navigate đến trang table
       setTimeout(() => {
-        navigate(`/main-app/detail-project/${tableJustAdded.id}`);
+        navigate(`/main-app/detail-project/${tableJustAdded.id}/${projectId}`);
       }, 3000);
       dispatch(resetTableJustAdded());
     }
@@ -117,7 +117,7 @@ export default function FormTable(props: { closeFn: () => void }) {
 
   return (
     <div
-      className={`w-[304px] absolute z-10 transition-all ease-in-out duration-200 rounded-[8px] min-h-fit bg-[#282E33] h-[390px] top-1/2 left-full`}
+      className={`w-[304px] absolute z-[999] transition-all ease-in-out duration-200 rounded-[8px] min-h-fit bg-[#282E33] h-[390px] top-1/2 left-full`}
     >
       <div>
         <button

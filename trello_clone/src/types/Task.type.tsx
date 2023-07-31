@@ -4,7 +4,7 @@ export interface TaskForm {
   name: string;
   workId: number;
   endAt?: number;
-  members?: User[];
+  member?: number;
   status: boolean;
 }
 
@@ -17,4 +17,9 @@ export interface Task extends TaskForm{
 export interface TaskStatus {
   id: number;
   status: boolean;
+}
+
+export interface TaskUpdateMember {
+  id: number;
+  member: number | null;
 }

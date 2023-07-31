@@ -8,11 +8,12 @@ import FormFeatureLayout from '../FormFeatureLayout';
 
 interface CardInfoProps {
   selectCard: CardDB | null;
+  checkListMembers: () => boolean;
 }
 
-const CardInfo = ({ selectCard }: CardInfoProps) => {
+const CardInfo = ({ selectCard, checkListMembers }: CardInfoProps) => {
   const dispatch = useDispatch();
-  
+
   const feature = {
     code: 'N',
     name: 'Ngày',
@@ -26,7 +27,9 @@ const CardInfo = ({ selectCard }: CardInfoProps) => {
 
   const handleChange = () => {
     if (!selectCard) return;
-    dispatch(updateCardStatus({ id: selectCard.id, status: !selectCard.status }))
+    dispatch(
+      updateCardStatus({ id: selectCard.id, status: !selectCard.status })
+    );
   };
 
   const formatEndDate = (timeStamp: number) => {
@@ -36,8 +39,10 @@ const CardInfo = ({ selectCard }: CardInfoProps) => {
       ' tháng ' +
       (+date.getMonth() + 1) +
       ' lúc ' +
+      (date.getHours() < 10 ? 0 : '') +
       date.getHours() +
       ':' +
+      (date.getMinutes() < 10 ? 0 : '') +
       date.getMinutes()
     );
   };
@@ -48,7 +53,7 @@ const CardInfo = ({ selectCard }: CardInfoProps) => {
   };
 
   return (
-    <div className="ml-7">
+    <div className={`${checkListMembers() ? 'ml-7' : ''}`}>
       <h3 className="text-[#9FADBC] text-left text-[12px] font-bold mb-2">
         Ngày
       </h3>
@@ -60,7 +65,6 @@ const CardInfo = ({ selectCard }: CardInfoProps) => {
           type="checkbox"
         />
         <Popover.Button className="mb-2 min-w-1/2 outline-none ">
-      
           <h3 className="bg-[#A1BDD914] pl-7 flex items-center text-left hover:bg-[#A6C5E229] rounded-[3px] text-[#B6C2CF] py-[6px] pr-4 text-[14px] font-normal ">
             <div className="mr-3">
               <span>

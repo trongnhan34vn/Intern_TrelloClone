@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { projectSelector } from '../../../redux/selectors';
+import { Link, useParams } from 'react-router-dom';
 
 export default function SideMenu_Detail() {
   const selectProject = useSelector(projectSelector).selectProject;
+  const {projectId, tableId} = useParams()
+
 
   return (
     <div className="w-[260px] block bg-[hsla(206,13.7%,10%,0.9)] absolute h-[calc(100vh_-_64px)] left-0 top-0 z-10">
@@ -26,7 +29,7 @@ export default function SideMenu_Detail() {
       <div className="text-sm font-semibold leading-5">
         <div className="pt-3">
           <a
-            href=""
+            href="#"
             className="flex text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
           >
             <i className="fa-solid fa-table"></i>
@@ -35,7 +38,7 @@ export default function SideMenu_Detail() {
             </p>
           </a>
           <a
-            href=""
+            href="#"
             className="flex justify-between mb-2 text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
           >
             <div className="flex items-center">
@@ -57,17 +60,17 @@ export default function SideMenu_Detail() {
           </h2>
         </div>
         <ul className="py-[2px]">
-          <a
-            href=""
+          <Link
+            to={`/main-app/detail-project/${tableId}/${projectId}/table-view`}
             className="flex text-[14px] font-semibold text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
           >
             <i className="fa-solid fa-table"></i>
             <p className="ml-3 italic overflow-hidden text-ellipsis whitespace-nowrap">
               Bảng
             </p>
-          </a>
+          </Link>
           <a
-            href=""
+            href="#"
             className="flex text-[14px] font-semibold text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
           >
             <i className="fa-regular w-[14px] fa-calendar-days"></i>
