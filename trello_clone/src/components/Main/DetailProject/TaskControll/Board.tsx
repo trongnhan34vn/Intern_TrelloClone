@@ -37,6 +37,7 @@ export default function BoardComp() {
 
   useEffect(() => {
     if (!tableId) return;
+
     let arr = [];
     for (let i = 0; i < lanes.length; i++) {
       if (+tableId === lanes[i].tableId) {

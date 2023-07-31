@@ -56,3 +56,8 @@ export const UPDATE_STATUS = async (data: CardUpdateStatus): Promise<void> => {
 export const UPDATE_CARD_NAME = async (data: CardUpdateName): Promise<void> => {
   await instance.patch('/cards/' + data.id, { name: data.name });
 }
+
+export const SEARCH_BY_NAME = async (data: string): Promise<CardDB[]> => {
+  let response = await instance.get('/cards?name_like=' + data);
+  return response.data;
+}

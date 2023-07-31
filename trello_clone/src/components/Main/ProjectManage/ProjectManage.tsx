@@ -31,12 +31,15 @@ export default function ProjectManage() {
   // Request danh sách project theo userId
   useEffect(() => {
     dispatch(projectSlice.findProjectsByUserId(userLogin.id));
+  }, [userLogin]);
+
+  useEffect(() => {
     dispatch(tableSlice.findAll());
     dispatch(memberSlice.findByUserId(userLogin.id));
     dispatch(projectSlice.findAll());
-  }, [userLogin]);
+  },[])
 
-
+  
   // mảng member user hiện tại (user hiệnt tại là thành viên của bảng nào)
   const members = useSelector(memberSelector).membersByUserId;
   // 1 mảng member với user hiện tại là thành viên
@@ -52,6 +55,8 @@ export default function ProjectManage() {
       if (!table) return;
       tableArr.push(table);
     }
+    console.log(tableArr);
+    
     let projectArr: Project[] = [];
     for (let i = 0; i < tableArr.length; i++) {
       let project = projects.find(
@@ -64,10 +69,6 @@ export default function ProjectManage() {
   }, [members]);
 
   console.log(projectArr);
-
-  const memberElement = projectArr.map((project) => {
-    return <MembersProjectTag membersFilter={membersFilter} project={project} key={project.id} />;
-  });
 
   const listProjects: Project[] = useSelector(projectSelector).listProjects;
 
@@ -88,7 +89,6 @@ export default function ProjectManage() {
           {/* Project Tag Item */}
           {projectTagElement}
           {/* Project Tag Item */}
-          {memberElement}
         </div>
       </div>
     </div>

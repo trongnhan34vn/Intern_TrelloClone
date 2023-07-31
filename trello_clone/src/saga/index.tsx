@@ -68,6 +68,7 @@ export const rootSaga = function* () {
     takeLatest(cardSlice.updateCardName.type, cardSaga.updateCardName),
     takeLatest(cardSlice.updateCardDate.type, cardSaga.updateCardDate),
     takeLatest(cardSlice.updateCardStatus.type, cardSaga.updateCardStatus),
+    takeLatest(cardSlice.searchCardByName.type, cardSaga.searchCardByName),
     // WORKS
     takeLatest(workSlice.createWork.type, workSaga.createWork),
     takeLatest(workSlice.findWorksByCardId.type, workSaga.findWorksByCardId),
