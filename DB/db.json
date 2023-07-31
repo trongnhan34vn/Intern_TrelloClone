@@ -92,6 +92,14 @@
       "description": "",
       "createdAt": 1690643433803,
       "id": 5
+    },
+    {
+      "name": "khoa",
+      "typeProjectId": 3,
+      "userId": 3,
+      "description": "",
+      "createdAt": 1690790157155,
+      "id": 6
     }
   ],
   "backgrounds": [
@@ -177,6 +185,13 @@
       "bgId": 6,
       "createdAt": 1690643453911,
       "id": 7
+    },
+    {
+      "name": "test thêm anh Nhân",
+      "projectId": 6,
+      "bgId": 6,
+      "createdAt": 1690790181345,
+      "id": 8
     }
   ],
   "lists": [
@@ -200,6 +215,13 @@
       "order": 2,
       "createdAt": 1690536430641,
       "id": 3
+    },
+    {
+      "name": "khoa pug",
+      "tableId": 7,
+      "order": 0,
+      "createdAt": 1690767678333,
+      "id": 4
     }
   ],
   "cards": [
@@ -208,7 +230,7 @@
       "listId": 1,
       "order": 0,
       "description": "hà nội đêm trở gió",
-      "status": true,
+      "status": false,
       "endAt": 1691154540000,
       "createdAt": 1690535930512,
       "id": 1
@@ -242,6 +264,16 @@
       "endAt": 0,
       "createdAt": 1690612709877,
       "id": 4
+    },
+    {
+      "name": "aaaa",
+      "listId": 4,
+      "order": 0,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1690767684373,
+      "id": 5
     }
   ],
   "works": [
@@ -255,39 +287,31 @@
   ],
   "tasks": [
     {
-      "name": "back end",
-      "workId": 1,
-      "endAt": 0,
-      "status": true,
-      "createdAt": 1690550023625,
-      "id": 1,
-      "member": null
-    },
-    {
       "name": "front-end",
       "workId": 1,
       "endAt": 0,
-      "status": false,
-      "createdAt": 1690550039589,
-      "id": 2,
+      "status": true,
+      "createdAt": 1690769424080,
+      "id": 1,
       "member": 1
+    },
+    {
+      "name": "back-end",
+      "workId": 1,
+      "endAt": 0,
+      "status": true,
+      "createdAt": 1690769432351,
+      "id": 2,
+      "member": 2
     },
     {
       "name": "deploy",
       "workId": 1,
       "endAt": 0,
       "status": false,
-      "createdAt": 1690608806918,
+      "createdAt": 1690769468045,
       "id": 3,
-      "member": 2
-    },
-    {
-      "name": "sale",
-      "workId": 1,
-      "endAt": 0,
-      "status": false,
-      "createdAt": 1690736525943,
-      "id": 4
+      "member": 1
     }
   ],
   "members": [
@@ -297,7 +321,7 @@
       "role": "Quản trị viên",
       "createdAt": 1690535845792,
       "id": 1,
-      "cardId": null
+      "cardId": 1
     },
     {
       "userId": 1,
@@ -305,7 +329,7 @@
       "role": "Thành viên",
       "createdAt": 1690535901504,
       "id": 2,
-      "cardId": null
+      "cardId": 1
     },
     {
       "tableId": 2,
@@ -349,6 +373,27 @@
       "role": "Quản trị viên",
       "createdAt": 1690643453955,
       "id": 8
+    },
+    {
+      "tableId": 8,
+      "userId": 3,
+      "role": "Quản trị viên",
+      "createdAt": 1690790181388,
+      "id": 9
+    },
+    {
+      "userId": 1,
+      "tableId": 8,
+      "role": "Thành viên",
+      "createdAt": 1690790200771,
+      "id": 10
+    },
+    {
+      "userId": 1,
+      "tableId": 6,
+      "role": "Thành viên",
+      "createdAt": 1690794442906,
+      "id": 11
     }
   ]
 }

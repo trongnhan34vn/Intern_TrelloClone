@@ -9,10 +9,12 @@ import {
 
 interface MemberState {
   members: Member[];
+  membersByUserId: Member[];
 }
 
 const initialState: MemberState = {
   members: [],
+  membersByUserId: []
 };
 
 const memberSlice = createSlice({
@@ -30,7 +32,11 @@ const memberSlice = createSlice({
     },
     updateRole: (state, action: PayloadAction<MemberUpdateRole>) => {},
     updateCard: (state, action: PayloadAction<MemberUpdateCard>) => {},
-    updateTask: (state, action: PayloadAction<MemberUpdateTask>) => {}
+    updateTask: (state, action: PayloadAction<MemberUpdateTask>) => {},
+    findByUserId: (state, action: PayloadAction<number>) => {},
+    getByUserId: (state, action: PayloadAction<Member[]>) => {
+      state.membersByUserId = action.payload
+    }
   },
 });
 
@@ -43,5 +49,7 @@ export const {
   updateCard,
   updateTask,
   findAll,
-  getAll
+  getAll,
+  findByUserId,
+  getByUserId
 } = memberSlice.actions;

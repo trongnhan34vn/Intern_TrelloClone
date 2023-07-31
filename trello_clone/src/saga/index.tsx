@@ -37,6 +37,7 @@ export const rootSaga = function* () {
       projectSaga.findProjectsByUserId
     ),
     takeLatest(projectSlice.findById.type, projectSaga.findById),
+    takeLatest(projectSlice.findAll.type, projectSaga.findAll),
     // BACKGROUNDS
     takeLatest(findAllBGs.type, backgroundSaga.findAllBackgrounds),
     // TABLES
@@ -83,6 +84,7 @@ export const rootSaga = function* () {
     takeLatest(memberSlice.updateRole.type, memberSaga.updateRole),
     takeLatest(memberSlice.updateCard.type, memberSaga.updateCard),
     takeLatest(memberSlice.updateTask.type, memberSaga.updateTask),
-    takeLatest(memberSlice.findAll.type, memberSaga.findAll)
+    takeLatest(memberSlice.findAll.type, memberSaga.findAll),
+    takeLatest(memberSlice.findByUserId.type, memberSaga.findByUserId)
   ]);
 };

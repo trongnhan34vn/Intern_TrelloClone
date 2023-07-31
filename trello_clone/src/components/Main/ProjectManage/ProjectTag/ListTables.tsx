@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { tableSelector } from '../../../../redux/selectors';
+import { Member } from '../../../../types/Member.type';
 import CreateTableBtn from './CreateTableBtn';
 import { ProjectContext } from './ProjectTag';
 import Table from './Table';

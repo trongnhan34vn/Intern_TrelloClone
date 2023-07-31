@@ -3,7 +3,7 @@ import AuthenSupport from './AuthenSupport';
 import { useLocation, useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import { useDispatch } from 'react-redux';
-import { login, register } from '../../redux/reducers/userSlice';
+import { getResult, login, register } from '../../redux/reducers/userSlice';
 import { LoadingContext } from '../../layouts/AuthenLayout/AuthenLayout';
 
 export default function Form() {
@@ -88,7 +88,7 @@ export default function Form() {
   };
 
   const handleSubmit = (e: any) => {
-    if(!loadingContext) return;
+    if (!loadingContext) return;
     e.preventDefault();
     if (validateEmail(inputValue.email)) {
       setOpenInputPassword(true);
@@ -98,10 +98,16 @@ export default function Form() {
           password: inputValue.password,
         };
         dispatch(login(userLogin));
-        loadingContext.setActive()
+        loadingContext.setActive();
         setTimeout(() => {
-          loadingContext.setInActive()
-        },3000)
+          dispatch(
+            getResult({
+              accessToken: null,
+              user: null,
+            })
+          );
+          loadingContext.setInActive();
+        }, 3000);
       }
     }
   };
@@ -109,7 +115,7 @@ export default function Form() {
   const navigate = useNavigate();
   const sendEmail = (e: any) => {
     e.preventDefault();
-    if(!loadingContext) return
+    if (!loadingContext) return;
     loadingContext.setActive();
     const currentForm = form.current;
 
@@ -130,14 +136,14 @@ export default function Form() {
           )
           .then(
             (result) => {
-              
               console.log(result);
               if (result.text === 'OK') {
                 let userRegis = {
                   email: inputValue.email,
                   password: 'pikachu123',
                   fullName: '',
-                  imageUrl: 'https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf',
+                  imageUrl:
+                    'https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf',
                 };
                 dispatch(
                   register({

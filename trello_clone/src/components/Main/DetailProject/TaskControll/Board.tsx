@@ -28,9 +28,9 @@ export default function BoardComp() {
   useEffect(() => {
     if (!tableId) return;
     dispatch(cardSlice.findAllCards());
-    // dispatch(listSlice.findListsByTableId(parseInt(tableId)));
-    dispatch(listSlice.findAllList());
-  }, []);
+    dispatch(listSlice.findListsByTableId(parseInt(tableId)));
+    // dispatch(listSlice.findAllList());
+  }, [tableId]);
 
   const lanes = useSelector(listSelector).lists;
   const cards = useSelector(cardSelector).listCards;
@@ -255,6 +255,9 @@ export default function BoardComp() {
         onCardMoveAcrossLanes={onCardMoveAcrossLanes}
         onCardClick={handleClickModal}
         onCardAdd={(card) => createCard(card)}
+        onDataChange={(data) => {
+          setData(data);
+        }}
         laneDraggable
         cardDraggable
         editable

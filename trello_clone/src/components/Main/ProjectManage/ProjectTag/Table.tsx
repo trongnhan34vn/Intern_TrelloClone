@@ -33,8 +33,8 @@ export default function TableComp({table, project}: TableProps) {
 
   return (
     <li onClick={handleClick} className="mb-[2%] mr-[2%] relative cursor-pointer list-none">
-      <div style={{backgroundImage: `url("${getBGUrl()}")`}} className="hover:bg-[#A6C5E229] bg-cover bg-center opacity-80 hover:opacity-100 transition-all ease-in-out duration-150 rounded-[3px] font-normal bg-[#A1BDD914] h-[96px] text-center align-middle p-2 bg-no-repeat table-cell w-[200px]">
-        <p className="text-[#B6C2CF] font-semibold text-[14px]">{table.name}</p>
+      <div style={{backgroundImage: `url("${getBGUrl()}")`}} className="hover:bg-[#A6C5E229] bg-cover bg-center opacity-80 hover:opacity-100 transition-all ease-in-out duration-150 rounded-[3px]  font-normal bg-[#A1BDD914] h-[96px] text-left  align-top p-2 bg-no-repeat table-cell w-[200px]">
+        <p className="text-[#fff] font-extrabold text-[16px]">{table.name}</p>
       </div>
     </li>
   );

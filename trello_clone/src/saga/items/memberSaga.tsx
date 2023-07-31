@@ -4,11 +4,12 @@ import {
   CREATE_MEMBER,
   FIND_ALL,
   FIND_BY_TABLE_ID,
+  FIND_BY_USER_ID,
   UPDATE_CARD,
   UPDATE_ROLE,
   UPDATE_TASK,
 } from '../../api/services/memberServices';
-import { getAll, getByTableId } from '../../redux/reducers/memberSlice';
+import { getAll, getByTableId, getByUserId } from '../../redux/reducers/memberSlice';
 import {
   Member,
   MemberForm,
@@ -80,3 +81,12 @@ export const findAll = function* () {
     yield put(getAll(response));
   } catch (error) {}
 };
+
+export const findByUserId = function* (action: PayloadAction<number>) {
+  try {
+    let response : Member[] = yield call(FIND_BY_USER_ID, action.payload)
+    yield put(getByUserId(response))
+  } catch (error) {
+    
+  }
+}

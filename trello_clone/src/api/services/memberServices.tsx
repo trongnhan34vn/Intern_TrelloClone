@@ -26,3 +26,8 @@ export const FIND_ALL = async (): Promise<Member[]> => {
   let response = await instance.get('/members');
   return response.data;
 }
+
+export const FIND_BY_USER_ID = async (id: number): Promise<Member[]> => {
+  let response = await instance.get('/members?userId=' + id);
+  return response.data;
+}
