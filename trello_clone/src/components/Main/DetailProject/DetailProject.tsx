@@ -7,6 +7,7 @@ import * as tableSlice from '../../../redux/reducers/tableSlice';
 import {
   backgroundSelector,
   cardSelector,
+  memberCardSelector,
   memberSelector,
   tableSelector,
   userSelector,
@@ -21,6 +22,8 @@ import { User } from '../../../types/User.type';
 import SubNav from '../Subnav/SubNav';
 import * as cardSlice from '../../../redux/reducers/cardSlice';
 import { CardDB } from '../../../types/Card.type';
+import * as memberCardSlice from '../../../redux/reducers/memberCardSlice';
+import { MemberCard } from '../../../types/MemberCard.type';
 
 
 export interface SubNavState {
@@ -29,6 +32,7 @@ export interface SubNavState {
   members: Member[]
   users: User[]
   cards: CardDB[]
+  memberCards: MemberCard[]
 }
 
 export const SubnavContext = createContext<SubNavState | null>(null);
@@ -43,8 +47,11 @@ export default function DetailProject() {
     dispatch(findAllBGs());
     dispatch(userSlice.findAll())
     dispatch(cardSlice.findAllCards())
+    dispatch(memberCardSlice.findAll());
+
   }, [tableId]);
 
+  const memberCards = useSelector(memberCardSelector).memberCards;
   const selectTable = useSelector(tableSelector).selectTable;
   const backgrounds = useSelector(backgroundSelector).listBGs;
   const users = useSelector(userSelector).users;
@@ -81,7 +88,8 @@ export default function DetailProject() {
                 selectTable: selectTable,
                 members: members,
                 users: users,
-                cards: cards
+                cards: cards,
+                memberCards: memberCards 
               }}
             >
               <SubNav />

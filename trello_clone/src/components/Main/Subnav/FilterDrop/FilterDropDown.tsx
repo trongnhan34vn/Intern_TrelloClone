@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom';
 import { Roles } from '../../../../enum/Roles';
 import { Member } from '../../../../types/Member.type';
 import { CardDB } from '../../../../types/Card.type';
+import { CardContext } from '../../Modal/CardModal/CardModal';
 
 interface FilterDropProps {
   close: () => void;
@@ -25,10 +26,11 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
   const currentUser: User = userLocal ? JSON.parse(userLocal) : null;
   const { tableId } = useParams();
 
+  const cards = subNavContext ? subNavContext.cards : [];
+  const users = subNavContext ? subNavContext.users : [];
+
   const members = subNavContext ? subNavContext.members : [];
-  const membersFilterCard = members.filter(
-    (member) => member.cardId !== undefined && member.cardId !== null
-  );
+  const memberCards = subNavContext ? subNavContext.memberCards : [];
 
   const membersFilterTable = tableId
     ? members.filter(
@@ -36,8 +38,61 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
       )
     : [];
 
-  const cards = subNavContext ? subNavContext.cards : [];
-  const users = subNavContext ? subNavContext.users : [];
+  const getCardHasMember = () => {
+    let arr: CardDB[] = [];
+    for (let i = 0; i < memberCards.length; i++) {
+      let member = cards.find((card) => card.id === memberCards[i].cardId);
+      if (!member) return [];
+      arr.push(member);
+    }
+    return arr;
+  };
+
+  const removeFromArr = (arr: CardDB[], card: CardDB) => {
+    let index = arr.indexOf(card);
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
+    return arr;
+  };
+
+  const getCardNonMember = () => {
+    let cardArr = [...cards];
+    let cardMember = getCardHasMember();
+    for (let i = 0; i < cardMember.length; i++) {
+      let card = cards.find((c) => c.id === cardMember[i].id);
+      if (!card) return [];
+      removeFromArr(cardArr, card);
+    }
+    return cardArr;
+  };
+
+  const membersFilterCurrentUser = members.filter(
+    (member) => member.userId === currentUser.id
+  );
+
+  const getMembersCardFilterCurrentUser = () => {
+    let memberCard = [];
+    for (let i = 0; i < memberCards.length; i++) {
+      for (let j = 0; j < membersFilterCurrentUser.length; j++) {
+        if (membersFilterCurrentUser[j].id === memberCards[i].memberId) {
+          memberCard.push(memberCards[i]);
+        }
+      }
+    }
+    return memberCard;
+  };
+
+  const getCardsCurrentUser = () => {
+    let memberCards = getMembersCardFilterCurrentUser();
+    let cardArr = [];
+    for (let i = 0; i < memberCards.length; i++) {
+      let card = cards.find((c) => c.id === memberCards[i].cardId);
+      if (!card) return [];
+      cardArr.push(card);
+    }
+    return cardArr;
+  };
 
   const [onWordFilter, setOnWordFilter] = useState<boolean>(false);
   const [noMemberFilter, setMemberFilter] = useState<boolean>(false);
@@ -46,35 +101,51 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
   const [membersFilter, setMembersFilter] = useState<Member[]>([]);
   const [allMembersFilter, setAllMembersFilter] = useState<boolean>(false);
 
-  useEffect(() => {
-    console.log(membersFilter);
-    let arrMembers = membersFilterByMember();
+  const filterMembersByUserId = () => {
+    let mcs = [];
+    for (let i = 0; i < membersFilter.length; i++) {
+      let mc = memberCards.find((m) => m.memberId === membersFilter[i].id);
+      if (!mc) return [];
+      mcs.push(mc);
+    }
+    return mcs;
+  };
+
+  const getCardHasSelectMember = () => {
     let cardArr = [];
+    let memberCs = filterMembersByUserId();
+
+    
+    for (let i = 0; i < memberCs.length; i++) {
+      let card = cards.find((c) => c.id === memberCs[i].cardId);
+
+      if (!card) return [];
+      cardArr.push(card);
+    }
+    return cardArr;
+  };
+
+  useEffect(() => {
     if (member) {
-      for (let i = 0; i < arrMembers.length; i++) {
-        let card = cards.find((card) => card.id === arrMembers[i].cardId);
-        if (!card) return;
-        cardArr.push(card);
-        dispatch(filterCardNoMembers(cardArr));
-      }
-      console.log(cardArr);
+      let cardArr = getCardHasSelectMember();
+      dispatch(filterCardNoMembers(cardArr));
     } else {
       dispatch(findAllCards());
     }
   }, [member, membersFilter]);
 
-  const membersFilterByMember = () => {
-    let arr: Member[] = [];
-    let filters: Member[] = [];
+  // const membersFilterByMember = () => {
+  //   let arr: Member[] = [];
+  //   let filters: Member[] = [];
 
-    for (let i = 0; i < membersFilter.length; i++) {
-      filters = membersFilterCard.filter(
-        (mem) =>
-          mem.userId === membersFilter[i].userId && mem.role !== Roles.ADMIN
-      );
-    }
-    return [...arr, ...filters];
-  };
+  //   for (let i = 0; i < membersFilter.length; i++) {
+  //     filters = membersFilterCard.filter(
+  //       (mem) =>
+  //         mem.userId === membersFilter[i].userId && mem.role !== Roles.ADMIN
+  //     );
+  //   }
+  //   return [...arr, ...filters];
+  // };
 
   const checkExist = () => {
     if (!member) return;
@@ -100,43 +171,18 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
 
   useEffect(() => {
     if (noMemberFilter) {
-      let cardArr = [...cards];
-      for (let i = 0; i < membersFilterCard.length; i++) {
-        let card = cards.find(
-          (card) => card.id === membersFilterCard[i].cardId
-        );
-
-        if (!card) return;
-        removeFromArr(cardArr, card);
-      }
+      let cardArr = getCardNonMember();
       dispatch(filterCardNoMembers(cardArr));
     } else {
       dispatch(findAllCards());
     }
   }, [noMemberFilter]);
 
-  const removeFromArr = (arr: CardDB[], card: CardDB) => {
-    let index = arr.indexOf(card);
-    if (index > -1) {
-      arr.splice(index, 1);
-    }
-    return arr;
-  };
-
   useEffect(() => {
     if (!currentUser) return;
     if (currentUserMember) {
-      let cardArr = [];
-      for (let i = 0; i < membersFilterCard.length; i++) {
-        let card = cards.find(
-          (card) =>
-            card.id === membersFilterCard[i].cardId &&
-            membersFilterCard[i].userId === currentUser.id
-        );
-        if (!card) return;
-        cardArr.push(card);
-        dispatch(filterCardNoMembers(cardArr));
-      }
+      let cardArr = getCardsCurrentUser();
+      dispatch(filterCardNoMembers(cardArr));
     } else {
       dispatch(findAllCards());
     }

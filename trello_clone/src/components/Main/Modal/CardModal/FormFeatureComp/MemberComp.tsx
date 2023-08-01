@@ -4,12 +4,16 @@ import { useParams } from 'react-router-dom';
 import * as memberSlice from '../../../../../redux/reducers/memberSlice';
 import * as userSlice from '../../../../../redux/reducers/userSlice';
 import { userSelector } from '../../../../../redux/selectors';
-import { Member, MemberForm, MemberUpdateCard } from '../../../../../types/Member.type';
+import {
+  Member,
+  MemberForm,
+  MemberUpdateCard,
+} from '../../../../../types/Member.type';
 import { User } from '../../../../../types/User.type';
 import { CardContext } from '../CardModal';
 import { SubnavContext } from '../../../DetailProject/DetailProject';
-
-
+import { MemberCardForm } from '../../../../../types/MemberCard.type';
+import { create, deleteMC } from '../../../../../redux/reducers/memberCardSlice';
 
 interface MemberProps {
   member: Member;
@@ -23,7 +27,12 @@ const MemberComp = ({ member, inputValue, search }: MemberProps) => {
   const subnavContext = useContext(SubnavContext);
   const cardContext = useContext(CardContext);
 
-  const users = subnavContext? subnavContext.users : [];
+  const memberCards = subnavContext ? subnavContext.memberCards : [];
+  const memberCardsFilterByCardId = cardContext
+    ? memberCards.filter((mb) => mb.cardId === cardContext.id)
+    : [];
+
+  const users = subnavContext ? subnavContext.users : [];
   const usersFilter: User[] = users.filter((user) => user.id === member.userId);
   const searchFilter: User[] = search.filter(
     (user) => user.id === member.userId
@@ -36,20 +45,24 @@ const MemberComp = ({ member, inputValue, search }: MemberProps) => {
     return usersFilter;
   };
 
-  const checkExist = (cardId: number) => {
-    if(member.cardId === cardId) return true;
-    return false;
-  }
+  const checkExist = (memberId: number) => {
+    return memberCardsFilterByCardId.find((mb) => mb.memberId === memberId);
+  };
 
   const handleUpdateCard = (id: number) => {
     if (!cardContext) return;
-    let card_member: MemberForm = {
-      cardId: cardContext.id,
-      userId: member.userId,
-      role: member.role,
-      tableId: tableId ? +tableId : 0,
-    };
-    dispatch(memberSlice.createMember(card_member));
+    if(!checkExist(id)) {
+
+      let card_member: MemberCardForm = {
+        memberId: id,
+        cardId: cardContext.id,
+      };
+      dispatch(create(card_member));
+    } else {
+      let mc = memberCardsFilterByCardId.find((mb) => mb.memberId === id);
+      if(!mc) return;
+      dispatch(deleteMC(mc.id))
+    }
   };
 
   const memberElement = getMemberElement().map((user) => {

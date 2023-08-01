@@ -19,6 +19,8 @@ import * as taskSlice from '../redux/reducers/taskSlice';
 import * as taskSaga from './items/taskSaga';
 import * as memberSlice from '../redux/reducers/memberSlice';
 import * as memberSaga from './items/memberSaga';
+import * as memberCardSaga from './items/memberCardSaga';
+import * as memberCardSlice from '../redux/reducers/memberCardSlice';
 
 export const rootSaga = function* () {
   yield all([
@@ -86,5 +88,9 @@ export const rootSaga = function* () {
     takeLatest(memberSlice.updateTask.type, memberSaga.updateTask),
     takeLatest(memberSlice.findAll.type, memberSaga.findAll),
     takeLatest(memberSlice.findByUserId.type, memberSaga.findByUserId),
+    // MEMBER_CARD 
+    takeLatest(memberCardSlice.create.type, memberCardSaga.create),
+    takeLatest(memberCardSlice.deleteMC.type, memberCardSaga.deleteMC),
+    takeLatest(memberCardSlice.findAll.type, memberCardSaga.findAll),
   ]);
 };

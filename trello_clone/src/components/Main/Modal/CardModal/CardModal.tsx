@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import DescriptionModal from './CardModalComp/DescriptionModal';
 import ModalFeature from './CardModalComp/ModalFeature';
 import HeadModal from './CardModalComp/HeadModal';
+import * as cardSlice from '../../../../redux/reducers/cardSlice';
 import {
-  findCardById,
-  getCardById,
-} from '../../../../redux/reducers/cardSlice';
-import { cardSelector, workSelector } from '../../../../redux/selectors';
+  cardSelector,
+  memberCardSelector,
+  workSelector,
+} from '../../../../redux/selectors';
 import Works from './CardModalComp/Works';
 import { findWorksByCardId } from '../../../../redux/reducers/workSlice';
 import { CardDB } from '../../../../types/Card.type';
@@ -34,19 +35,31 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
 
   const subnavContext = useContext(SubnavContext);
   const members: Member[] = subnavContext ? subnavContext.members : [];
-  const membersFilter = cardId
-    ? members.filter(
-        (member) =>
-          member.cardId !== undefined &&
-          member.cardId !== null &&
-          member.cardId === +cardId
-      )
+
+  const memberCards = subnavContext ? subnavContext.memberCards : [];
+
+  const memberCardsFilterCardId = cardId
+    ? memberCards.filter((memberCard) => memberCard.cardId === +cardId)
     : [];
+
+  const getMembersFilterByCardId = () => {
+    let membersFilter: Member[] = [];
+    for (let i = 0; i < memberCardsFilterCardId.length; i++) {
+      let member = members.find(
+        (mem) => mem.id === memberCardsFilterCardId[i].memberId
+      );
+      if (!member) return [];
+      membersFilter.push(member);
+    }
+    return membersFilter;
+  };
+
+  const membersFilter = getMembersFilterByCardId();
 
   useEffect(() => {
     if (!cardId) return;
     dispatch(findWorksByCardId(+cardId));
-    dispatch(findCardById(+cardId));
+    dispatch(cardSlice.findCardById(+cardId));
   }, [cardId]);
 
   const worksElement = works.map((work) => {
@@ -60,9 +73,9 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
   };
 
   const checkListMembers = () => {
-    if(membersFilter.length === 0) return false
+    if (membersFilter.length === 0) return false;
     return true;
-  }
+  };
 
   return (
     <Transition appear show={cardId ? true : false} as={Fragment}>
@@ -102,13 +115,19 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
                     <div className="form-left w-full h-full">
                       <div className="flex ml-7 mb-8">
                         {checkListMembers() ? (
-                          <CardMembers members={membersFilter} />
+                          <CardMembers
+                            memberCardsFilterCardId={memberCardsFilterCardId}
+                            members={membersFilter}
+                          />
                         ) : (
                           <></>
                         )}
 
                         {checkCardHasEndDate() ? (
-                          <CardInfo checkListMembers={checkListMembers} selectCard={selectCard} />
+                          <CardInfo
+                            checkListMembers={checkListMembers}
+                            selectCard={selectCard}
+                          />
                         ) : (
                           <></>
                         )}
@@ -122,9 +141,7 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
                       {/* List Works */}
                     </div>
                     <div className="form-right relative flex flex-col">
-                      <CardContext.Provider value={selectCard}>
-                        <ModalFeature />
-                      </CardContext.Provider>
+                      <ModalFeature />
                     </div>
                   </div>
                 </CardContext.Provider>
