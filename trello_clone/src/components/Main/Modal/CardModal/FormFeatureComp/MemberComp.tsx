@@ -4,10 +4,12 @@ import { useParams } from 'react-router-dom';
 import * as memberSlice from '../../../../../redux/reducers/memberSlice';
 import * as userSlice from '../../../../../redux/reducers/userSlice';
 import { userSelector } from '../../../../../redux/selectors';
-import { Member, MemberUpdateCard } from '../../../../../types/Member.type';
+import { Member, MemberForm, MemberUpdateCard } from '../../../../../types/Member.type';
 import { User } from '../../../../../types/User.type';
 import { CardContext } from '../CardModal';
 import { SubnavContext } from '../../../DetailProject/DetailProject';
+
+
 
 interface MemberProps {
   member: Member;
@@ -41,12 +43,13 @@ const MemberComp = ({ member, inputValue, search }: MemberProps) => {
 
   const handleUpdateCard = (id: number) => {
     if (!cardContext) return;
-    let card: MemberUpdateCard = {
-      id: id,
-      cardId: checkExist(cardContext.id) ? null : cardContext.id,
+    let card_member: MemberForm = {
+      cardId: cardContext.id,
+      userId: member.userId,
+      role: member.role,
       tableId: tableId ? +tableId : 0,
     };
-    dispatch(memberSlice.updateCard(card));
+    dispatch(memberSlice.createMember(card_member));
   };
 
   const memberElement = getMemberElement().map((user) => {

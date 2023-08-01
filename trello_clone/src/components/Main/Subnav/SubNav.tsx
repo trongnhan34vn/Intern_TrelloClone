@@ -6,7 +6,7 @@ import * as memberSlice from '../../../redux/reducers/memberSlice';
 import { memberSelector, userSelector } from '../../../redux/selectors';
 import MemberImages from './MemberImages';
 import { Popover, Transition } from '@headlessui/react';
-import FilterDropDown from '../Modal/FilterDrop/FilterDropDown';
+import FilterDropDown from './FilterDrop/FilterDropDown';
 
 export default function SubNav() {
   const [shareModal, setShareModal] = useState<boolean>(false);
@@ -20,9 +20,10 @@ export default function SubNav() {
 
   const members = subNavContext ? subNavContext.members : [];
 
-  const membersElement = members.map((member) => (
-    <MemberImages key={member.id} member={member} />
-  ));
+  const membersElement = members.map((member) => {
+    if (member.cardId === undefined)
+      return <MemberImages key={member.id} member={member} />;
+  });
 
   return (
     <div className="bg-[#0000003d] z-50">
@@ -32,9 +33,7 @@ export default function SubNav() {
         </h2>
         <div className="flex items-center">
           <Popover className="relative">
-            <Popover.Button
-              className="mr-5 flex items-center outline-none"
-            >
+            <Popover.Button className="mr-5 flex items-center outline-none">
               <i className="fa-solid fa-filter mr-1"></i>
               <span>Lọc</span>
             </Popover.Button>

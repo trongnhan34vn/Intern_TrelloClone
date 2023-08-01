@@ -251,7 +251,7 @@
     },
     {
       "name": "nam béo",
-      "listId": 3,
+      "listId": 5,
       "order": 0,
       "description": "",
       "status": false,
@@ -302,7 +302,7 @@
     {
       "name": "bug vãi",
       "listId": 3,
-      "order": 0,
+      "order": 1,
       "description": "",
       "status": false,
       "endAt": 0,
@@ -354,24 +354,21 @@
       "userId": 2,
       "role": "Quản trị viên",
       "createdAt": 1690535845792,
-      "id": 1,
-      "cardId": 1
+      "id": 1
     },
     {
       "userId": 1,
       "tableId": 1,
       "role": "Thành viên",
       "createdAt": 1690535901504,
-      "id": 2,
-      "cardId": 1
+      "id": 2
     },
     {
       "tableId": 2,
       "userId": 1,
       "role": "Quản trị viên",
       "createdAt": 1690536369399,
-      "id": 3,
-      "cardId": 2
+      "id": 3
     },
     {
       "tableId": 3,
@@ -434,8 +431,7 @@
       "tableId": 2,
       "role": "Thành viên",
       "createdAt": 1690818380740,
-      "id": 12,
-      "cardId": 6
+      "id": 12
     },
     {
       "userId": 2,
@@ -443,6 +439,22 @@
       "role": "Thành viên",
       "createdAt": 1690818380740,
       "id": 13
+    },
+    {
+      "cardId": 2,
+      "userId": 1,
+      "role": "Quản trị viên",
+      "tableId": 2,
+      "createdAt": 1690883865378,
+      "id": 14
+    },
+    {
+      "cardId": 2,
+      "userId": 1,
+      "role": "Quản trị viên",
+      "tableId": 2,
+      "createdAt": 1690884126441,
+      "id": 15
     }
   ]
 }

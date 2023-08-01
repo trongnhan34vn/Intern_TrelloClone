@@ -20,7 +20,7 @@ export interface MemberUpdateRole {
 }
 
 export interface MemberUpdateCard {
-  id: number;
+  // id: number;
   cardId: number | null;
   tableId: number;
 }

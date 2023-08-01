@@ -7,12 +7,12 @@ import {
 } from '../../../../redux/reducers/cardSlice';
 import WordFilter from './WordFilter';
 import MemberFilter from './MemberFilter';
-import * as memberSlice from '../../../../redux/reducers/memberSlice';
 import { SubnavContext } from '../../DetailProject/DetailProject';
 import { User } from '../../../../types/User.type';
 import { useParams } from 'react-router-dom';
 import { Roles } from '../../../../enum/Roles';
 import { Member } from '../../../../types/Member.type';
+import { CardDB } from '../../../../types/Card.type';
 
 interface FilterDropProps {
   close: () => void;
@@ -43,6 +43,49 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
   const [noMemberFilter, setMemberFilter] = useState<boolean>(false);
   const [currentUserMember, setCurrentUserMember] = useState<boolean>(false);
   const [member, setMember] = useState<Member | null>(null);
+  const [membersFilter, setMembersFilter] = useState<Member[]>([]);
+  const [allMembersFilter, setAllMembersFilter] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(membersFilter);
+    let arrMembers = membersFilterByMember();
+    let cardArr = [];
+    if (member) {
+      for (let i = 0; i < arrMembers.length; i++) {
+        let card = cards.find((card) => card.id === arrMembers[i].cardId);
+        if (!card) return;
+        cardArr.push(card);
+        dispatch(filterCardNoMembers(cardArr));
+      }
+      console.log(cardArr);
+    } else {
+      dispatch(findAllCards());
+    }
+  }, [member, membersFilter]);
+
+  const membersFilterByMember = () => {
+    let arr: Member[] = [];
+    let filters: Member[] = [];
+
+    for (let i = 0; i < membersFilter.length; i++) {
+      filters = membersFilterCard.filter(
+        (mem) =>
+          mem.userId === membersFilter[i].userId && mem.role !== Roles.ADMIN
+      );
+    }
+    return [...arr, ...filters];
+  };
+
+  const checkExist = () => {
+    if (!member) return;
+    return membersFilter.find((mem) => mem.id === member.id);
+  };
+
+  useEffect(() => {
+    if (member && !checkExist()) {
+      setMembersFilter([...membersFilter, member]);
+    }
+  }, [member]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.trim() !== '') {
@@ -62,9 +105,9 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
         let card = cards.find(
           (card) => card.id === membersFilterCard[i].cardId
         );
+
         if (!card) return;
-        let index = cards.indexOf(card);
-        cardArr.splice(index, 1);
+        removeFromArr(cardArr, card);
       }
       dispatch(filterCardNoMembers(cardArr));
     } else {
@@ -72,11 +115,18 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
     }
   }, [noMemberFilter]);
 
+  const removeFromArr = (arr: CardDB[], card: CardDB) => {
+    let index = arr.indexOf(card);
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
+    return arr;
+  };
+
   useEffect(() => {
     if (!currentUser) return;
     if (currentUserMember) {
       let cardArr = [];
-
       for (let i = 0; i < membersFilterCard.length; i++) {
         let card = cards.find(
           (card) =>
@@ -85,8 +135,8 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
         );
         if (!card) return;
         cardArr.push(card);
+        dispatch(filterCardNoMembers(cardArr));
       }
-      dispatch(filterCardNoMembers(cardArr));
     } else {
       dispatch(findAllCards());
     }
@@ -109,12 +159,15 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
         <WordFilter handleChange={handleChange} />
         {!onWordFilter ? (
           <MemberFilter
+            noMemberFilter={noMemberFilter}
             setMember={setMember}
             member={member}
             users={users}
             membersFilterTable={membersFilterTable}
             setCurrentUserMember={setCurrentUserMember}
             setMemberFilter={setMemberFilter}
+            // allMembersFilter={allMembersFilter}
+            // setAllMembersFilter={setAllMembersFilter}
           />
         ) : (
           <></>

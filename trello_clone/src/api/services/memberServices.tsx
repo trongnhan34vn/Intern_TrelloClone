@@ -14,10 +14,6 @@ export const UPDATE_ROLE = async (data: MemberUpdateRole): Promise<void> => {
   await instance.patch('/members/'+ data.id, {role: data.role});
 }
 
-export const UPDATE_CARD = async (data: MemberUpdateCard): Promise<void> => {
-  await instance.patch('/members/'+ data.id, {cardId: data.cardId});
-}
-
 export const UPDATE_TASK = async (data: MemberUpdateTask): Promise<void> => {
   await instance.patch('/members/'+ data.id, {taskId: data.taskId});
 }

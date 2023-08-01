@@ -13,6 +13,7 @@ export default function FormAddMember() {
   const searchUsers = useSelector(userSelector).search;
 
   const memberElement = members.map((member) => {
+    if(member.cardId === undefined)
     return <MemberComp inputValue={inputValue} search={searchUsers} key={member.id} member={member} />;
   });
 

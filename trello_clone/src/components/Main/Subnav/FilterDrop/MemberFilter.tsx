@@ -1,31 +1,42 @@
-import { Listbox, Transition } from '@headlessui/react';
+import { Listbox, Popover, Transition } from '@headlessui/react';
 import React, { Fragment, SetStateAction, useState } from 'react';
 import { Member } from '../../../../types/Member.type';
 import { User } from '../../../../types/User.type';
 
 interface MemberFilterProps {
+  noMemberFilter: boolean;
   setMemberFilter: React.Dispatch<SetStateAction<boolean>>;
   setCurrentUserMember: React.Dispatch<SetStateAction<boolean>>;
   membersFilterTable: Member[];
   users: User[];
   member: Member | null;
-  setMember: React.Dispatch<SetStateAction<Member | null>>
+  setMember: React.Dispatch<SetStateAction<Member | null>>;
 }
 
 const MemberFilter = ({
+  noMemberFilter,
   setMemberFilter,
   setCurrentUserMember,
   membersFilterTable,
   users,
   setMember,
-  member
+  member,
 }: MemberFilterProps) => {
-
-
   const getNameMember = (member: Member) => {
     let user = users.find((user) => user.id === member.userId);
     if (!user) return;
     return { fullName: user.fullName, email: user.email, image: user.imageUrl };
+  };
+
+  const handleChange = (
+    member: Member,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (e.target.checked) {
+      setMember(member);
+    } else {
+      setMember(null);
+    }
   };
 
   return (
@@ -37,6 +48,7 @@ const MemberFilter = ({
         {/* Thẻ không có thành viên tham gia */}
         <div className="text-[14px] text-[#B6C2CF] p-2 leading-5 flex items-center">
           <input
+            checked={noMemberFilter}
             onChange={(e) => setMemberFilter(e.target.checked)}
             type="checkbox"
             className="mr-2"
@@ -55,60 +67,60 @@ const MemberFilter = ({
         {/* Thẻ có thành viên được chọn tham gia */}
         <div className="text-[14px] text-[#B6C2CF] p-2 leading-5 flex items-center">
           <input type="checkbox" className="mr-2" />
-          <Listbox value={member} onChange={setMember}>
+          <Popover className="w-full outline-none ">
             <div className="w-full relative">
-              <Listbox.Button className="relative w-full mr-2  cursor-default h-[37px] text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                <button className="flex rounded-[3px] w-full px-[10px] py-1 bg-[#A1BDD914] h-[37px] text-[#B6C2CF] items-center">
+              <Popover.Button className="outline-none  relative w-full mr-2  cursor-pointer h-[37px] text-left focus:outline-none focus-visible:ring-offset-2">
+                <div className="flex rounded-[3px] w-full px-[10px] py-1 bg-[#A1BDD914] h-[37px] text-[#B6C2CF] items-center">
                   <span className="text-[14px] text-left flex-1 leading-[32px] mr-1">
                     Chọn thành viên
                   </span>
                   <i className="fa-solid text-[12px]  fa-angle-down"></i>
-                </button>
-              </Listbox.Button>
+                </div>
+              </Popover.Button>
               <Transition
                 as={Fragment}
                 leave="transition ease-in duration-100"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute z-[100] w-full text-[#B6C2CF] right-0 top-[calc(100%_+_4px)] max-h-60 overflow-auto rounded-[3px] bg-[#282E33] py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Popover.Panel className="absolute z-[100] w-full text-[#B6C2CF] right-0 top-[calc(100%_+_4px)] max-h-60 overflow-auto rounded-[3px] bg-[#282E33] py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {membersFilterTable.map((member) => {
                     return (
-                      <Listbox.Option
+                      <div
                         key={member.id}
-                        className={({ active }) =>
-                          `relative hover:bg-[#A6C5E229]  transition-all ease-in duration-200 select-none py-2 pl-4 pr-4 `
-                        }
-                        value={member}
+                        className={`relative hover:bg-[#A6C5E229] transition-all ease-in duration-200 select-none py-2 pl-4 pr-4 `}
                       >
-                        {({ selected }) => (
-                          <>
-                            <div className="flex items-center ">
-                              <div className=" mr-3 rounded-[50%] w-8 h-8 flex justify-center items-center">
-                                <img
-                                  className="rounded-[50%]"
-                                  src={getNameMember(member)?.image}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="flex flex-col justify-between text-[14px] text-[#B6C2CF]">
-                                <span className="font-bold">
-                                  {getNameMember(member)?.fullName}{' '}
-                                </span>
-                                <span className="">
-                                  {getNameMember(member)?.email}
-                                </span>
-                              </div>
+                        <>
+                          <div className="flex items-center ">
+                            <input
+                              onChange={(e) => handleChange(member, e)}
+                              type="checkbox"
+                              className="mr-2"
+                            />
+                            <div className=" mr-3 rounded-[50%] w-8 h-8 flex justify-center items-center">
+                              <img
+                                className="rounded-[50%]"
+                                src={getNameMember(member)?.image}
+                                alt=""
+                              />
                             </div>
-                          </>
-                        )}
-                      </Listbox.Option>
+                            <div className="flex flex-col justify-between text-[14px] text-[#B6C2CF]">
+                              <span className="font-bold">
+                                {getNameMember(member)?.fullName}{' '}
+                              </span>
+                              <span className="">
+                                {getNameMember(member)?.email}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      </div>
                     );
                   })}
-                </Listbox.Options>
+                </Popover.Panel>
               </Transition>
             </div>
-          </Listbox>
+          </Popover>
         </div>
       </div>
     </div>
