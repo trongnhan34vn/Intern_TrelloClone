@@ -1,29 +1,31 @@
-import React, { createContext } from 'react';
+import React, { useEffect } from 'react';
+import { Member } from '../../../../types/Member.type';
 import { Project } from '../../../../types/Project.type';
 import { getFirstChar } from '../../../../utils/getFirstChar';
 import ListTables from './ListTables';
+import { ProjectContext } from './ProjectTag';
 
-export const ProjectContext = createContext<Project>({
-  id: 0,
-  name: '',
-  userId: 0,
-  typeProjectId: 0,
-  description: ''
-});
+interface MembersProjectTagProps {
+  project: Project;
+  membersFilter: Member[];
+}
 
-export default function  ProjectTag(props: { project: Project }) {
+const MembersProjectTag = ({
+  project,
+  membersFilter,
+}: MembersProjectTagProps) => {
   return (
     <div className="task-item pb-5 max-w-[1266px]">
       <div className="flex ml-10 pb-[11px] relative">
         <div className="left-[-40px] absolute top-0">
           <div className="rounded-[3px] h-8 w-8 overflow-hidden mb-4">
             <div className="bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center w-full h-full text-[20px] font-bold text-[#1D2125]">
-              {getFirstChar(props.project.name)}
+              {getFirstChar(project.name)}
             </div>
           </div>
         </div>
         <h3 className="w-[200px] inline-block overflow-hidden text-base text-[#B6C2CF] whitespace-nowrap font-bold mt-[3px] text-ellipsis	">
-          {props.project.name}
+          {project.name}
         </h3>
         <div className="flex flex-wrap ml-2 whitespace-nowrap">
           <a
@@ -57,10 +59,12 @@ export default function  ProjectTag(props: { project: Project }) {
         </div>
       </div>
       <div>
-        <ProjectContext.Provider value={props.project}>
+        <ProjectContext.Provider value={project}>
           <ListTables />
         </ProjectContext.Provider>
       </div>
     </div>
   );
-}
+};
+
+export default MembersProjectTag;

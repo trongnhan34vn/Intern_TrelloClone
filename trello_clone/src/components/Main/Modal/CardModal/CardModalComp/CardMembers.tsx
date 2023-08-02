@@ -1,13 +1,15 @@
 import React from 'react';
 import { Member } from '../../../../../types/Member.type';
 import CardMemberImg from './CardMemberImg';
+import { MemberCard } from '../../../../../types/MemberCard.type';
 
 interface CardMembersProps {
   members: Member[]
+  memberCardsFilterCardId: MemberCard[]
 }
 
-const CardMembers = ({members}: CardMembersProps) => {
-
+const CardMembers = ({members, memberCardsFilterCardId}: CardMembersProps) => {
+  
   const memberElement = members.map(member => {
     return (
       <CardMemberImg key={member.id} member={member} />

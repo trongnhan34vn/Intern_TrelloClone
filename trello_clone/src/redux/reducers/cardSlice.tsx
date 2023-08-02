@@ -13,11 +13,13 @@ import {
 interface CardState {
   listCards: CardDB[];
   selectCard: CardDB | null;
+  search: CardDB[]
 }
 
 const initState: CardState = {
   listCards: [],
   selectCard: null,
+  search: [],
 };
 
 const cardSlice = createSlice({
@@ -43,6 +45,13 @@ const cardSlice = createSlice({
     updateCardDate: (state, action: PayloadAction<CardUpdateDate>) => {},
     updateCardStatus: (state, action: PayloadAction<CardUpdateStatus>) => {},
     updateCardName: (state, action: PayloadAction<CardUpdateName>) => {},
+    searchCardByName: (state, action: PayloadAction<string>) => {},
+    getSearchByName: (state, action: PayloadAction<CardDB[]>) => {
+      state.listCards = action.payload;
+    },
+    filterCardNoMembers: (state, action: PayloadAction<CardDB[]>) => {
+      state.listCards = action.payload;
+    },
   },
 });
 
@@ -60,4 +69,7 @@ export const {
   updateCardDate,
   updateCardStatus,
   updateCardName,
+  searchCardByName,
+  getSearchByName,
+  filterCardNoMembers
 } = cardSlice.actions;

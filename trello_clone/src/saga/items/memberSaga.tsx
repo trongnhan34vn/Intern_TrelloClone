@@ -4,15 +4,14 @@ import {
   CREATE_MEMBER,
   FIND_ALL,
   FIND_BY_TABLE_ID,
-  UPDATE_CARD,
+  FIND_BY_USER_ID,
   UPDATE_ROLE,
   UPDATE_TASK,
 } from '../../api/services/memberServices';
-import { getAll, getByTableId } from '../../redux/reducers/memberSlice';
+import { getAll, getByTableId, getByUserId } from '../../redux/reducers/memberSlice';
 import {
   Member,
   MemberForm,
-  MemberUpdateCard,
   MemberUpdateRole,
   MemberUpdateTask,
 } from '../../types/Member.type';
@@ -25,6 +24,7 @@ export const createMember = function* ({ payload }: PayloadAction<MemberForm>) {
       payload: payload.tableId ? payload.tableId : 0,
     };
     yield findByTableId(fakeAction);
+    // yield findAll()
   } catch (error) {}
 };
 
@@ -40,19 +40,6 @@ export const updateRole = function* ({
 }: PayloadAction<MemberUpdateRole>) {
   try {
     yield call(UPDATE_ROLE, payload);
-    let fakeAction: PayloadAction<number> = {
-      type: 'recall-find',
-      payload: payload.tableId,
-    };
-    yield findByTableId(fakeAction);
-  } catch (error) {}
-};
-
-export const updateCard = function* ({
-  payload,
-}: PayloadAction<MemberUpdateCard>) {
-  try {
-    yield call(UPDATE_CARD, payload);
     let fakeAction: PayloadAction<number> = {
       type: 'recall-find',
       payload: payload.tableId,
@@ -80,3 +67,12 @@ export const findAll = function* () {
     yield put(getAll(response));
   } catch (error) {}
 };
+
+export const findByUserId = function* (action: PayloadAction<number>) {
+  try {
+    let response : Member[] = yield call(FIND_BY_USER_ID, action.payload)
+    yield put(getByUserId(response))
+  } catch (error) {
+    
+  }
+}

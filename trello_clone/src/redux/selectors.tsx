@@ -12,3 +12,4 @@ export const workSelector = (state: RootState) => state.work;
 export const taskSelector = (state: RootState) => state.task;
 export const memberSelector = (state: RootState) => state.member;
 export const notifySelector = (state: RootState) => state.notify;
+export const memberCardSelector = (state: RootState) => state.memberCard;

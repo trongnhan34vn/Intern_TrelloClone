@@ -54,44 +54,12 @@
   ],
   "projects": [
     {
-      "name": "Khoa Pug Entertainment",
+      "name": "Khoa Pug",
       "typeProjectId": 3,
       "userId": 1,
-      "description": "Khoa Vip Pro",
-      "createdAt": 1689325298469,
+      "description": "",
+      "createdAt": 1690902903424,
       "id": 1
-    },
-    {
-      "name": "Nam béo",
-      "typeProjectId": 3,
-      "userId": 1,
-      "description": "",
-      "createdAt": 1689408413492,
-      "id": 2
-    },
-    {
-      "name": "anh Nam Gucci",
-      "typeProjectId": 3,
-      "userId": 2,
-      "description": "",
-      "createdAt": 1690431101675,
-      "id": 3
-    },
-    {
-      "name": "anh Nam vô địch",
-      "typeProjectId": 4,
-      "userId": 2,
-      "description": "",
-      "createdAt": 1690643343255,
-      "id": 4
-    },
-    {
-      "name": "trelllo",
-      "typeProjectId": 4,
-      "userId": 2,
-      "description": "",
-      "createdAt": 1690643433803,
-      "id": 5
     }
   ],
   "backgrounds": [
@@ -130,225 +98,111 @@
   ],
   "tables": [
     {
-      "name": "anh Nam Gucci",
-      "projectId": 3,
-      "bgId": 2,
-      "createdAt": 1690535845693,
+      "name": "cíu anhh",
+      "projectId": 1,
+      "bgId": 5,
+      "createdAt": 1690902922139,
       "id": 1
     },
     {
-      "name": "nam béo",
-      "projectId": 1,
-      "bgId": 1,
-      "createdAt": 1690536369367,
-      "id": 2
-    },
-    {
-      "name": "aaaaa",
-      "projectId": 1,
-      "bgId": 0,
-      "createdAt": 1690539540552,
-      "id": 3
-    },
-    {
-      "name": "ba",
-      "projectId": 1,
-      "bgId": 0,
-      "createdAt": 1690539580161,
-      "id": 4
-    },
-    {
-      "name": "aaaa",
+      "name": "2020",
       "projectId": 1,
       "bgId": 2,
-      "createdAt": 1690539727892,
-      "id": 5
-    },
-    {
-      "name": "anh Nam",
-      "projectId": 4,
-      "bgId": 1,
-      "createdAt": 1690643379924,
-      "id": 6
-    },
-    {
-      "name": "bug quá",
-      "projectId": 3,
-      "bgId": 6,
-      "createdAt": 1690643453911,
-      "id": 7
+      "createdAt": 1690912229099,
+      "id": 2
     }
   ],
   "lists": [
     {
-      "name": "Hà Nội",
+      "name": "Hà nội",
       "tableId": 1,
-      "order": 1,
-      "createdAt": 1690535921264,
+      "order": 0,
+      "createdAt": 1690902957017,
       "id": 1
     },
     {
-      "name": "Nam bíu",
+      "name": "ngày buồn",
       "tableId": 1,
-      "order": 0,
-      "createdAt": 1690535956278,
+      "order": 1,
+      "createdAt": 1690904378209,
       "id": 2
-    },
-    {
-      "name": "nam béo",
-      "tableId": 2,
-      "order": 2,
-      "createdAt": 1690536430641,
-      "id": 3
     }
   ],
   "cards": [
     {
-      "name": "Hà nội đêm trở gió",
+      "name": "đêm trở gió",
       "listId": 1,
-      "order": 0,
-      "description": "hà nội đêm trở gió",
-      "status": true,
-      "endAt": 1691154540000,
-      "createdAt": 1690535930512,
-      "id": 1
-    },
-    {
-      "name": "nam béo",
-      "listId": 3,
       "order": 0,
       "description": "",
       "status": false,
       "endAt": 0,
-      "createdAt": 1690536436781,
+      "createdAt": 1690902966270,
+      "id": 1
+    },
+    {
+      "name": "mưa rơi rả rích",
+      "listId": 2,
+      "order": 1,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1690904385987,
       "id": 2
     },
     {
-      "name": "hà nội",
+      "name": "khoaaa",
       "listId": 2,
       "order": 0,
       "description": "",
       "status": false,
       "endAt": 0,
-      "createdAt": 1690611245628,
+      "createdAt": 1690904392397,
       "id": 3
-    },
-    {
-      "name": "nam",
-      "listId": 1,
-      "order": 1,
-      "description": "",
-      "status": false,
-      "endAt": 0,
-      "createdAt": 1690612709877,
-      "id": 4
     }
   ],
-  "works": [
-    {
-      "cardId": 1,
-      "name": "fix bug",
-      "process": 0,
-      "createdAt": 1690549920170,
-      "id": 1
-    }
-  ],
-  "tasks": [
-    {
-      "name": "back end",
-      "workId": 1,
-      "endAt": 0,
-      "status": true,
-      "createdAt": 1690550023625,
-      "id": 1,
-      "member": null
-    },
-    {
-      "name": "front-end",
-      "workId": 1,
-      "endAt": 0,
-      "status": false,
-      "createdAt": 1690550039589,
-      "id": 2,
-      "member": 1
-    },
-    {
-      "name": "deploy",
-      "workId": 1,
-      "endAt": 0,
-      "status": false,
-      "createdAt": 1690608806918,
-      "id": 3,
-      "member": 2
-    },
-    {
-      "name": "sale",
-      "workId": 1,
-      "endAt": 0,
-      "status": false,
-      "createdAt": 1690736525943,
-      "id": 4
-    }
-  ],
+  "works": [],
+  "tasks": [],
   "members": [
     {
       "tableId": 1,
-      "userId": 2,
+      "userId": 1,
       "role": "Quản trị viên",
-      "createdAt": 1690535845792,
-      "id": 1,
-      "cardId": null
+      "createdAt": 1690902922162,
+      "id": 1
     },
     {
-      "userId": 1,
+      "userId": 2,
       "tableId": 1,
       "role": "Thành viên",
-      "createdAt": 1690535901504,
-      "id": 2,
-      "cardId": null
+      "createdAt": 1690902987411,
+      "id": 2
     },
     {
       "tableId": 2,
       "userId": 1,
       "role": "Quản trị viên",
-      "createdAt": 1690536369399,
-      "id": 3,
-      "cardId": 2
+      "createdAt": 1690912229121,
+      "id": 3
+    }
+  ],
+  "member-card": [
+    {
+      "memberId": 1,
+      "cardId": 1,
+      "createdAt": 1690906539172,
+      "id": 3
     },
     {
-      "tableId": 3,
-      "userId": 1,
-      "role": "Quản trị viên",
-      "createdAt": 1690539540603,
+      "memberId": 2,
+      "cardId": 1,
+      "createdAt": 1690906590292,
       "id": 4
     },
     {
-      "tableId": 4,
-      "userId": 1,
-      "role": "Quản trị viên",
-      "createdAt": 1690539580196,
+      "memberId": 1,
+      "cardId": 3,
+      "createdAt": 1690908760455,
       "id": 5
-    },
-    {
-      "tableId": 5,
-      "userId": 1,
-      "role": "Quản trị viên",
-      "createdAt": 1690539727940,
-      "id": 6
-    },
-    {
-      "tableId": 6,
-      "userId": 2,
-      "role": "Quản trị viên",
-      "createdAt": 1690643379952,
-      "id": 7
-    },
-    {
-      "tableId": 7,
-      "userId": 2,
-      "role": "Quản trị viên",
-      "createdAt": 1690643453955,
-      "id": 8
     }
   ]
 }

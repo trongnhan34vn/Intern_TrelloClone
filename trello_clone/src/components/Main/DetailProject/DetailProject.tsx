@@ -6,17 +6,24 @@ import * as projectSlice from '../../../redux/reducers/projectSlice';
 import * as tableSlice from '../../../redux/reducers/tableSlice';
 import {
   backgroundSelector,
+  cardSelector,
+  memberCardSelector,
   memberSelector,
   tableSelector,
   userSelector,
 } from '../../../redux/selectors';
-import SubNav from '../Subnav/SubNav';
+
 import TaskControll from './TaskControll/Board';
 import { Table } from '../../../types/Table.type';
 import * as memberSlice from '../../../redux/reducers/memberSlice';
 import { Member } from '../../../types/Member.type';
-import { findAll } from '../../../redux/reducers/userSlice';
+import * as userSlice from '../../../redux/reducers/userSlice';
 import { User } from '../../../types/User.type';
+import SubNav from '../Subnav/SubNav';
+import * as cardSlice from '../../../redux/reducers/cardSlice';
+import { CardDB } from '../../../types/Card.type';
+import * as memberCardSlice from '../../../redux/reducers/memberCardSlice';
+import { MemberCard } from '../../../types/MemberCard.type';
 
 
 export interface SubNavState {
@@ -24,6 +31,8 @@ export interface SubNavState {
   selectTable: Table | null;
   members: Member[]
   users: User[]
+  cards: CardDB[]
+  memberCards: MemberCard[]
 }
 
 export const SubnavContext = createContext<SubNavState | null>(null);
@@ -36,9 +45,13 @@ export default function DetailProject() {
     if (!tableId) return;
     dispatch(tableSlice.findById(+tableId));
     dispatch(findAllBGs());
-    dispatch(findAll())
+    dispatch(userSlice.findAll())
+    dispatch(cardSlice.findAllCards())
+    dispatch(memberCardSlice.findAll());
+
   }, [tableId]);
 
+  const memberCards = useSelector(memberCardSelector).memberCards;
   const selectTable = useSelector(tableSelector).selectTable;
   const backgrounds = useSelector(backgroundSelector).listBGs;
   const users = useSelector(userSelector).users;
@@ -50,6 +63,7 @@ export default function DetailProject() {
   }, [selectTable]);
 
   const members = useSelector(memberSelector).members;
+  const cards = useSelector(cardSelector).listCards;
 
   const getBackgroundURL = () => {
     if (!selectTable) return;
@@ -73,7 +87,9 @@ export default function DetailProject() {
                 tableId: tableId ? +tableId : 0,
                 selectTable: selectTable,
                 members: members,
-                users: users
+                users: users,
+                cards: cards,
+                memberCards: memberCards 
               }}
             >
               <SubNav />

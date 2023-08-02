@@ -12,11 +12,13 @@ export interface TableAction {
 interface ProjectState {
   listProjects: Project[];
   selectProject: Project | null;
+  projects: Project[];
 }
 
 const initialState: ProjectState = {
   listProjects: [],
   selectProject: null,
+  projects: [],
 };
 
 const projectSlice = createSlice({
@@ -32,6 +34,10 @@ const projectSlice = createSlice({
     getById: (state, action: PayloadAction<Project>) => {
       state.selectProject = action.payload;
     },
+    findAll: () => {},
+    getAll: (state, action: PayloadAction<Project[]>) => {
+      state.projects = action.payload;
+    },
   },
 });
 
@@ -42,4 +48,6 @@ export const {
   getProjectsByUserId,
   findById,
   getById,
+  findAll,
+  getAll
 } = projectSlice.actions;

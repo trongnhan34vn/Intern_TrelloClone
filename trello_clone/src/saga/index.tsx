@@ -19,6 +19,8 @@ import * as taskSlice from '../redux/reducers/taskSlice';
 import * as taskSaga from './items/taskSaga';
 import * as memberSlice from '../redux/reducers/memberSlice';
 import * as memberSaga from './items/memberSaga';
+import * as memberCardSaga from './items/memberCardSaga';
+import * as memberCardSlice from '../redux/reducers/memberCardSlice';
 
 export const rootSaga = function* () {
   yield all([
@@ -37,6 +39,7 @@ export const rootSaga = function* () {
       projectSaga.findProjectsByUserId
     ),
     takeLatest(projectSlice.findById.type, projectSaga.findById),
+    takeLatest(projectSlice.findAll.type, projectSaga.findAll),
     // BACKGROUNDS
     takeLatest(findAllBGs.type, backgroundSaga.findAllBackgrounds),
     // TABLES
@@ -67,6 +70,7 @@ export const rootSaga = function* () {
     takeLatest(cardSlice.updateCardName.type, cardSaga.updateCardName),
     takeLatest(cardSlice.updateCardDate.type, cardSaga.updateCardDate),
     takeLatest(cardSlice.updateCardStatus.type, cardSaga.updateCardStatus),
+    takeLatest(cardSlice.searchCardByName.type, cardSaga.searchCardByName),
     // WORKS
     takeLatest(workSlice.createWork.type, workSaga.createWork),
     takeLatest(workSlice.findWorksByCardId.type, workSaga.findWorksByCardId),
@@ -81,8 +85,12 @@ export const rootSaga = function* () {
     takeLatest(memberSlice.createMember.type, memberSaga.createMember),
     takeLatest(memberSlice.findByTableId.type, memberSaga.findByTableId),
     takeLatest(memberSlice.updateRole.type, memberSaga.updateRole),
-    takeLatest(memberSlice.updateCard.type, memberSaga.updateCard),
     takeLatest(memberSlice.updateTask.type, memberSaga.updateTask),
-    takeLatest(memberSlice.findAll.type, memberSaga.findAll)
+    takeLatest(memberSlice.findAll.type, memberSaga.findAll),
+    takeLatest(memberSlice.findByUserId.type, memberSaga.findByUserId),
+    // MEMBER_CARD 
+    takeLatest(memberCardSlice.create.type, memberCardSaga.create),
+    takeLatest(memberCardSlice.deleteMC.type, memberCardSaga.deleteMC),
+    takeLatest(memberCardSlice.findAll.type, memberCardSaga.findAll),
   ]);
 };
