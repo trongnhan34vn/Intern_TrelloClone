@@ -8,6 +8,7 @@ import {
   backgroundSelector,
   cardSelector,
   listSelector,
+  memberCardSelector,
   memberSelector,
   tableSelector,
   userSelector,
@@ -23,6 +24,8 @@ import * as memberSlice from '../../../../redux/reducers/memberSlice';
 import { Member } from '../../../../types/Member.type';
 import * as userSlice from '../../../../redux/reducers/userSlice';
 import { User } from '../../../../types/User.type';
+import * as memberCardSlice from '../../../../redux/reducers/memberCardSlice';
+import { MemberCard } from '../../../../types/MemberCard.type';
 
 export interface TableViewProps {
   tables: Table[];
@@ -31,6 +34,7 @@ export interface TableViewProps {
   backgrounds: Background[];
   members: Member[];
   users: User[];
+  memberCards: MemberCard[]
 }
 
 export const TableViewContext = createContext<TableViewProps | null>(null);
@@ -47,6 +51,7 @@ export const TableView = () => {
     dispatch(backgroundSlice.findAllBGs());
     dispatch(memberSlice.findAll());
     dispatch(userSlice.findAll());
+    dispatch(memberCardSlice.findAll())
   }, []);
 
   const tables = useSelector(tableSelector).tablesByProjectId;
@@ -55,6 +60,7 @@ export const TableView = () => {
   const backgrounds = useSelector(backgroundSelector).listBGs;
   const members = useSelector(memberSelector).members;
   const users = useSelector(userSelector).users;
+  const memberCards = useSelector(memberCardSelector).memberCards;
   
   return (
     <div className="flex bg-no-repeat bg-cover bg-center flex-col flex-1 pl-[260px] h-[calc(100vh_-_64px)] overflow-y-auto">
@@ -66,6 +72,7 @@ export const TableView = () => {
           backgrounds: backgrounds,
           members: members,
           users: users,
+          memberCards: memberCards,
         }}
       >
         <HeadTable />

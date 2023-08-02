@@ -12,7 +12,7 @@ const NavForm = ({ state, signOut, userLogin }: NavFormProps) => {
     <div
       className={`${
         state ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
-      } transition-all text-[#B6C2CF] ease-in-out duration-75 absolute right-0 z-10 mt-2 w-[250px] origin-top-right rounded-md bg-[#282E33] py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+      } transition-all text-[#B6C2CF] z-[999] ease-in-out duration-75 absolute right-0 mt-2 w-[250px] origin-top-right rounded-md bg-[#282E33] py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
       role="menu"
       aria-orientation="vertical"
       aria-labelledby="user-menu-button"

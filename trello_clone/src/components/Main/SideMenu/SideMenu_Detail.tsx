@@ -33,10 +33,12 @@ export default function SideMenu_Detail() {
   const tableElement = tables.map((table) => {
     return (
       <NavLink
-        onClick={()=> setActive('table-' + table.id)}
+        onClick={() => setActive('table-' + table.id)}
         key={table.id}
         to={`/main-app/detail-project/${table.id}/${table.projectId}`}
-        className={`${active === 'table-' + table.id ? 'bg-[#464247]' : ''} flex text-[14px] text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8`}
+        className={`${
+          active === 'table-' + table.id ? 'bg-[#464247]' : ''
+        } flex text-[14px] text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8`}
       >
         <img
           src={table.bgId ? getBG(table.bgId) : ''}
@@ -114,15 +116,18 @@ export default function SideMenu_Detail() {
               Bảng
             </p>
           </Link>
-          <a
-            href="#"
-            className="flex text-[14px] font-semibold text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
+          <Link
+            onClick={() => setActive('chart-view')}
+            to={`/main-app/detail-project/${tableId}/${projectId}/chart-view`}
+            className={`${
+              active === 'chart-view' ? 'bg-[#464247]' : ''
+            } flex text-[14px] font-semibold text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8`}
           >
             <i className="fa-regular w-[14px] fa-calendar-days"></i>
             <p className="ml-3 italic overflow-hidden text-ellipsis whitespace-nowrap">
-              Lịch
+              Thống kê
             </p>
-          </a>
+          </Link>
         </ul>
       </div>
       <div className="mt-[6px]">
