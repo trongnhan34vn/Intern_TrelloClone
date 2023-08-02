@@ -126,13 +126,20 @@
       "order": 1,
       "createdAt": 1690904378209,
       "id": 2
+    },
+    {
+      "name": "ko nghĩ ra",
+      "tableId": 1,
+      "order": 2,
+      "createdAt": 1690962659465,
+      "id": 3
     }
   ],
   "cards": [
     {
       "name": "đêm trở gió",
-      "listId": 1,
-      "order": 0,
+      "listId": 2,
+      "order": 1,
       "description": "",
       "status": false,
       "endAt": 0,
@@ -142,7 +149,7 @@
     {
       "name": "mưa rơi rả rích",
       "listId": 2,
-      "order": 1,
+      "order": 0,
       "description": "",
       "status": false,
       "endAt": 0,
@@ -151,7 +158,7 @@
     },
     {
       "name": "khoaaa",
-      "listId": 2,
+      "listId": 1,
       "order": 0,
       "description": "",
       "status": false,
@@ -173,7 +180,7 @@
     {
       "userId": 2,
       "tableId": 1,
-      "role": "Thành viên",
+      "role": "Quan sát viên",
       "createdAt": 1690902987411,
       "id": 2
     },

@@ -17,9 +17,15 @@ import { CardContext } from '../../Modal/CardModal/CardModal';
 
 interface FilterDropProps {
   close: () => void;
+  open: boolean;
+  setActiveBtn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const FilterDropDown = ({ close }: FilterDropProps) => {
+const FilterDropDown = ({ close, open, setActiveBtn }: FilterDropProps) => {
+  useEffect(() => {
+    setActiveBtn(open);
+  }, [open]);
+
   const dispatch = useDispatch();
   const subNavContext = useContext(SubnavContext);
   const userLocal = localStorage.getItem('userLogin');
@@ -115,7 +121,6 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
     let cardArr = [];
     let memberCs = filterMembersByUserId();
 
-    
     for (let i = 0; i < memberCs.length; i++) {
       let card = cards.find((c) => c.id === memberCs[i].cardId);
 
@@ -133,19 +138,6 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
       dispatch(findAllCards());
     }
   }, [member, membersFilter]);
-
-  // const membersFilterByMember = () => {
-  //   let arr: Member[] = [];
-  //   let filters: Member[] = [];
-
-  //   for (let i = 0; i < membersFilter.length; i++) {
-  //     filters = membersFilterCard.filter(
-  //       (mem) =>
-  //         mem.userId === membersFilter[i].userId && mem.role !== Roles.ADMIN
-  //     );
-  //   }
-  //   return [...arr, ...filters];
-  // };
 
   const checkExist = () => {
     if (!member) return;
@@ -195,7 +187,7 @@ const FilterDropDown = ({ close }: FilterDropProps) => {
           <span>Lọc</span>
         </div>
         <button
-          onClick={() => close}
+          onClick={() => close()}
           className="absolute p-[6px] top-2 right-2 w-8 h-8 rounded-[3px] text-[#8C9BAB] hover:bg-[#A6C5E229] transition-all ease-in duration-200"
         >
           <i className="fa-solid fa-xmark"></i>

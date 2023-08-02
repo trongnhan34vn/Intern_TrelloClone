@@ -28,8 +28,8 @@ export default function BoardComp() {
   useEffect(() => {
     if (!tableId) return;
     dispatch(cardSlice.findAllCards());
-    dispatch(listSlice.findListsByTableId(parseInt(tableId)));
-    // dispatch(listSlice.findAllList());
+    // dispatch(listSlice.findListsByTableId(parseInt(tableId)));
+    dispatch(listSlice.findAllList());
   }, [tableId]);
 
   const lanes = useSelector(listSelector).lists;
