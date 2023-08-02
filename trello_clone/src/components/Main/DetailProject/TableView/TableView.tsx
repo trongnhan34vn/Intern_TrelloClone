@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect } from 'react';
 import HeadTable from './HeadTable';
 import BodyTable from './BodyTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import * as tableSlice from '../../../../redux/reducers/tableSlice';
 import {
   backgroundSelector,
@@ -34,7 +34,7 @@ export interface TableViewProps {
   backgrounds: Background[];
   members: Member[];
   users: User[];
-  memberCards: MemberCard[]
+  memberCards: MemberCard[];
 }
 
 export const TableViewContext = createContext<TableViewProps | null>(null);
@@ -51,7 +51,7 @@ export const TableView = () => {
     dispatch(backgroundSlice.findAllBGs());
     dispatch(memberSlice.findAll());
     dispatch(userSlice.findAll());
-    dispatch(memberCardSlice.findAll())
+    dispatch(memberCardSlice.findAll());
   }, []);
 
   const tables = useSelector(tableSelector).tablesByProjectId;
@@ -61,7 +61,7 @@ export const TableView = () => {
   const members = useSelector(memberSelector).members;
   const users = useSelector(userSelector).users;
   const memberCards = useSelector(memberCardSelector).memberCards;
-  
+
   return (
     <div className="flex bg-no-repeat bg-cover bg-center flex-col flex-1 pl-[260px] h-[calc(100vh_-_64px)] overflow-y-auto">
       <TableViewContext.Provider

@@ -1,4 +1,11 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  SetStateAction,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import '../../../../assets/css/react-trello.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -16,7 +23,11 @@ import NewLaneSection from './NewLaneSection';
 import NewLaneForm from './NewLaneForm';
 import CardModal from '../../Modal/CardModal/CardModal';
 
-export default function BoardComp() {
+interface BoardCompProps {
+  setUpdate: React.Dispatch<SetStateAction<boolean>>;
+}
+
+export default function BoardComp({ setUpdate }: BoardCompProps) {
   const dispatch = useDispatch();
   const { tableId } = useParams();
   const [data, setData] = useState<BoardData>({
@@ -206,6 +217,10 @@ export default function BoardComp() {
       };
       dispatch(cardSlice.updateCardTest(cardU));
     }
+    setUpdate(true);
+    setTimeout(() => {
+      setUpdate(false);
+    }, 50);
   };
 
   // drag list

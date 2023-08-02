@@ -1,4 +1,9 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, {
+  SetStateAction,
+  createContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { findAllBGs } from '../../../redux/reducers/backgroundSlice';
@@ -7,6 +12,7 @@ import * as tableSlice from '../../../redux/reducers/tableSlice';
 import {
   backgroundSelector,
   cardSelector,
+  listSelector,
   memberCardSelector,
   memberSelector,
   tableSelector,
@@ -24,15 +30,24 @@ import * as cardSlice from '../../../redux/reducers/cardSlice';
 import { CardDB } from '../../../types/Card.type';
 import * as memberCardSlice from '../../../redux/reducers/memberCardSlice';
 import { MemberCard } from '../../../types/MemberCard.type';
-
+import { ViewItems, viewItems } from '../Subnav/ViewTypeComp';
+import TableComp from './Table/Table';
+import * as listSlice from '../../../redux/reducers/listSlice';
+import { List } from '../../../types/List.type';
+import { Background } from '../../../types/Background.type';
+import LoadingOverlay from 'react-loading-overlay-ts'
 
 export interface SubNavState {
   tableId: number;
   selectTable: Table | null;
-  members: Member[]
-  users: User[]
-  cards: CardDB[]
-  memberCards: MemberCard[]
+  members: Member[];
+  users: User[];
+  cards: CardDB[];
+  memberCards: MemberCard[];
+  viewType: ViewItems | null;
+  setViewType: React.Dispatch<SetStateAction<ViewItems | null>>;
+  lists: List[];
+  backgrounds: Background[]
 }
 
 export const SubnavContext = createContext<SubNavState | null>(null);
@@ -45,16 +60,17 @@ export default function DetailProject() {
     if (!tableId) return;
     dispatch(tableSlice.findById(+tableId));
     dispatch(findAllBGs());
-    dispatch(userSlice.findAll())
-    dispatch(cardSlice.findAllCards())
+    dispatch(userSlice.findAll());
+    dispatch(cardSlice.findAllCards());
     dispatch(memberCardSlice.findAll());
-
+    dispatch(listSlice.findAllList());
   }, [tableId]);
 
   const memberCards = useSelector(memberCardSelector).memberCards;
   const selectTable = useSelector(tableSelector).selectTable;
   const backgrounds = useSelector(backgroundSelector).listBGs;
   const users = useSelector(userSelector).users;
+  const lists = useSelector(listSelector).lists;
 
   useEffect(() => {
     if (!selectTable) return;
@@ -73,6 +89,16 @@ export default function DetailProject() {
     return bg.bgUrl;
   };
 
+  const [isUpdate, setUpdate]=useState<boolean>(false);
+
+  const [viewType, setViewType] = useState<ViewItems | null>(viewItems[0]);
+
+  useEffect(() => {
+    if(isUpdate) dispatch(cardSlice.findAllCards());
+  },[isUpdate])
+
+  const [isActive, setActive] = useState<boolean>(false);
+
   return (
     <div
       style={{ backgroundImage: `url("${getBackgroundURL()}")` }}
@@ -89,13 +115,19 @@ export default function DetailProject() {
                 members: members,
                 users: users,
                 cards: cards,
-                memberCards: memberCards 
+                memberCards: memberCards,
+                viewType: viewType,
+                setViewType: setViewType,
+                lists: lists,
+                backgrounds: backgrounds
               }}
             >
               <SubNav />
               {/* Sub Nav */}
               {/* Task */}
-              <TaskControll />
+
+              {viewType?.type === 'card' ? <TaskControll setUpdate={setUpdate} /> : <TableComp />}
+
               {/* Task */}
             </SubnavContext.Provider>
           </div>
