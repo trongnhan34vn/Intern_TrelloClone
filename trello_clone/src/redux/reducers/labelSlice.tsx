@@ -17,8 +17,6 @@ const labelSlice = createSlice({
   reducers: {
     findAll: () => {},
     getAll: (state, action: PayloadAction<Label[]>) => {
-      console.log(action.payload);
-
       state.labels = action.payload;
     },
     searchByName: (state, action: PayloadAction<string>) => {},

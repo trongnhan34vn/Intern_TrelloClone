@@ -15,7 +15,7 @@ const FormAddLabel = () => {
 
   const cardLabelFilterByCard = selectCard
     ? cardLabels.filter((cl) => cl.cardId === selectCard.id)
-    : [];    
+    : [];
 
   const checkExist = (labelId: number) => {
     return cardLabelFilterByCard.find((cl) => cl.labelId === labelId);
@@ -28,8 +28,16 @@ const FormAddLabel = () => {
 
   const [selectInputs, setSelectInputs] = useState<number[]>([]);
 
+  useEffect(() => {
+    let arr = selectInputs;
+    for (let i = 0; i < cardLabelFilterByCard.length; i++) {
+      arr.push(cardLabelFilterByCard[i].labelId);
+    }
+    setSelectInputs(arr);
+  }, []);
+
   const handleClick = (id: number) => {
-    if(!selectCard) return
+    if (!selectCard) return;
     let inputRefs = [...selectInputs];
     let index = inputRefs.indexOf(id);
     if (index >= 0) {
@@ -38,10 +46,14 @@ const FormAddLabel = () => {
       inputRefs.push(id);
     }
     setSelectInputs(inputRefs);
-    
+
     if (!checkExist(id)) {
-      dispatch(cardLabelSlice.create({labelId: id, cardId: selectCard.id}))
-    } 
+      dispatch(cardLabelSlice.create({ labelId: id, cardId: selectCard.id }));
+    } else {
+      let check = checkExist(id);
+      if (!check) return;
+      dispatch(cardLabelSlice.remove(check.id));
+    }
   };
 
   const labelElement = labelStream.map((label) => {

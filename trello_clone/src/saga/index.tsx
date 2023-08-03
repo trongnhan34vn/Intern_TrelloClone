@@ -102,6 +102,6 @@ export const rootSaga = function* () {
     // CARD_LABEL
     takeLatest(cardLabelSlice.create.type, cardLabelSaga.create),
     takeLatest(cardLabelSlice.findAll.type, cardLabelSaga.findAll),
-
+    takeLatest(cardLabelSlice.remove.type, cardLabelSaga.remove),
   ]);
 };

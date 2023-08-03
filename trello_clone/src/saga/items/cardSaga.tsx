@@ -60,7 +60,7 @@ export const updateCard = function* (action: PayloadAction<CardPatch>) {
 export const updateCardTest = function* (action: PayloadAction<CardPatchTest>) {
   try {
     yield call(UPDATE_CARD_TEST, action.payload);
-    // yield findAllCards();
+    yield findAllCards();
   } catch (error) {}
 };
 

@@ -217,10 +217,10 @@ export default function BoardComp({ setUpdate }: BoardCompProps) {
       };
       dispatch(cardSlice.updateCardTest(cardU));
     }
-    setUpdate(true);
-    setTimeout(() => {
-      setUpdate(false);
-    }, 50);
+    // setUpdate(true);
+    // setTimeout(() => {
+    //   setUpdate(false);
+    // }, 50);
   };
 
   // drag list

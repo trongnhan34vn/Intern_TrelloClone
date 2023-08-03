@@ -83,6 +83,7 @@ export default function DetailProject() {
   const users = useSelector(userSelector).users;
   const lists = useSelector(listSelector).lists;
   const labels = useSelector(labelSelector).labels;
+  
 
   useEffect(() => {
     if (!selectTable) return;

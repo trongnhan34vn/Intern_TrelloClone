@@ -16,6 +16,19 @@ const Item = ({ list }: ItemProps) => {
   const selectTable = snContext ? snContext.selectTable : null;
   const members = snContext ? snContext.members : [];
   const users = snContext ? snContext.users : [];
+  const cardLabels = snContext ? snContext.cardLabels : [];
+  const labels = snContext ? snContext.labels : [];
+
+  const filterLabelsByCard = (cardId: number) => {
+    let cl = cardLabels.filter((cl) => cl.cardId === cardId);
+    let temps = [];
+    for (let i = 0; i < cl.length; i++) {
+      let temp = labels.find((label) => label.id === cl[i].labelId);
+      if (!temp) return [];
+      temps.push(temp);
+    }
+    return temps;
+  };
 
   const getBackgroundURL = () => {
     if (!selectTable) return;
@@ -53,6 +66,16 @@ const Item = ({ list }: ItemProps) => {
 
   const cardElement = cardsFiltered.map((card) => {
     let membersFiltered = filterMemberByCardId(card);
+
+    const labelElement = filterLabelsByCard(card.id).map((label) => {
+      return (
+        <div
+          style={{ backgroundColor: `${label.code}` }}
+          className="rounded-[4px] min-w-[56px] h-4"
+        ></div>
+      );
+    });
+
     const memberElement = membersFiltered.map((member) => {
       return (
         <span key={member.id}>
@@ -65,7 +88,10 @@ const Item = ({ list }: ItemProps) => {
       );
     });
     return (
-      <div key={card.id} className="title h-[41px] mr-[15px] ml-[15px] flex border-b-[0.5px] border-b-[#333B43]">
+      <div
+        key={card.id}
+        className="title h-[41px] mr-[15px] ml-[15px] flex border-b-[0.5px] border-b-[#333B43]"
+      >
         <div className="w-[calc(32%_-_20px)] text-[14px] text-[#9FADBC] p-2 font-medium inline-flex items-center">
           <div className="flex">
             <img
@@ -79,8 +105,8 @@ const Item = ({ list }: ItemProps) => {
         <div className="w-[17%] text-[#9FADBC] p-2 font-medium inline-flex items-center text-[14px]">
           <span>{card.listId === list.id ? list.name : ''}</span>
         </div>
-        <div className="w-[17%] text-[#9FADBC] p-2 font-medium inline-flex items-center text-[14px]">
-          <span className=""></span>
+        <div className="w-[17%] text-[#9FADBC] py-2 font-medium inline-flex items-center text-[14px]">
+          <div className="py-2 flex items-center w-4/5 overflow-hidden gap-1">{labelElement}</div>
         </div>
         <div className="w-[17%] text-[#9FADBC] p-2 font-medium inline-flex items-center text-[14px]">
           {memberElement}

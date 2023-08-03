@@ -18,6 +18,7 @@ import CardInfo from './CardModalComp/CardInfo';
 import { SubnavContext } from '../../DetailProject/DetailProject';
 import { Member } from '../../../../types/Member.type';
 import CardMembers from './CardModalComp/CardMembers';
+import CardLabel from './CardModalComp/CardLabel';
 
 export interface CardModalProps {
   cardId: string | null;
@@ -113,7 +114,7 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
                 <CardContext.Provider value={selectCard}>
                   <div className="flex gap-4 items-start h-[420px] scrollable-div overflow-y-scroll">
                     <div className="form-left w-full h-full">
-                      <div className="flex ml-7 mb-8">
+                      <div className="flex flex-wrap ml-7 mb-8">
                         {checkListMembers() ? (
                           <CardMembers
                             memberCardsFilterCardId={memberCardsFilterCardId}
@@ -122,6 +123,8 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
                         ) : (
                           <></>
                         )}
+
+                        <CardLabel />
 
                         {checkCardHasEndDate() ? (
                           <CardInfo
