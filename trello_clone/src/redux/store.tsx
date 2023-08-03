@@ -14,6 +14,8 @@ import taskSlice from './reducers/taskSlice';
 import memberSlice from './reducers/memberSlice';
 import notifySlice from './reducers/notifySlice';
 import memberCardSlice from './reducers/memberCardSlice';
+import labelSlice from './reducers/labelSlice';
+import cardLabelSlice from './reducers/cardLabelSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -31,7 +33,9 @@ const store = configureStore({
     task: taskSlice,
     member: memberSlice,
     notify: notifySlice,
-    memberCard: memberCardSlice
+    memberCard: memberCardSlice,
+    label: labelSlice,
+    cardLabel: cardLabelSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

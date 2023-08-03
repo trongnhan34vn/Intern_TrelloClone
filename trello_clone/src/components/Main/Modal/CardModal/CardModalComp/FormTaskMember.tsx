@@ -10,16 +10,29 @@ const FormTaskMember = () => {
   const subnavContext = useContext(SubnavContext);
   const dispatch = useDispatch();
   const members = subnavContext ? subnavContext.members : [];
-  
-  const membersFilter = selectCard
-    ? members.filter((member) => member.cardId === selectCard.id)
+  const memberCards = subnavContext ? subnavContext.memberCards : [];
+
+  const memberCardsFilter = selectCard
+    ? memberCards.filter((mem) => mem.cardId === selectCard.id)
     : [];
+
+  const filterMembers = () => {
+    if (!selectCard) return [];
+    let memArr = [];
+    for (let i = 0; i < memberCardsFilter.length; i++) {
+      let mem = members.find((mem) => mem.id === memberCards[i].memberId);
+      if (!mem) return [];
+      memArr.push(mem);
+    }
+    return memArr;
+  };
 
   const [inputValue, setInputValue] = useState('');
 
-
-  const membersElement = membersFilter.map((member) => {
-    return <TaskMembers inputValue={inputValue} key={member.id} member={member} />;
+  const membersElement = filterMembers().map((member) => {
+    return (
+      <TaskMembers inputValue={inputValue} key={member.id} member={member} />
+    );
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +41,7 @@ const FormTaskMember = () => {
 
   useEffect(() => {
     dispatch(searchByEmail(inputValue));
-  },[inputValue])
+  }, [inputValue]);
 
   return (
     <form className="">

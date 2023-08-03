@@ -20,6 +20,11 @@ import SubNavChartView from './SubNavChartView';
 const ChartView = () => {
   const { tableId, projectId } = useParams();
   const dispatch = useDispatch();
+
+  const lists = useSelector(listSelector).lists;
+  const cards = useSelector(cardSelector).listCards;
+  const tables = useSelector(tableSelector).listTable;
+
   useEffect(() => {
     if (!projectId) return;
     dispatch(findAllList());
@@ -29,20 +34,16 @@ const ChartView = () => {
 
   const [selectTable, setSelectTable] = useState<Table | null>(null);
 
-  const lists = useSelector(listSelector).lists;
-  const cards = useSelector(cardSelector).listCards;
-  const tables = useSelector(tableSelector).listTable;
-
   const listFilterTable = selectTable
     ? lists.filter((list) => list.tableId === selectTable.id)
     : [];
 
   useEffect(() => {
-    if(!tableId) return
-    const defaultTable = tables.find((t) => t.id === +tableId)
-    if(!defaultTable) return
+    if (!tableId) return;
+    const defaultTable = tables.find((t) => t.id === +tableId);
+    if (!defaultTable) return;
     setSelectTable(defaultTable);
-  },[])
+  }, [tableId]);
 
   const countCardInList = (listId: number) => {
     let cardFilter = cards.filter((card) => card.listId === listId);
@@ -63,11 +64,13 @@ const ChartView = () => {
           </div>
         </>
       ) : (
-        <div className="w-[500px] h-[500px]">
-          <PieChart
-            countCardInList={countCardInList}
-            listFilterTable={listFilterTable}
-          />
+        <div className='h-full flex items-center'>
+          <div className="w-[500px] h-[500px]">
+            <PieChart
+              countCardInList={countCardInList}
+              listFilterTable={listFilterTable}
+            />
+          </div>
         </div>
       )}
     </div>

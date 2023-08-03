@@ -14,6 +14,11 @@ export const listFeatures: ModalFeatureProps[] = [
     icon: 'fa-regular fa-user',
   },
   {
+    code: 'Label',
+    name: 'Nhãn',
+    icon: 'fa-solid fa-tag',
+  },
+  {
     code: 'VCL',
     name: 'Việc cần làm',
     icon: 'fa-solid fa-check-to-slot',

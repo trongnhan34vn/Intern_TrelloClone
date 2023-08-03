@@ -1,7 +1,11 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as taskSlice from '../../../../../redux/reducers/taskSlice';
-import { Task, TaskStatus } from '../../../../../types/Task.type';
+import {
+  Task,
+  TaskStatus,
+  TaskUpdateMember,
+} from '../../../../../types/Task.type';
 import AssignmentTask from './AssignmentTask';
 import { SubnavContext } from '../../../DetailProject/DetailProject';
 
@@ -27,9 +31,9 @@ export default function Tasks({ task }: TaskProps) {
     ? users.find((user) => user.id === assginMember.userId)
     : null;
 
-    const handleRemoveTask = (id: number) => {
-      dispatch(taskSlice.remove(id));
-    }
+  const handleRemoveTask = (id: number) => {
+    dispatch(taskSlice.remove(id));
+  };
 
   return (
     <div
@@ -60,7 +64,10 @@ export default function Tasks({ task }: TaskProps) {
           task={task}
           assignMember={assginMember}
         />
-        <button onClick={() => handleRemoveTask(task.id)} className="w-7 flex items-center justify-center mr-1 h-7 rounded-[4px] hover:bg-[#A6C5E229] transition-all ease-in duration-200 opacity-80  hover:opacity-100">
+        <button
+          onClick={() => handleRemoveTask(task.id)}
+          className="w-7 flex items-center justify-center mr-1 h-7 rounded-[4px] hover:bg-[#A6C5E229] transition-all ease-in duration-200 opacity-80  hover:opacity-100"
+        >
           <i className="fa-solid fa-trash-can text-[14px] text-red-500"></i>
         </button>
       </div>

@@ -2,7 +2,6 @@ import React from 'react';
 import FormFeatureContent from './FormFeatureComp/FormFeatureContent';
 import HeaderFormFeature from './FormFeatureComp/HeaderFormFeature';
 
-
 export interface FormFeatureState {
   closeFn : () => void;
 }
