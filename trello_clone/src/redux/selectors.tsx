@@ -1,4 +1,4 @@
-import { RootState } from "./store";
+import { RootState } from './store';
 
 export const userSelector = (state: RootState) => state.user;
 export const typeProjectSelector = (state: RootState) => state.type;
@@ -10,3 +10,8 @@ export const cardSelector = (state: RootState) => state.card;
 export const modalSelector = (state: RootState) => state.modal;
 export const workSelector = (state: RootState) => state.work;
 export const taskSelector = (state: RootState) => state.task;
+export const memberSelector = (state: RootState) => state.member;
+export const notifySelector = (state: RootState) => state.notify;
+export const memberCardSelector = (state: RootState) => state.memberCard;
+export const labelSelector = (state: RootState) => state.label;
+export const cardLabelSelector = (state: RootState) => state.cardLabel;

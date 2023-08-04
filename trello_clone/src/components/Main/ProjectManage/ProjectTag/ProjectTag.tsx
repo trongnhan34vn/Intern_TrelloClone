@@ -1,5 +1,6 @@
 import React, { createContext } from 'react';
 import { Project } from '../../../../types/Project.type';
+import { getFirstChar } from '../../../../utils/getFirstChar';
 import ListTables from './ListTables';
 
 export const ProjectContext = createContext<Project>({
@@ -17,7 +18,7 @@ export default function  ProjectTag(props: { project: Project }) {
         <div className="left-[-40px] absolute top-0">
           <div className="rounded-[3px] h-8 w-8 overflow-hidden mb-4">
             <div className="bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center w-full h-full text-[20px] font-bold text-[#1D2125]">
-              K
+              {getFirstChar(props.project.name)}
             </div>
           </div>
         </div>

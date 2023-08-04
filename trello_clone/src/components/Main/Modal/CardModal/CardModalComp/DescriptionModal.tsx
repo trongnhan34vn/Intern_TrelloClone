@@ -27,10 +27,12 @@ export default function DescriptionModal({ card }: DescriptionModalProps) {
     e.preventDefault();
     if (!card) return;
     let cardUpdate: CardUpdateDescription = {
-      id: +card,
+      id: card.id,
       description: inputValue,
     };
     dispatch(updateCardDescription(cardUpdate));
+    setInputValue('')
+    setEditing(false);
   };
 
   const returnDescription = () => {
@@ -69,7 +71,7 @@ export default function DescriptionModal({ card }: DescriptionModalProps) {
           />
           <div className="text-[14px]">
             <button
-              disabled={inputValue.length === 0 ? false : true}
+              disabled={inputValue.trim() !=='' ? false : true}
               onClick={handleSubmit}
               className={`${
                 inputValue.length === 0

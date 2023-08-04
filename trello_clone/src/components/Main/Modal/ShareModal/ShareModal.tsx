@@ -1,7 +1,12 @@
 import { Dialog, Listbox, Transition } from '@headlessui/react';
-import React, { Fragment } from 'react';
-import { getAcronym } from '../../../../utils/getAcronym';
+import React, { Fragment, useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as memberSlice from '../../../../redux/reducers/memberSlice';
+import { memberSelector } from '../../../../redux/selectors';
+import { User } from '../../../../types/User.type';
+import { SubnavContext } from '../../DetailProject/DetailProject';
 import FormShare from './FormShare';
+import Members from './Members';
 
 interface ShareModal {
   shareModal: boolean;
@@ -9,8 +14,16 @@ interface ShareModal {
 }
 
 const ShareModal = ({ shareModal, onClose }: ShareModal) => {
+  const dispatch = useDispatch();
   const userLocal = localStorage.getItem('userLogin');
-  const currentUser = userLocal ? JSON.parse(userLocal) : null;
+  const currentUser: User | null = userLocal ? JSON.parse(userLocal) : null;
+  const subNavContext = useContext(SubnavContext);
+
+  const members = subNavContext? subNavContext.members : [];
+
+  const membersElement = members.map((member) => {
+    return <Members key={member.id} member={member} currentUser={currentUser} />;
+  });
 
   return (
     <Transition appear show={shareModal} as={Fragment}>
@@ -24,7 +37,7 @@ const ShareModal = ({ shareModal, onClose }: ShareModal) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black bg-opacity-60" />
         </Transition.Child>
 
         <div className="fixed inset-40">
@@ -48,16 +61,10 @@ const ShareModal = ({ shareModal, onClose }: ShareModal) => {
                     <i className="fa-solid fa-xmark"></i>
                   </button>
                 </header>
-                <FormShare />
-                <div className="pt-4 flex items-center ">
-                  <div className="bg-red-500 mr-3 rounded-[50%] w-8 h-8 flex justify-center items-center">
-                    <span className="">{getAcronym(currentUser?.fullName)}</span>
-                  </div>
-                  <div className="flex flex-col justify-between text-[14px] text-[#B6C2CF]">
-                    <span className='font-bold'>{currentUser ? currentUser?.fullName: ''} (bạn)</span>
-                    <span className=''>{currentUser ? currentUser?.email: ''}</span>
-                  </div>
-                </div>
+                <FormShare memberList={members} />
+                {/* List Member */}
+                {membersElement}
+                {/* List Member */}
               </Dialog.Panel>
             </Transition.Child>
           </div>

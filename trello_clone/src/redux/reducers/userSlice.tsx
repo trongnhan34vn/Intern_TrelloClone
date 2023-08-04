@@ -13,6 +13,8 @@ import {
 
 interface UserState {
   loginResponse: UserResponseLogin;
+  search: User[];
+  user: User | null;
   users: User[];
 }
 
@@ -21,6 +23,8 @@ const initState: UserState = {
     user: null,
     accessToken: null,
   },
+  search: [],
+  user: null,
   users: [],
 };
 
@@ -36,11 +40,30 @@ const userSlice = createSlice({
     },
     searchByEmail: (state, action: PayloadAction<string>) => {},
     getByEmail: (state, action: PayloadAction<User[]>) => {
-      state.users = action.payload;
+      state.search = action.payload;
     },
+    findById: (state, action: PayloadAction<number>) => {},
+    getById: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+    },
+    findAll: () => {
+
+    },
+    getAll: (state, action: PayloadAction<User[]>) => {
+      state.users = action.payload;
+    }
   },
 });
 
 export default userSlice.reducer;
-export const { register, getResult, login, searchByEmail, getByEmail } =
-  userSlice.actions;
+export const {
+  register,
+  getResult,
+  login,
+  searchByEmail,
+  getByEmail,
+  findById,
+  getById,
+  findAll,
+  getAll
+} = userSlice.actions;

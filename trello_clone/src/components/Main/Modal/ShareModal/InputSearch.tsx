@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Combobox, Listbox, Menu, Transition } from '@headlessui/react';
 import { User } from '../../../../types/User.type';
 import { getAcronym } from '../../../../utils/getAcronym';
@@ -15,6 +15,7 @@ interface InputSearchProps {
   setMembers: React.Dispatch<React.SetStateAction<MemberForm[]>>;
   setSelectUsers: React.Dispatch<React.SetStateAction<User[]>>;
   selectUsers: User[];
+  loading: boolean;
 }
 
 const InputSearch = ({
@@ -27,29 +28,40 @@ const InputSearch = ({
   members,
   setMembers,
   setSelectUsers,
-  selectUsers
+  selectUsers,
+  loading,
 }: InputSearchProps) => {
   const removeChip = (index: number) => {
     let arr = [...members];
     arr.splice(index, 1);
     setMembers(arr);
-    let sarr = [...selectUsers]
+    let sarr = [...selectUsers];
     sarr.splice(index, 1);
     setSelectUsers(sarr);
   };
 
-  const selectUsersElement = members.map((member, index) => {
+  const removeAllChips = () => {
+    setMembers([]);
+    setSelectUsers([]);
+  };
+
+  const selectUsersElement = selectUsers.map((user, index) => {
     return (
-      <span
+      <div
+        key={user.id}
         className={`mt-1 ml-1 justify-between text-[14px] text-[#B6C2CF] flex px-1 rounded-[3px] bg-[#A1BDD914]`}
       >
-        <span className="mr-1">{member.email}</span>
+        <span className="mr-1">{user.email}</span>
         <button onClick={() => removeChip(index)}>
           <i className="fa-solid fa-xmark"></i>
         </button>
-      </span>
+      </div>
     );
   });
+
+  useEffect(() => {
+    if (!loading) removeAllChips();
+  }, [loading]);
 
   return (
     <Combobox value={selectUser} onChange={setSelectUser}>

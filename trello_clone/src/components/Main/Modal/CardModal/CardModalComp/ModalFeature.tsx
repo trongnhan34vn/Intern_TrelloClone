@@ -14,6 +14,11 @@ export const listFeatures: ModalFeatureProps[] = [
     icon: 'fa-regular fa-user',
   },
   {
+    code: 'Label',
+    name: 'Nhãn',
+    icon: 'fa-solid fa-tag',
+  },
+  {
     code: 'VCL',
     name: 'Việc cần làm',
     icon: 'fa-solid fa-check-to-slot',
@@ -30,7 +35,7 @@ export default function ModalFeature() {
     return <CreateFeatureBtn key={index} feature={feature} />;
   });
   return (
-    <div className="fixed top-1/5 mb-4">
+    <div className="fixed mb-4">
       <h3 className="font-semibold w-full min-w-[170px] mb-2 text-[12px] text-[#9FADBC] ">
         Thêm vào thẻ
       </h3>

@@ -14,6 +14,8 @@ import DetailProject from './components/Main/DetailProject/DetailProject';
 import MainHome from './components/Main/Home/MainHome';
 import LoadingOverlayComp from './components/LoadingOverlay/LoadingOverlayComp';
 import EmailCheck from './components/Login_Register/EmailCheck';
+import { TableView } from './components/Main/DetailProject/TableView/TableView';
+import ChartView from './components/Main/DetailProject/ChartView/ChartView';
 
 function App() {
   return (
@@ -30,7 +32,9 @@ function App() {
           <Route path="/main-app" element={<Main />}>
             <Route index element={<MainHome />} />
             <Route path="project-manage" element={<ProjectManage />} />
-            <Route path="detail-project/:tableId" element={<DetailProject />} />
+            <Route path="detail-project/:tableId/:projectId/table-view" element={<TableView />}/>
+            <Route path="detail-project/:tableId/:projectId/chart-view" element={<ChartView />}/>
+            <Route path="detail-project/:tableId/:projectId" element={<DetailProject />} />
           </Route>
         </Route>
         {/* Main Layout */}

@@ -1,4 +1,9 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import '../../../../assets/css/react-trello.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -15,6 +20,8 @@ import AddLinkCard from './AddLinkCard';
 import NewLaneSection from './NewLaneSection';
 import NewLaneForm from './NewLaneForm';
 import CardModal from '../../Modal/CardModal/CardModal';
+import { SubnavContext } from '../DetailProject';
+
 
 export default function BoardComp() {
   const dispatch = useDispatch();
@@ -22,21 +29,26 @@ export default function BoardComp() {
   const [data, setData] = useState<BoardData>({
     lanes: [],
   });
+  const subNavContext = useContext(SubnavContext);
   const [currentCard, setCurrentCard] = useState<string | null>(null);
 
   // get lists and cards on API
+  // useEffect(() => {
+  //   if (!tableId) return;
+  //   dispatch(cardSlice.findAllCards());
+  //   dispatch(listSlice.findListsByTableId(parseInt(tableId)));
+  //   dispatch(listSlice.findAllList());
+  // }, [tableId]);
+
+  const lanes = subNavContext ? subNavContext.lists : [];
+  const cards = subNavContext ? subNavContext.cards: [];
+
+  // const lanes = useSelector(listSelector).lists;
+  // const cards = useSelector(cardSelector).listCards;
+
   useEffect(() => {
     if (!tableId) return;
-    dispatch(cardSlice.findAllCards());
-    // dispatch(listSlice.findListsByTableId(parseInt(tableId)));
-    dispatch(listSlice.findAllList());
-  }, []);
 
-  const lanes = useSelector(listSelector).lists;
-  const cards = useSelector(cardSelector).listCards;
-
-  useEffect(() => {
-    if(!tableId) return
     let arr = [];
     for (let i = 0; i < lanes.length; i++) {
       if (+tableId === lanes[i].tableId) {
@@ -56,7 +68,7 @@ export default function BoardComp() {
               draggable: true,
               laneId: cards[j].listId,
               order: cards[j].order,
-              describe: cards[j].description
+              describe: cards[j].description,
             };
             laneData.cards.push(cardData);
           }
@@ -85,14 +97,13 @@ export default function BoardComp() {
         laneId: `${listCard[i].listId}`,
         title: listCard[i].name,
         label: '',
+        description: listCard[i].description,
         draggable: true,
         order: listCard[i].order,
       };
       arr.push(card);
       arr.sort((a, b) => a.order - b.order);
     }
-    console.log('card ------> ', arr);
-
     return arr;
   };
 
@@ -120,11 +131,10 @@ export default function BoardComp() {
   //     });
   //   }
   // }, [lanes, cards]);
-
+  
   // add card
 
   const createCard = (card: Card) => {
-
     let laneId = card.laneId;
     if (!laneId) return;
 
@@ -135,15 +145,16 @@ export default function BoardComp() {
       name: card.title ? card.title : '',
       listId: Number(card.laneId),
       order: cardArr.length,
-      description:"",
+      description: '',
       status: false,
+      endAt: 0,
     };
     dispatch(cardSlice.createCard(newCard));
   };
 
   // open modal
   const handleClickModal = (cardId: string, metadata: any, card: Card) => {
-    setCurrentCard(cardId)
+    setCurrentCard(cardId);
   };
 
   const findCardsByLaneId = (laneId: string): Card[] => {
@@ -180,7 +191,6 @@ export default function BoardComp() {
     cardId: string,
     index: string
   ) => {
-
     let toLaneCards: Card[] = findCardsByLaneId(toLaneId);
     if (!toLaneCards) return;
     let fromLaneCards: Card[] = findCardsByLaneId(fromLaneId);
@@ -203,10 +213,14 @@ export default function BoardComp() {
         name: toLaneCards && toLaneCards[i].name,
         order: i,
         listId: listTemp,
-        description: ""
+        description: toLaneCards[i].description,
       };
       dispatch(cardSlice.updateCardTest(cardU));
     }
+    // setUpdate(true);
+    // setTimeout(() => {
+    //   setUpdate(false);
+    // }, 50);
   };
 
   // drag list
@@ -257,6 +271,11 @@ export default function BoardComp() {
         onCardMoveAcrossLanes={onCardMoveAcrossLanes}
         onCardClick={handleClickModal}
         onCardAdd={(card) => createCard(card)}
+        onDataChange={(data) => {
+          console.log(data);
+          
+          setData(data);
+        }}
         laneDraggable
         cardDraggable
         editable

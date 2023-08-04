@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Task, TaskForm, TaskStatus } from '../../types/Task.type';
+import {
+  Task,
+  TaskForm,
+  TaskStatus,
+  TaskUpdateMember,
+} from '../../types/Task.type';
 
 interface TaskState {
   listTask: Task[];
@@ -19,8 +24,17 @@ const taskSlice = createSlice({
       state.listTask = action.payload;
     },
     changeStatus: (state, action: PayloadAction<TaskStatus>) => {},
+    updateMember: (state, action: PayloadAction<TaskUpdateMember>) => {},
+    remove: (state, action: PayloadAction<number>) => {},
   },
 });
 
 export default taskSlice.reducer;
-export const { createTask, findAll, getAll, changeStatus } = taskSlice.actions;
+export const {
+  createTask,
+  findAll,
+  getAll,
+  changeStatus,
+  remove,
+  updateMember,
+} = taskSlice.actions;

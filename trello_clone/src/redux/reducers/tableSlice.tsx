@@ -5,12 +5,14 @@ interface TableState {
   latestTable: Table | null;
   listTable: Table[];
   selectTable: Table | null;
+  tablesByProjectId: Table []
 }
 
 const initialState: TableState = {
   latestTable: null,
   listTable: [],
   selectTable: null,
+  tablesByProjectId: []
 };
 
 const tableSlice = createSlice({
@@ -26,7 +28,7 @@ const tableSlice = createSlice({
     },
     findTableByProjectId: (state, action: PayloadAction<number>) => {},
     getTablesByProjectId: (state, action: PayloadAction<Table[]>) => {
-      state.listTable = [...state.listTable, ...action.payload];
+      state.tablesByProjectId = action.payload;
     },
     findAll: () => {},
     getAll: (state, action: PayloadAction<Table[]>) => {

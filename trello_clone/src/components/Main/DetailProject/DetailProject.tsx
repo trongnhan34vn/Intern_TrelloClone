@@ -1,15 +1,61 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, {
+  SetStateAction,
+  createContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { findAllBGs } from '../../../redux/reducers/backgroundSlice';
 import * as projectSlice from '../../../redux/reducers/projectSlice';
 import * as tableSlice from '../../../redux/reducers/tableSlice';
-import { backgroundSelector, tableSelector } from '../../../redux/selectors';
-import SubNav from '../Subnav/SubNav';
+import {
+  backgroundSelector,
+  cardLabelSelector,
+  cardSelector,
+  labelSelector,
+  listSelector,
+  memberCardSelector,
+  memberSelector,
+  tableSelector,
+  userSelector,
+} from '../../../redux/selectors';
+
 import TaskControll from './TaskControll/Board';
+import { Table } from '../../../types/Table.type';
+import * as memberSlice from '../../../redux/reducers/memberSlice';
+import { Member } from '../../../types/Member.type';
+import * as userSlice from '../../../redux/reducers/userSlice';
+import { User } from '../../../types/User.type';
+import SubNav from '../Subnav/SubNav';
+import * as cardSlice from '../../../redux/reducers/cardSlice';
+import { CardDB } from '../../../types/Card.type';
+import * as memberCardSlice from '../../../redux/reducers/memberCardSlice';
+import { MemberCard } from '../../../types/MemberCard.type';
+import { ViewItems, viewItems } from '../Subnav/ViewTypeComp';
+import TableComp from './Table/Table';
+import * as listSlice from '../../../redux/reducers/listSlice';
+import { List } from '../../../types/List.type';
+import { Background } from '../../../types/Background.type';
+import LoadingOverlay from 'react-loading-overlay-ts';
+import * as labelSlice from '../../../redux/reducers/labelSlice';
+import { Label } from '../../../types/Label.type';
+import * as cardLabelSlice from '../../../redux/reducers/cardLabelSlice';
+import { CardLabel } from '../../../types/CardLabel.type';
 
 export interface SubNavState {
   tableId: number;
+  selectTable: Table | null;
+  members: Member[];
+  users: User[];
+  cards: CardDB[];
+  memberCards: MemberCard[];
+  viewType: ViewItems | null;
+  setViewType: React.Dispatch<SetStateAction<ViewItems | null>>;
+  lists: List[];
+  backgrounds: Background[];
+  labels: Label[];
+  cardLabels: CardLabel[];
 }
 
 export const SubnavContext = createContext<SubNavState | null>(null);
@@ -22,15 +68,31 @@ export default function DetailProject() {
     if (!tableId) return;
     dispatch(tableSlice.findById(+tableId));
     dispatch(findAllBGs());
+    dispatch(userSlice.findAll());
+    dispatch(cardSlice.findAllCards());
+    dispatch(memberCardSlice.findAll());
+    dispatch(listSlice.findAllList());
+    dispatch(labelSlice.findAll());
+    dispatch(cardLabelSlice.findAll());
   }, [tableId]);
 
+  const cardLabels = useSelector(cardLabelSelector).cardLabels;
+  const memberCards = useSelector(memberCardSelector).memberCards;
   const selectTable = useSelector(tableSelector).selectTable;
   const backgrounds = useSelector(backgroundSelector).listBGs;
+  const users = useSelector(userSelector).users;
+  const lists = useSelector(listSelector).lists;
+  const labels = useSelector(labelSelector).labels;
+  
 
   useEffect(() => {
     if (!selectTable) return;
     dispatch(projectSlice.findById(selectTable.projectId));
+    dispatch(memberSlice.findByTableId(selectTable.id));
   }, [selectTable]);
+
+  const members = useSelector(memberSelector).members;
+  const cards = useSelector(cardSelector).listCards;
 
   const getBackgroundURL = () => {
     if (!selectTable) return;
@@ -39,45 +101,16 @@ export default function DetailProject() {
     if (!bg) return;
     return bg.bgUrl;
   };
-  console.log(getBackgroundURL());
 
-  // const createTagElement = () => {
-  //   if (!isCreateTag) {
-  //     return (
-  //       <div className="items-center pr-2 flex flex-shrink-0 relative transition-all ease-in-out duration-200 justify-between">
-  //         <button
-  //           onClick={() => setIsCreateTag(true)}
-  //           type="button"
-  //           className="rounded-[8px] min-h-[32px] text-sm text-left text-[#000] w-full hover:bg-[#091E4224] block my-2 ml-2 py-1 pl-[6px] pr-2 relative "
-  //         >
-  //           <i className="fa-solid fa-plus text-sm mr-[6px]"></i>
-  //           <span className="">Thêm thẻ</span>
-  //         </button>
-  //       </div>
-  //     );
-  //   }
-  //   return (
-  //     <div className="create-tag mx-1 px-1 py-[6px] transition-all ease-in-out duration-200 mb-2">
-  //       <div className="w-full mb-[7px] bg-[#fff] pt-2 pr-2 pb-1 pl-3 shadow-[0_1px_1px_#091e4240] rounded-[8px] overflow-hidden h-14">
-  //         <textarea
-  //           placeholder="Nhập tiêu đề cho thẻ này..."
-  //           className="w-full h-full text-sm resize-none outline-none"
-  //         ></textarea>
-  //       </div>
-  //       <div className="flex">
-  //         <button className="text-sm bg-[#0C66E4] rounded-[3px] py-[6px] px-3 text-[#fff]">
-  //           Thêm thẻ
-  //         </button>
-  //         <button
-  //           onClick={() => setIsCreateTag(false)}
-  //           className="w-8 h-8 flex items-center justify-center"
-  //         >
-  //           <i className="fa-solid fa-xmark text-lg"></i>
-  //         </button>
-  //       </div>
-  //     </div>
-  //   );
-  // };
+  const [isUpdate, setUpdate] = useState<boolean>(false);
+
+  const [viewType, setViewType] = useState<ViewItems | null>(viewItems[0]);
+
+  useEffect(() => {
+    if (isUpdate) dispatch(cardSlice.findAllCards());
+  }, [isUpdate]);
+
+  // const [isActive, setActive] = useState<boolean>(false);
 
   return (
     <div
@@ -88,11 +121,32 @@ export default function DetailProject() {
         <div className="bottom-0 left-0 overflow-hidden absolute right-0 top-0">
           <div className="flex flex-col h-full relative">
             {/* Sub Nav */}
-            <SubnavContext.Provider value={{ tableId: tableId ? +tableId : 0 }}>
+            <SubnavContext.Provider
+              value={{
+                tableId: tableId ? +tableId : 0,
+                selectTable: selectTable,
+                members: members,
+                users: users,
+                cards: cards,
+                memberCards: memberCards,
+                viewType: viewType,
+                setViewType: setViewType,
+                lists: lists,
+                backgrounds: backgrounds,
+                labels: labels,
+                cardLabels: cardLabels,
+              }}
+            >
               <SubNav />
               {/* Sub Nav */}
               {/* Task */}
-              <TaskControll />
+
+              {viewType?.type === 'card' ? (
+                <TaskControll />
+              ) : (
+                <TableComp />
+              )}
+
               {/* Task */}
             </SubnavContext.Provider>
           </div>

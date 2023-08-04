@@ -2,10 +2,12 @@ import { Popover, Transition } from '@headlessui/react';
 import { createContext, Fragment } from 'react';
 import { ModalFeatureProps } from './CardModalComp/ModalFeature';
 import FormFeature from './FormFeatureLayout';
+import { Task } from '../../../../types/Task.type';
 
 interface FeatureBtn {
   feature: ModalFeatureProps,
   closeFn: () => void
+  task?: Task
 }
 
 export const FeatureContext = createContext<FeatureBtn | null>(null);

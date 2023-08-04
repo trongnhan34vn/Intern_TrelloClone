@@ -1,9 +1,56 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { projectSelector } from '../../../redux/selectors';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  backgroundSelector,
+  projectSelector,
+  tableSelector,
+} from '../../../redux/selectors';
+import { Link, NavLink, useParams } from 'react-router-dom';
+import * as tableSlice from '../../../redux/reducers/tableSlice';
+import * as backgroundSlice from '../../../redux/reducers/backgroundSlice';
 
 export default function SideMenu_Detail() {
+  const dispatch = useDispatch();
   const selectProject = useSelector(projectSelector).selectProject;
+  const { projectId, tableId } = useParams();
+  const [active, setActive] = useState('');
+
+  useEffect(() => {
+    if (!projectId) return;
+    dispatch(tableSlice.findTableByProjectId(+projectId));
+    dispatch(backgroundSlice.findAllBGs());
+  }, [projectId]);
+
+  const tables = useSelector(tableSelector).tablesByProjectId;
+  const backgrounds = useSelector(backgroundSelector).listBGs;
+
+  const getBG = (bgId: number) => {
+    let bg = backgrounds.find((bg) => bgId === bg.id);
+    if (!bg) return;
+    return bg.bgUrl;
+  };
+
+  const tableElement = tables.map((table) => {
+    return (
+      <NavLink
+        onClick={() => setActive('table-' + table.id)}
+        key={table.id}
+        to={`/main-app/detail-project/${table.id}/${table.projectId}`}
+        className={`${
+          active === 'table-' + table.id ? 'bg-[#464247]' : ''
+        } flex text-[14px] text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8`}
+      >
+        <img
+          src={table.bgId ? getBG(table.bgId) : ''}
+          alt="ảnh"
+          className="w-6 h-5 cover rounded-[3px] flex items-center justify-center "
+        />
+        <p className="ml-2 overflow-hidden text-ellipsis whitespace-nowrap">
+          {table.name}
+        </p>
+      </NavLink>
+    );
+  });
 
   return (
     <div className="w-[260px] block bg-[hsla(206,13.7%,10%,0.9)] absolute h-[calc(100vh_-_64px)] left-0 top-0 z-10">
@@ -26,7 +73,7 @@ export default function SideMenu_Detail() {
       <div className="text-sm font-semibold leading-5">
         <div className="pt-3">
           <a
-            href=""
+            href="#"
             className="flex text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
           >
             <i className="fa-solid fa-table"></i>
@@ -35,7 +82,7 @@ export default function SideMenu_Detail() {
             </p>
           </a>
           <a
-            href=""
+            href="#"
             className="flex justify-between mb-2 text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
           >
             <div className="flex items-center">
@@ -57,24 +104,30 @@ export default function SideMenu_Detail() {
           </h2>
         </div>
         <ul className="py-[2px]">
-          <a
-            href=""
-            className="flex text-[14px] font-semibold text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
+          <Link
+            onClick={() => setActive('table-view')}
+            to={`/main-app/detail-project/${tableId}/${projectId}/table-view`}
+            className={`${
+              active === 'table-view' ? 'bg-[#464247]' : ''
+            } flex text-[14px] font-semibold text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8`}
           >
             <i className="fa-solid fa-table"></i>
             <p className="ml-3 italic overflow-hidden text-ellipsis whitespace-nowrap">
               Bảng
             </p>
-          </a>
-          <a
-            href=""
-            className="flex text-[14px] font-semibold text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
+          </Link>
+          <Link
+            onClick={() => setActive('chart-view')}
+            to={`/main-app/detail-project/${tableId}/${projectId}/chart-view`}
+            className={`${
+              active === 'chart-view' ? 'bg-[#464247]' : ''
+            } flex text-[14px] font-semibold text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8`}
           >
             <i className="fa-regular w-[14px] fa-calendar-days"></i>
             <p className="ml-3 italic overflow-hidden text-ellipsis whitespace-nowrap">
-              Lịch
+              Thống kê
             </p>
-          </a>
+          </Link>
         </ul>
       </div>
       <div className="mt-[6px]">
@@ -87,20 +140,7 @@ export default function SideMenu_Detail() {
           </div>
         </div>
         <ul className="py-[2px]">
-          <a
-            href=""
-            className="flex text-[14px] text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
-          >
-            <img
-              src=""
-              alt="ảnh"
-              className="w-6 h-5 flex items-center justify-center pr-2 "
-            />
-            <p className="ml-3 overflow-hidden text-ellipsis whitespace-nowrap">
-              Nguyễn Nhân
-            </p>
-          </a>
-          <a
+          {/* <a
             href=""
             className="flex text-[14px] text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
           >
@@ -112,7 +152,8 @@ export default function SideMenu_Detail() {
             <p className="ml-3 overflow-hidden text-ellipsis whitespace-nowrap">
               Nam béo
             </p>
-          </a>
+          </a> */}
+          {tableElement}
         </ul>
       </div>
     </div>

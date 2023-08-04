@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
+import { findProjectsByUserId } from '../../../redux/reducers/projectSlice';
+import { projectSelector } from '../../../redux/selectors';
 import FormProject from '../Modal/FormProject';
+import Projects from './Projects';
 
 export default function SideMenu(props: {
   isOpen: any;
   openModal: any;
   closeModal: any;
 }) {
+  const dispatch = useDispatch();
+  const userLocal = localStorage.getItem('userLogin');
+  const currentUser = userLocal ? JSON.parse(userLocal) : null;
+
+  useEffect(() => {
+    dispatch(findProjectsByUserId(currentUser.id))
+  }, []);
+  
   const location = useLocation();
+  const projects = useSelector(projectSelector).listProjects;
   return (
     <div className="side sticky h-[500px] top-2">
       <nav className="mt-10 px-4 w-[272px]">
@@ -48,41 +61,7 @@ export default function SideMenu(props: {
             </NavLink>
           </li>
         </ul>
-        <ul className="task-manage pt-3 pb-10">
-          <div className="insert-task flex">
-            <div className="items-baseline h-8 flex justify-start pl-2">
-              <p className="text-xs font-semibold leading-4 text-[#B6C2CF] flex-1 py-2">
-                Các Không gian làm việc
-              </p>
-            </div>
-            <button
-              onClick={() => props.openModal()}
-              className="w-[22px] text-[#B6C2CF] hover:bg-[#A6C5E229] h-[22px] mt-[6px] flex items-center justify-center ml-auto rounded-[4px]"
-            >
-              <i className="fa-solid fa-plus"></i>
-            </button>
-          </div>
-          <li className="mb-1 flex items-center rounded-[4px] hover:bg-[#A6C5E229]">
-            <a
-              href=""
-              className="flex items-center relative text-[#B6C2CF] rounded-[4px] leading-tight font-bold min-h-[20px] py-[6px] pl-2"
-            >
-              <div className="left-0 top-0 mr-3">
-                <div className="rounded-[3px] h-6 w-6 overflow-hidden">
-                  <div className="bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center w-full h-full text-[16px] font-bold text-[#1D2125]">
-                    K
-                  </div>
-                </div>
-              </div>
-              <span className="text-[14px]">
-                Không gian làm việc của anh Nam Gucci
-              </span>
-            </a>
-            <button className="w-[22px] h-[22px] text-[#B6C2CF] pr-2 mt-[6px] flex items-center justify-center ml-auto rounded-[4px]">
-              <i className="fa-solid fa-angle-down"></i>
-            </button>
-          </li>
-        </ul>
+        <Projects openModal={props.openModal} projects={projects} />
         <FormProject isOpen={props.isOpen} closeModal={props.closeModal} />
       </nav>
     </div>

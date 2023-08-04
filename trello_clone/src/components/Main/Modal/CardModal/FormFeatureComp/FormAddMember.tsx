@@ -1,13 +1,36 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as userSlice from '../../../../../redux/reducers/userSlice';
+import { userSelector } from '../../../../../redux/selectors';
+import { SubnavContext } from '../../../DetailProject/DetailProject';
+import MemberComp from './MemberComp';
 
 export default function FormAddMember() {
+  const subNavContext = useContext(SubnavContext);
+  const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState('');
+  const members = subNavContext ? subNavContext.members : [];
+  const searchUsers = useSelector(userSelector).search;
+
+  const memberElement = members.map((member) => {
+    return <MemberComp inputValue={inputValue} search={searchUsers} key={member.id} member={member} />;
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  useEffect(() => {
+    dispatch(userSlice.searchByEmail(inputValue));
+  }, [inputValue]);
+
   return (
     <form className="">
       <div className="">
         <input
-          // onChange={handleChange}
+          onChange={handleChange}
           name="name"
-          // value={inputValue.name}
+          value={inputValue}
           className="mt-[2px] border-[2px] border-[#A6C5E229] bg-[#22272B] text-[#B6C2CF] outline-[#EF5C48] text-sm leading-5 w-full py-1 px-2 rounded-[3px]"
           type="text"
           placeholder="Tìm kiếm Thành viên"
@@ -19,24 +42,7 @@ export default function FormAddMember() {
         </label>
         <div className="flex flex-col">
           {/* select item */}
-          <div className="flex items-center cursor-pointer hover:bg-[#A6C5E229] p-2 rounded-[4px]">
-            <div className="bg-red-500 w-8 h-8 rounded-[50%] flex items-center text-[#fff] mr-2 justify-center">
-              <span>NN</span>
-            </div>
-            <p className="text-[#B6C2CF] text-[14px]">
-              Nam béo (nambeo@gmail.com)
-            </p>
-          </div>
-          {/* select item */}
-           {/* select item */}
-           <div className="flex items-center cursor-pointer hover:bg-[#A6C5E229] p-2 rounded-[4px]">
-            <div className="bg-red-500 w-8 h-8 rounded-[50%] flex items-center text-[#fff] mr-2 justify-center">
-              <span>NN</span>
-            </div>
-            <p className="text-[#B6C2CF] text-[14px]">
-              Nam béo (nambeo@gmail.com)
-            </p>
-          </div>
+          {memberElement}
           {/* select item */}
         </div>
       </div>
