@@ -4,6 +4,8 @@ import { TableViewContext } from './TableView';
 import { List } from '../../../../types/List.type';
 import { Member } from '../../../../types/Member.type';
 import { CardDB } from '../../../../types/Card.type';
+import LabelComp from '../Table/Label';
+import MemberComp from '../Table/Member';
 
 interface ItemProps {
   table: Table;
@@ -20,46 +22,17 @@ const Item = ({ table, list }: ItemProps) => {
   const members = tableViewContext ? tableViewContext.members : [];
   const users = tableViewContext ? tableViewContext.users : [];
   const memberCards = tableViewContext ? tableViewContext.memberCards : [];
+  const labels = tableViewContext ? tableViewContext.labels : [];
+  const cardLabels = tableViewContext ? tableViewContext.cardLabels : [];
 
   const cardsFiltered = cards.filter((card) => card.listId === list.id);
-
-  const getUserImg = (member: Member) => {
-    let selectUser = users.find((user) => user.id === member.userId);
-    if (!selectUser) return;
-    return selectUser.imageUrl;
-  };
 
   const showDate = (time: number) => {
     let date = new Date(time);
     return date.getDate() + ' tháng ' + (+date.getMonth() + 1);
   };
 
-  const filterMemberByCardId = (card: CardDB) => {
-    const memberCardsFilter = memberCards.filter(
-      (member) => member.cardId === card.id
-    );
-    let memberFilters = [];
-    for (let i = 0; i < memberCardsFilter.length; i++) {
-      let member = members.find((m) => m.id === memberCardsFilter[i].memberId);
-      if (!member) return [];
-      memberFilters.push(member);
-    }
-    return memberFilters;
-  };
-
   const cardElement = cardsFiltered.map((card) => {
-    let membersFiltered = filterMemberByCardId(card);
-    const memberElement = membersFiltered.map((member) => {
-      return (
-        <span key={member.id}>
-          <img
-            className="rounded-[50%] w-[28px] h-[28px]"
-            src={getUserImg(member)}
-            alt=""
-          />
-        </span>
-      );
-    });
     return (
       <div
         key={card.id}
@@ -79,10 +52,21 @@ const Item = ({ table, list }: ItemProps) => {
           <span>{list.name}</span>
         </div>
         <div className="w-[17%] text-[#9FADBC] p-2 font-medium inline-flex items-center text-[14px]">
-          <span className=""></span>
+          <div className="py-2 flex items-center w-4/5 overflow-hidden gap-1">
+            <LabelComp
+              cardId={card.id}
+              labels={labels}
+              cardLabels={cardLabels}
+            />
+          </div>
         </div>
         <div className="w-[17%] text-[#9FADBC] p-2 font-medium inline-flex items-center text-[14px]">
-          {memberElement}
+          <MemberComp
+            memberCards={memberCards}
+            card={card}
+            members={members}
+            users={users}
+          />
         </div>
         <div className="w-[17%] text-[#9FADBC] p-2 font-medium inline-flex items-center text-[14px]">
           {card.endAt ? (

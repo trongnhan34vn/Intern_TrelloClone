@@ -21,6 +21,10 @@ import * as memberSlice from '../redux/reducers/memberSlice';
 import * as memberSaga from './items/memberSaga';
 import * as memberCardSaga from './items/memberCardSaga';
 import * as memberCardSlice from '../redux/reducers/memberCardSlice';
+import * as labelSaga from './items/labelSaga';
+import * as labelSlice from '../redux/reducers/labelSlice';
+import * as cardLabelSlice from '../redux/reducers/cardLabelSlice';
+import * as cardLabelSaga from './items/cardLabelSaga';
 
 export const rootSaga = function* () {
   yield all([
@@ -88,9 +92,16 @@ export const rootSaga = function* () {
     takeLatest(memberSlice.updateTask.type, memberSaga.updateTask),
     takeLatest(memberSlice.findAll.type, memberSaga.findAll),
     takeLatest(memberSlice.findByUserId.type, memberSaga.findByUserId),
-    // MEMBER_CARD 
+    // MEMBER_CARD
     takeLatest(memberCardSlice.create.type, memberCardSaga.create),
     takeLatest(memberCardSlice.deleteMC.type, memberCardSaga.deleteMC),
     takeLatest(memberCardSlice.findAll.type, memberCardSaga.findAll),
+    // LABEL
+    takeLatest(labelSlice.findAll.type, labelSaga.findAll),
+    takeLatest(labelSlice.searchByName.type, labelSaga.searchByName),
+    // CARD_LABEL
+    takeLatest(cardLabelSlice.create.type, cardLabelSaga.create),
+    takeLatest(cardLabelSlice.findAll.type, cardLabelSaga.findAll),
+    takeLatest(cardLabelSlice.remove.type, cardLabelSaga.remove),
   ]);
 };

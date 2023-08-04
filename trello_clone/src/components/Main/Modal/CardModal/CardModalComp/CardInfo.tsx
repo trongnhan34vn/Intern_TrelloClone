@@ -53,7 +53,7 @@ const CardInfo = ({ selectCard, checkListMembers }: CardInfoProps) => {
   };
 
   return (
-    <div className={`${checkListMembers() ? 'ml-7' : ''}`}>
+    <div>
       <h3 className="text-[#9FADBC] text-left text-[12px] font-bold mb-2">
         Ngày
       </h3>

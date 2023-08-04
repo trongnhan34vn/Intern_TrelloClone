@@ -29,7 +29,6 @@ export default function SubNav() {
           <h2 className="flex-nowrap font-bold text-lg px-[10px] text-[#fff] cursor-default relative flex items-start h-8 max-w-full">
             {returnTableName()}
           </h2>
-
           <ViewTypeComp />
         </div>
 

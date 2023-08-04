@@ -1,4 +1,9 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import '../../../../assets/css/react-trello.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -15,6 +20,8 @@ import AddLinkCard from './AddLinkCard';
 import NewLaneSection from './NewLaneSection';
 import NewLaneForm from './NewLaneForm';
 import CardModal from '../../Modal/CardModal/CardModal';
+import { SubnavContext } from '../DetailProject';
+
 
 export default function BoardComp() {
   const dispatch = useDispatch();
@@ -22,18 +29,22 @@ export default function BoardComp() {
   const [data, setData] = useState<BoardData>({
     lanes: [],
   });
+  const subNavContext = useContext(SubnavContext);
   const [currentCard, setCurrentCard] = useState<string | null>(null);
 
   // get lists and cards on API
-  useEffect(() => {
-    if (!tableId) return;
-    dispatch(cardSlice.findAllCards());
-    // dispatch(listSlice.findListsByTableId(parseInt(tableId)));
-    dispatch(listSlice.findAllList());
-  }, [tableId]);
+  // useEffect(() => {
+  //   if (!tableId) return;
+  //   dispatch(cardSlice.findAllCards());
+  //   dispatch(listSlice.findListsByTableId(parseInt(tableId)));
+  //   dispatch(listSlice.findAllList());
+  // }, [tableId]);
 
-  const lanes = useSelector(listSelector).lists;
-  const cards = useSelector(cardSelector).listCards;
+  const lanes = subNavContext ? subNavContext.lists : [];
+  const cards = subNavContext ? subNavContext.cards: [];
+
+  // const lanes = useSelector(listSelector).lists;
+  // const cards = useSelector(cardSelector).listCards;
 
   useEffect(() => {
     if (!tableId) return;
@@ -120,7 +131,7 @@ export default function BoardComp() {
   //     });
   //   }
   // }, [lanes, cards]);
-
+  
   // add card
 
   const createCard = (card: Card) => {
@@ -206,6 +217,10 @@ export default function BoardComp() {
       };
       dispatch(cardSlice.updateCardTest(cardU));
     }
+    // setUpdate(true);
+    // setTimeout(() => {
+    //   setUpdate(false);
+    // }, 50);
   };
 
   // drag list
@@ -257,6 +272,8 @@ export default function BoardComp() {
         onCardClick={handleClickModal}
         onCardAdd={(card) => createCard(card)}
         onDataChange={(data) => {
+          console.log(data);
+          
           setData(data);
         }}
         laneDraggable

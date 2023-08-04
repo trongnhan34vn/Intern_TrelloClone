@@ -4,6 +4,7 @@ import FormTask from './FormWork';
 import { FeatureContext } from '../CreateFeatureBtn';
 import FormDate from './FormDate';
 import FormTaskMember from '../CardModalComp/FormTaskMember';
+import FormAddLabel from './AddLabel';
 
 export default function FormFeatureContent() {
   const featureContext = useContext(FeatureContext);
@@ -14,6 +15,7 @@ export default function FormFeatureContent() {
     if (featureContext.feature.code === 'VCL') return <FormTask />
     if (featureContext.feature.code === 'N') return <FormDate />
     if (featureContext.feature.code === 'TS') return <FormTaskMember />
+    if (featureContext.feature.code === 'Label') return <FormAddLabel />
   }
   return (
     <div className="min-h-[175px] scrollable-div overflow-y-scroll justify-start flex flex-col p-3">

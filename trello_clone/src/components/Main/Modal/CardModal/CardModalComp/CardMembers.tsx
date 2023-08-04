@@ -17,7 +17,7 @@ const CardMembers = ({members, memberCardsFilterCardId}: CardMembersProps) => {
   })
 
   return (
-    <div>
+    <div className='mr-3'>
       <div className="text-[#9FADBC] text-left text-[12px] font-bold mb-2">
         Thành viên
       </div>

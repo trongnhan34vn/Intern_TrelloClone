@@ -6,7 +6,9 @@ import { useParams } from 'react-router-dom';
 import * as tableSlice from '../../../../redux/reducers/tableSlice';
 import {
   backgroundSelector,
+  cardLabelSelector,
   cardSelector,
+  labelSelector,
   listSelector,
   memberCardSelector,
   memberSelector,
@@ -26,6 +28,10 @@ import * as userSlice from '../../../../redux/reducers/userSlice';
 import { User } from '../../../../types/User.type';
 import * as memberCardSlice from '../../../../redux/reducers/memberCardSlice';
 import { MemberCard } from '../../../../types/MemberCard.type';
+import * as labelSlice from '../../../../redux/reducers/labelSlice';
+import * as cardLabelSlice from '../../../../redux/reducers/cardLabelSlice';
+import { Label } from '../../../../types/Label.type';
+import { CardLabel } from '../../../../types/CardLabel.type';
 
 export interface TableViewProps {
   tables: Table[];
@@ -34,7 +40,9 @@ export interface TableViewProps {
   backgrounds: Background[];
   members: Member[];
   users: User[];
-  memberCards: MemberCard[]
+  memberCards: MemberCard[];
+  labels: Label[];
+  cardLabels: CardLabel[];
 }
 
 export const TableViewContext = createContext<TableViewProps | null>(null);
@@ -51,7 +59,9 @@ export const TableView = () => {
     dispatch(backgroundSlice.findAllBGs());
     dispatch(memberSlice.findAll());
     dispatch(userSlice.findAll());
-    dispatch(memberCardSlice.findAll())
+    dispatch(memberCardSlice.findAll());
+    dispatch(labelSlice.findAll());
+    dispatch(cardLabelSlice.findAll());
   }, []);
 
   const tables = useSelector(tableSelector).tablesByProjectId;
@@ -61,7 +71,9 @@ export const TableView = () => {
   const members = useSelector(memberSelector).members;
   const users = useSelector(userSelector).users;
   const memberCards = useSelector(memberCardSelector).memberCards;
-  
+  const cardLabels = useSelector(cardLabelSelector).cardLabels;
+  const labels = useSelector(labelSelector).labels;
+
   return (
     <div className="flex bg-no-repeat bg-cover bg-center flex-col flex-1 pl-[260px] h-[calc(100vh_-_64px)] overflow-y-auto">
       <TableViewContext.Provider
@@ -73,6 +85,8 @@ export const TableView = () => {
           members: members,
           users: users,
           memberCards: memberCards,
+          cardLabels: cardLabels,
+          labels: labels,
         }}
       >
         <HeadTable />
