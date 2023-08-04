@@ -3,6 +3,10 @@ import { List } from '../../../../types/List.type';
 import { SubnavContext } from '../DetailProject';
 import { CardDB } from '../../../../types/Card.type';
 import { Member } from '../../../../types/Member.type';
+import Label from './Label';
+import LabelComp from './Label';
+import MemberComp from './Member';
+
 
 interface ItemProps {
   list: List;
@@ -18,17 +22,6 @@ const Item = ({ list }: ItemProps) => {
   const users = snContext ? snContext.users : [];
   const cardLabels = snContext ? snContext.cardLabels : [];
   const labels = snContext ? snContext.labels : [];
-
-  const filterLabelsByCard = (cardId: number) => {
-    let cl = cardLabels.filter((cl) => cl.cardId === cardId);
-    let temps = [];
-    for (let i = 0; i < cl.length; i++) {
-      let temp = labels.find((label) => label.id === cl[i].labelId);
-      if (!temp) return [];
-      temps.push(temp);
-    }
-    return temps;
-  };
 
   const getBackgroundURL = () => {
     if (!selectTable) return;
@@ -67,15 +60,6 @@ const Item = ({ list }: ItemProps) => {
   const cardElement = cardsFiltered.map((card) => {
     let membersFiltered = filterMemberByCardId(card);
 
-    const labelElement = filterLabelsByCard(card.id).map((label) => {
-      return (
-        <div
-          style={{ backgroundColor: `${label.code}` }}
-          className="rounded-[4px] min-w-[56px] h-4"
-        ></div>
-      );
-    });
-
     const memberElement = membersFiltered.map((member) => {
       return (
         <span key={member.id}>
@@ -106,10 +90,12 @@ const Item = ({ list }: ItemProps) => {
           <span>{card.listId === list.id ? list.name : ''}</span>
         </div>
         <div className="w-[17%] text-[#9FADBC] py-2 font-medium inline-flex items-center text-[14px]">
-          <div className="py-2 flex items-center w-4/5 overflow-hidden gap-1">{labelElement}</div>
+          <div className="py-2 flex items-center w-4/5 overflow-hidden gap-1">
+            <LabelComp cardId={card.id} labels={labels} cardLabels={cardLabels} />
+          </div>
         </div>
         <div className="w-[17%] text-[#9FADBC] p-2 font-medium inline-flex items-center text-[14px]">
-          {memberElement}
+          <MemberComp card={card} memberCards={memberCards} members={members} users={users} />
         </div>
         <div className="w-[17%] text-[#9FADBC] p-2 font-medium inline-flex items-center text-[14px]">
           {card.endAt ? (

@@ -142,7 +142,7 @@ export default function DetailProject() {
               {/* Task */}
 
               {viewType?.type === 'card' ? (
-                <TaskControll setUpdate={setUpdate} />
+                <TaskControll />
               ) : (
                 <TableComp />
               )}

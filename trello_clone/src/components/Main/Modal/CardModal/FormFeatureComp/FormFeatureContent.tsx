@@ -4,7 +4,7 @@ import FormTask from './FormWork';
 import { FeatureContext } from '../CreateFeatureBtn';
 import FormDate from './FormDate';
 import FormTaskMember from '../CardModalComp/FormTaskMember';
-import FormAddLabel from './FormAddLabel';
+import FormAddLabel from './AddLabel';
 
 export default function FormFeatureContent() {
   const featureContext = useContext(FeatureContext);

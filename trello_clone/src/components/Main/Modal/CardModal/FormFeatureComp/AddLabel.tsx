@@ -5,8 +5,10 @@ import { searchByName } from '../../../../../redux/reducers/labelSlice';
 import { labelSelector } from '../../../../../redux/selectors';
 import { SubnavContext } from '../../../DetailProject/DetailProject';
 import { CardContext } from '../CardModal';
+import AddLabelForm from './AddLabelForm';
+import LabelComp from './Label';
 
-const FormAddLabel = () => {
+const AddLabel = () => {
   const dispatch = useDispatch();
   const subNavContext = useContext(SubnavContext);
   const labels = subNavContext ? subNavContext.labels : [];
@@ -58,21 +60,11 @@ const FormAddLabel = () => {
 
   const labelElement = labelStream.map((label) => {
     return (
-      <div
-        onClick={() => handleClick(label.id)}
-        key={label.id}
-        className="flex w-full transition-all ease-in duration-150 hover:opacity-80 cursor-pointer items-center mb-1"
-      >
-        <input
-          onChange={() => {}}
-          checked={selectInputs.includes(label.id)}
-          type="checkbox"
-        />
-        <div
-          style={{ backgroundColor: `${label.code}` }}
-          className={`ml-3 flex-1 rounded-[3px] h-8 px-3`}
-        ></div>
-      </div>
+      <LabelComp
+        label={label}
+        selectInputs={selectInputs}
+        handleClick={handleClick}
+      />
     );
   });
 
@@ -85,18 +77,30 @@ const FormAddLabel = () => {
     }
   };
 
+  const [isAddLabel, setAddLabel] = useState<boolean>(false);
+
   return (
-    <form action="">
-      <input
-        onChange={handleChange}
-        className="text-[14px] w-full text-[#B6C2CF] leading-5 font-normal bg-[#22272B] border-[#A6C5E229] border-[2px] px-3 py-2"
-        type="text"
-        placeholder="Tìm nhãn..."
-      />
-      <h4 className="mt-3 mb-2 text-[12px] text-[#9FADBC] font-bold">Nhãn</h4>
-      <div>{labelElement}</div>
-    </form>
+    <div>
+      {(!isAddLabel) ? <div className="label">
+        <input
+          onChange={handleChange}
+          className="text-[14px] w-full text-[#B6C2CF] leading-5 font-normal bg-[#22272B] border-[#A6C5E229] border-[2px] px-3 py-2"
+          type="text"
+          placeholder="Tìm nhãn..."
+        />
+        <h4 className="mt-3 mb-2 text-[12px] text-[#9FADBC] font-bold">Nhãn</h4>
+        <div>{labelElement}</div>
+        <div>
+          <button
+            onClick={() => setAddLabel(true)}
+            className="my-1 w-full rounded-[3px] px-3 py-[6px] bg-[#A1BDD914] text-[14px] text-[#9FADBC]"
+          >
+            Tạo nhãn mới
+          </button>
+        </div>
+      </div> : <AddLabelForm handleClick={handleClick} labels={labels} setAddLabel={setAddLabel} />} 
+    </div>
   );
 };
 
-export default FormAddLabel;
+export default AddLabel;

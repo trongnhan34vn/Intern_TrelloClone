@@ -67,6 +67,11 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
     return <Works key={work.id} work={work} />;
   });
 
+  const checkLabel = () => {
+    if (memberCardsFilterCardId.length === 0) return false;
+    return true;
+  };
+
   const checkCardHasEndDate = () => {
     if (!selectCard) return;
     if (selectCard.endAt !== 0) return true;
@@ -123,8 +128,7 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
                         ) : (
                           <></>
                         )}
-
-                        <CardLabel />
+                        {checkLabel() ? <CardLabel /> : <></>}
 
                         {checkCardHasEndDate() ? (
                           <CardInfo
