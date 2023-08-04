@@ -1,31 +1,53 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Label } from '../../../../../types/Label.type';
+import { CardDB } from '../../../../../types/Card.type';
 import { useDispatch, useSelector } from 'react-redux';
 import * as labelSlice from '../../../../../redux/reducers/labelSlice';
-import { Label, LabelForm } from '../../../../../types/Label.type';
 import { FeatureContext } from '../CreateFeatureBtn';
 import { labelSelector } from '../../../../../redux/selectors';
-import * as cardLabelSlice from '../../../../../redux/reducers/cardLabelSlice';
 import { CardLabelForm } from '../../../../../types/CardLabel.type';
-import { CardDB } from '../../../../../types/Card.type';
+import * as cardLabelSlice from '../../../../../redux/reducers/cardLabelSlice';
 
-interface AddLabelFormProps {
+interface EditLabelFormProps {
   labels: Label[];
   setAddLabel: React.Dispatch<React.SetStateAction<string>>;
   handleClick: (id: number) => void;
   selectInputs: number[];
   selectCard: CardDB | null;
+  editLabel: Label | null;
 }
 
-const AddLabelForm = ({
-  handleClick,
+const initState: Label = {
+  id: 0,
+  name: '',
+  labelName: '',
+  code: '',
+};
+
+const EditLabelForm = ({
   labels,
   setAddLabel,
-  selectInputs,
+  handleClick,
   selectCard,
-}: AddLabelFormProps) => {
+  selectInputs,
+  editLabel,
+}: EditLabelFormProps) => {
   const dispatch = useDispatch();
-  const [selectLabel, setSelectLabel] = useState<Label | null>(null);
   const featureContext = useContext(FeatureContext);
+
+  const [selectLabel, setSelectLabel] = useState<Label | null>(null);
+
+  useEffect(() => {
+    if (!editLabel) return;
+    setSelectLabel(editLabel);
+    setInputValue(editLabel);
+  }, [editLabel]);
+
+  const [inputValue, setInputValue] = useState<Label>(initState);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue({ ...inputValue, labelName: e.target.value });
+  };
 
   const handleSelect = (label: Label) => {
     setSelectLabel(label);
@@ -35,51 +57,38 @@ const AddLabelForm = ({
     (label) => label.labelName?.trim() !== '' && label.labelName === undefined
   );
 
-  const checkActive = (labelId: number) => {
+  const checkActive = (labelId: string) => {
     if (!selectLabel) return;
-    if (labelId === selectLabel.id) return true;
+    if (labelId === selectLabel.code) return true;
     return false;
   };
 
-  const [inputValue, setInputValue] = useState<LabelForm | null>(null);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let labelName = e.target.value;
-    
-    setInputValue({
-      name: selectLabel? selectLabel.name : '',
-      code: selectLabel? selectLabel.code : '',
-      labelName: labelName,
-    });
+  const handleSubmit = () => {
+    if (!featureContext) return;
+    if (inputValue.id > 6) {
+      dispatch(labelSlice.update(inputValue));
+    } else {
+      if (inputValue.labelName?.trim() !== '' && inputValue.labelName) {
+        dispatch(
+          labelSlice.create({
+            name: inputValue.name,
+            code: inputValue.code,
+            labelName: inputValue.labelName,
+          })
+        );
+      }
+    }
+    featureContext.closeFn();
   };
 
   useEffect(() => {
     if (!selectLabel) return;
     setInputValue({
       ...inputValue,
-      name: selectLabel.name,
       code: selectLabel.code,
+      name: selectLabel.name,
     });
   }, [selectLabel]);
-
-  const handleSubmit = () => {
-    if (!featureContext) return;
-    if (!selectLabel) return;
-    if (!inputValue) return;
-    if (
-      (inputValue.labelName?.trim() === '' ||
-        inputValue.labelName === undefined) &&
-      labels.find((label) => label.code === inputValue.code) !== undefined
-    ) {
-      if (!selectInputs.includes(selectLabel.id)) {
-        handleClick(selectLabel.id);
-      }
-      featureContext.closeFn();
-    } else {
-      dispatch(labelSlice.create(inputValue));
-      featureContext.closeFn();
-    }
-  };
 
   const labelJustAdd = useSelector(labelSelector).labelJustAdd;
 
@@ -92,9 +101,8 @@ const AddLabelForm = ({
     };
     dispatch(cardLabelSlice.create(cardLabel));
     setTimeout(() => {
-
-      dispatch(labelSlice.reset())
-    },500)
+      dispatch(labelSlice.reset());
+    }, 500);
   }, [labelJustAdd]);
 
   const labelElement = labelsFilter.map((label) => {
@@ -104,13 +112,19 @@ const AddLabelForm = ({
         key={label.id}
         style={{ backgroundColor: `${label.code}` }}
         className={`${
-          checkActive(label.id) ? 'border-[2px] border-[#579DFF]' : ''
+          checkActive(label.code) ? 'border-[2px] border-[#579DFF]' : ''
         } w-full h-9 rounded-[3px] cursor-pointer`}
       >
         {' '}
       </div>
     );
   });
+
+  const handleDelete = (id: number) => {
+    dispatch(labelSlice.remove(id));
+    featureContext?.closeFn()
+  };
+
   return (
     <div>
       <button
@@ -124,6 +138,7 @@ const AddLabelForm = ({
           Tiêu đề
         </h3>
         <input
+          value={inputValue.labelName ? inputValue.labelName : ''}
           onChange={handleChange}
           className="bg-[#22272B] text-[#9FADBC] leading-5 text-[14px] w-full border-[2px] border-[#A6C5E229] rounded-[3px] px-3 py-2"
           type="text"
@@ -136,19 +151,27 @@ const AddLabelForm = ({
         <div className="grid-cols-3 grid gap-2 mb-3">{labelElement}</div>
       </div>
       <hr className="border-[#A6C5E229] my-3" />
-      <button
-        onClick={handleSubmit}
-        disabled={selectLabel ? false : true}
-        className={`${
-          selectLabel
-            ? 'bg-[#579DFF] text-[#1D2125]'
-            : 'bg-[#BCD6F00A] text-[#9FADBC] cursor-not-allowed'
-        } px-[12px] py-[6px] text-[14px] rounded-[3px] `}
-      >
-        Tạo mới
-      </button>
+      <div className="flex justify-between items-center">
+        <button
+          onClick={handleSubmit}
+          disabled={selectLabel ? false : true}
+          className={`${
+            selectLabel
+              ? 'bg-[#579DFF] text-[#1D2125]'
+              : 'bg-[#BCD6F00A] text-[#9FADBC] cursor-not-allowed'
+          } px-[12px] py-[6px] text-[14px] rounded-[3px] hover:opacity-100 opacity-80 transition-all ease-in-out duration-100 `}
+        >
+          Sửa
+        </button>
+        <button
+          onClick={() => handleDelete(editLabel ? editLabel.id : 0)}
+          className={`text-[#1D2125] bg-red-500 px-[12px] py-[6px] text-[14px] opacity-80 hover:opacity-100 rounded-[3px] transition-all ease-in duration-100 `}
+        >
+          Xoá
+        </button>
+      </div>
     </div>
   );
 };
 
-export default AddLabelForm;
+export default EditLabelForm;

@@ -15,3 +15,11 @@ export const CREATE = async (data: LabelForm): Promise<Label> => {
   let response = await instance.post('/labels', data);
   return response.data;
 };
+
+export const UPDATE = async (data: Label) => {
+  await instance.put('/labels/' + data.id, data);
+};
+
+export const DELETE = async (id: number) => {
+  await instance.delete('/labels/' + id);
+}

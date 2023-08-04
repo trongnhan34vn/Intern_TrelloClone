@@ -100,9 +100,12 @@ export const rootSaga = function* () {
     takeLatest(labelSlice.findAll.type, labelSaga.findAll),
     takeLatest(labelSlice.searchByName.type, labelSaga.searchByName),
     takeLatest(labelSlice.create.type, labelSaga.create),
+    takeLatest(labelSlice.update.type, labelSaga.update),
+    takeLatest(labelSlice.remove.type, labelSaga.remove),
     // CARD_LABEL
     takeLatest(cardLabelSlice.create.type, cardLabelSaga.create),
     takeLatest(cardLabelSlice.findAll.type, cardLabelSaga.findAll),
     takeLatest(cardLabelSlice.remove.type, cardLabelSaga.remove),
+
   ]);
 };

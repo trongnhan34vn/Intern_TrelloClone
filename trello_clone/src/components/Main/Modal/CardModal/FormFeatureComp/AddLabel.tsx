@@ -7,6 +7,8 @@ import { SubnavContext } from '../../../DetailProject/DetailProject';
 import { CardContext } from '../CardModal';
 import AddLabelForm from './AddLabelForm';
 import LabelComp from './Label';
+import EditLabelForm from './EditLabelForm';
+import { Label } from '../../../../../types/Label.type';
 
 const AddLabel = () => {
   const dispatch = useDispatch();
@@ -14,6 +16,7 @@ const AddLabel = () => {
   const labels = subNavContext ? subNavContext.labels : [];
   const selectCard = useContext(CardContext);
   const cardLabels = subNavContext ? subNavContext.cardLabels : [];
+  const [isAddLabel, setAddLabel] = useState<string>('home');
 
   const cardLabelFilterByCard = selectCard
     ? cardLabels.filter((cl) => cl.cardId === selectCard.id)
@@ -58,9 +61,16 @@ const AddLabel = () => {
     }
   };
 
-  const labelElement = labelStream.map((label) => {
+  const labelStreamSort = [...labelStream].sort((a, b) => b.id - a.id);
+
+  const [editLabel, setEditLabel] = useState<Label | null>(null);
+
+  const labelElement = labelStreamSort.map((label) => {
     return (
       <LabelComp
+        setEditLabel={setEditLabel}
+        setAddLabel={setAddLabel}
+        key={label.id}
         label={label}
         selectInputs={selectInputs}
         handleClick={handleClick}
@@ -77,33 +87,43 @@ const AddLabel = () => {
     }
   };
 
-  const [isAddLabel, setAddLabel] = useState<boolean>(false);
-
   return (
     <div>
-      {!isAddLabel ? (
+      {isAddLabel === 'home' ? (
         <div className="label">
           <input
             onChange={handleChange}
-            className="text-[14px] w-full text-[#B6C2CF] leading-5 font-normal bg-[#22272B] border-[#A6C5E229] border-[2px] px-3 py-2"
+            className="text-[14px] w-full text-[#B6C2CF] rounded-[3px] leading-5 font-normal bg-[#22272B] border-[#A6C5E229] border-[2px] px-3 py-2"
             type="text"
             placeholder="Tìm nhãn..."
           />
           <h4 className="mt-3 mb-2 text-[12px] text-[#9FADBC] font-bold">
             Nhãn
           </h4>
-          <div>{labelElement}</div>
+          <div className="h-[300px] overflow-y-scroll scrollable-div">
+            {labelElement}
+          </div>
           <div>
             <button
-              onClick={() => setAddLabel(true)}
+              onClick={() => setAddLabel('add')}
               className="my-1 w-full rounded-[3px] px-3 py-[6px] bg-[#A1BDD914] text-[14px] text-[#9FADBC]"
             >
               Tạo nhãn mới
             </button>
           </div>
         </div>
-      ) : (
+      ) : isAddLabel === 'add' ? (
         <AddLabelForm
+          selectCard={selectCard}
+          handleClick={handleClick}
+          selectInputs={selectInputs}
+          labels={labels}
+          setAddLabel={setAddLabel}
+        />
+      ) : (
+        <EditLabelForm
+          editLabel={editLabel}
+          selectCard={selectCard}
           handleClick={handleClick}
           selectInputs={selectInputs}
           labels={labels}

@@ -29,9 +29,25 @@ const labelSlice = createSlice({
     getJustAdd: (state, action: PayloadAction<Label>) => {
       state.labelJustAdd = action.payload;
     },
+    reset: (state) => {
+      state.labelJustAdd = null;
+    },
+    update: (state, action: PayloadAction<Label>) => {
+
+    },
+    remove: (state, action: PayloadAction<number>) => {}
   },
 });
 
 export default labelSlice.reducer;
-export const { findAll, getAll, searchByName, getByName, create, getJustAdd } =
-  labelSlice.actions;
+export const {
+  findAll,
+  getAll,
+  searchByName,
+  getByName,
+  create,
+  getJustAdd,
+  reset,
+  update,
+  remove
+} = labelSlice.actions;
