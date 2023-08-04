@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { create } from '../../../../../redux/reducers/labelSlice';
 import { Label, LabelForm } from '../../../../../types/Label.type';
+import { FeatureContext } from '../CreateFeatureBtn';
 
 interface AddLabelFormProps {
   labels: Label[];
   setAddLabel: React.Dispatch<React.SetStateAction<boolean>>;
   handleClick: (id: number) => void;
+  selectInputs: number[];
 }
 
 const AddLabelForm = ({
   handleClick,
   labels,
   setAddLabel,
+  selectInputs,
 }: AddLabelFormProps) => {
+  const dispatch = useDispatch();
   const [selectLabel, setSelectLabel] = useState<Label | null>(null);
+  const featureContext = useContext(FeatureContext);
 
   const handleSelect = (label: Label) => {
     setSelectLabel(label);
@@ -45,9 +52,8 @@ const AddLabelForm = ({
     });
   }, [selectLabel]);
 
-  console.log(inputValue);
-
   const handleSubmit = () => {
+    if (!featureContext) return;
     if (!selectLabel) return;
     if (!inputValue) return;
     if (
@@ -55,11 +61,15 @@ const AddLabelForm = ({
         inputValue.labelName === undefined) &&
       labels.find((label) => label.code === inputValue.code) !== undefined
     ) {
-      handleClick(selectLabel.id);
+      if (!selectInputs.includes(selectLabel.id)) {
+        handleClick(selectLabel.id);
+      }
+      featureContext.closeFn();
     } else {
-    }
 
-    console.log('bắn đê');
+      dispatch(create(inputValue));
+      featureContext.closeFn();
+    }
   };
 
   const labelElement = labelsFilter.map((label) => {

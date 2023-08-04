@@ -81,24 +81,35 @@ const AddLabel = () => {
 
   return (
     <div>
-      {(!isAddLabel) ? <div className="label">
-        <input
-          onChange={handleChange}
-          className="text-[14px] w-full text-[#B6C2CF] leading-5 font-normal bg-[#22272B] border-[#A6C5E229] border-[2px] px-3 py-2"
-          type="text"
-          placeholder="Tìm nhãn..."
-        />
-        <h4 className="mt-3 mb-2 text-[12px] text-[#9FADBC] font-bold">Nhãn</h4>
-        <div>{labelElement}</div>
-        <div>
-          <button
-            onClick={() => setAddLabel(true)}
-            className="my-1 w-full rounded-[3px] px-3 py-[6px] bg-[#A1BDD914] text-[14px] text-[#9FADBC]"
-          >
-            Tạo nhãn mới
-          </button>
+      {!isAddLabel ? (
+        <div className="label">
+          <input
+            onChange={handleChange}
+            className="text-[14px] w-full text-[#B6C2CF] leading-5 font-normal bg-[#22272B] border-[#A6C5E229] border-[2px] px-3 py-2"
+            type="text"
+            placeholder="Tìm nhãn..."
+          />
+          <h4 className="mt-3 mb-2 text-[12px] text-[#9FADBC] font-bold">
+            Nhãn
+          </h4>
+          <div>{labelElement}</div>
+          <div>
+            <button
+              onClick={() => setAddLabel(true)}
+              className="my-1 w-full rounded-[3px] px-3 py-[6px] bg-[#A1BDD914] text-[14px] text-[#9FADBC]"
+            >
+              Tạo nhãn mới
+            </button>
+          </div>
         </div>
-      </div> : <AddLabelForm handleClick={handleClick} labels={labels} setAddLabel={setAddLabel} />} 
+      ) : (
+        <AddLabelForm
+          handleClick={handleClick}
+          selectInputs={selectInputs}
+          labels={labels}
+          setAddLabel={setAddLabel}
+        />
+      )}
     </div>
   );
 };

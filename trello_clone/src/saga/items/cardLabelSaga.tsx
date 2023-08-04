@@ -4,13 +4,6 @@ import { CREATE, DELETE, FIND_ALL } from '../../api/services/cardLabelServices';
 import { getAll } from '../../redux/reducers/cardLabelSlice';
 import { CardLabel, CardLabelForm } from '../../types/CardLabel.type';
 
-export const create = function* ({ payload }: PayloadAction<CardLabelForm>) {
-  try {
-    yield call(CREATE, payload);
-    yield findAll()
-  } catch (error) {}
-};
-
 export const findAll = function* () {
   try {
     let response: CardLabel[] = yield call(FIND_ALL);
@@ -18,11 +11,16 @@ export const findAll = function* () {
   } catch (error) {}
 };
 
-export const remove = function* ({payload}:PayloadAction<number>) {
+export const create = function* ({ payload }: PayloadAction<CardLabelForm>) {
   try {
-    yield call(DELETE, payload)
-    yield findAll()
-  } catch (error) {
-    
-  }
-}
+    yield call(CREATE, payload);
+    yield findAll();
+  } catch (error) {}
+};
+
+export const remove = function* ({ payload }: PayloadAction<number>) {
+  try {
+    yield call(DELETE, payload);
+    yield findAll();
+  } catch (error) {}
+};

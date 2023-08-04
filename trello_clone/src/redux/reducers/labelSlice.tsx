@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Label } from '../../types/Label.type';
+import { Label, LabelForm } from '../../types/Label.type';
 
 interface LabelState {
   labels: Label[];
   search: Label[];
+  labelJustAdd: Label | null;
 }
 
 const initialState: LabelState = {
   labels: [],
   search: [],
+  labelJustAdd: null,
 };
 
 const labelSlice = createSlice({
@@ -21,10 +23,15 @@ const labelSlice = createSlice({
     },
     searchByName: (state, action: PayloadAction<string>) => {},
     getByName: (state, action: PayloadAction<Label[]>) => {
-      state.search = action.payload
+      state.search = action.payload;
+    },
+    create: (state, action: PayloadAction<LabelForm>) => {},
+    getJustAdd: (state, action: PayloadAction<Label>) => {
+      state.labelJustAdd = action.payload;
     },
   },
 });
 
 export default labelSlice.reducer;
-export const { findAll, getAll, searchByName, getByName } = labelSlice.actions;
+export const { findAll, getAll, searchByName, getByName, create, getJustAdd } =
+  labelSlice.actions;

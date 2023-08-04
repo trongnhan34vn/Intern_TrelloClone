@@ -99,6 +99,7 @@ export const rootSaga = function* () {
     // LABEL
     takeLatest(labelSlice.findAll.type, labelSaga.findAll),
     takeLatest(labelSlice.searchByName.type, labelSaga.searchByName),
+    takeLatest(labelSlice.create.type, labelSaga.create),
     // CARD_LABEL
     takeLatest(cardLabelSlice.create.type, cardLabelSaga.create),
     takeLatest(cardLabelSlice.findAll.type, cardLabelSaga.findAll),

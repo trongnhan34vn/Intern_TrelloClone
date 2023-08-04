@@ -159,7 +159,7 @@
       "order": 1,
       "description": "",
       "status": false,
-      "endAt": 0,
+      "endAt": 1691142600000,
       "createdAt": 1690904385987,
       "id": 2
     },
@@ -334,34 +334,10 @@
   ],
   "card-label": [
     {
-      "labelId": 3,
-      "cardId": 1,
-      "createdAt": 1691077884978,
-      "id": 7
-    },
-    {
-      "labelId": 4,
-      "cardId": 1,
-      "createdAt": 1691078144692,
-      "id": 9
-    },
-    {
-      "labelId": 4,
-      "cardId": 3,
-      "createdAt": 1691082995370,
-      "id": 10
-    },
-    {
-      "labelId": 1,
-      "cardId": 3,
-      "createdAt": 1691111004343,
-      "id": 11
-    },
-    {
-      "labelId": 1,
-      "cardId": 1,
-      "createdAt": 1691121851402,
-      "id": 12
+      "labelId": 2,
+      "cardId": 2,
+      "createdAt": 1691142633644,
+      "id": 1
     }
   ]
 }
