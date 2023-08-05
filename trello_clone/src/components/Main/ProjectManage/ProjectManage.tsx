@@ -9,13 +9,13 @@ import {
   memberSelector,
   projectSelector,
   tableSelector,
+  userSelector,
 } from '../../../redux/selectors';
-import { Member } from '../../../types/Member.type';
 import { Project } from '../../../types/Project.type';
-import { Table } from '../../../types/Table.type';
 import { User } from '../../../types/User.type';
-import MembersProjectTag from './ProjectTag/MembersProjectTag';
 import ProjectTag from './ProjectTag/ProjectTag';
+import * as userSlice from '../../../redux/reducers/userSlice';
+import { Table } from '../../../types/Table.type';
 
 export default function ProjectManage() {
   const dispatch = useDispatch();
@@ -35,40 +35,83 @@ export default function ProjectManage() {
 
   useEffect(() => {
     dispatch(tableSlice.findAll());
-    dispatch(memberSlice.findByUserId(userLogin.id));
+    dispatch(memberSlice.findAll());
     dispatch(projectSlice.findAll());
-  },[])
+    dispatch(userSlice.findAll());
+  }, []);
 
-  
-  // mảng member user hiện tại (user hiệnt tại là thành viên của bảng nào)
-  const members = useSelector(memberSelector).membersByUserId;
-  // 1 mảng member với user hiện tại là thành viên
-  const membersFilter = members.filter((member) => member.role !== Roles.ADMIN);
-  const tables = useSelector(tableSelector).listTable;
+  const users = useSelector(userSelector).users;
+  const members = useSelector(memberSelector).members;
+  const membersFilter = members.filter(
+    (member) => member.userId === userLogin.id && member.role !== Roles.ADMIN
+  );
+
   const projects = useSelector(projectSelector).projects;
-  const [projectArr, setProjectArr] = useState<Project[]>([]);
+  const tables = useSelector(tableSelector).listTable;
 
-  useEffect(() => {
-    let tableArr: Table[] = [];
+  const tablesFilterByMember = () => {
+    let temps = [];
     for (let i = 0; i < membersFilter.length; i++) {
-      let table = tables.find((table) => table.id === membersFilter[i].tableId);
-      if (!table) return;
-      tableArr.push(table);
+      let temp = tables.find((t) => t.id === membersFilter[i].tableId);
+      if (!temp) return [];
+      temps.push(temp);
     }
-    console.log(tableArr);
-    
-    let projectArr: Project[] = [];
-    for (let i = 0; i < tableArr.length; i++) {
-      let project = projects.find(
-        (project) => project.id === tableArr[i].projectId
-      );
-      if (!project) return;
-      projectArr.push(project);
-    }
-    setProjectArr(projectArr);
-  }, [members]);
+    return temps;
+  };
 
-  console.log(projectArr);
+  const projectsFilterByTable = () => {
+    let tables = tablesFilterByMember();
+    let temps = [];
+    for (let i = 0; i < tables.length; i++) {
+      let temp = projects.find((p) => p.id === tables[i].projectId);
+      if (!temp) return [];
+      temps.push(temp);
+    }
+    return temps;
+  };
+
+  const usersFilterByProject = () => {
+    let projects = projectsFilterByTable();
+    let temps: User[] = [];
+    for (let i = 0; i < projects.length; i++) {
+      let temp = users.find((u) => u.id === projects[i].userId);
+      if (!temp) return [];
+      if (!temps.find((t) => t.id === projects[i].userId)) {
+        temps.push(temp);
+      }
+    }
+    return temps;
+  };
+
+  const filterProjectByUser = (userId: number) => {
+    let projects = projectsFilterByTable();
+    return projects.filter((p) => p.userId === userId);
+  };
+
+  const memberElement = usersFilterByProject().map((user) => {
+    const projectElement = filterProjectByUser(user.id).map((project) => {
+      let tables: Table[] = tablesFilterByMember();
+      return (
+        <ProjectTag
+          tables={tables}
+          key={project.id}
+          project={project}
+          type="member"
+        />
+      );
+    });
+    return (
+      <div key={user.id}>
+        <h3 className="text-[#B6C2CF] font-bold my-5">
+          CÁC KHÔNG GIAN LÀM VIỆC CỦA{' '}
+          {user.fullName === '' ? user.email : user.fullName}
+        </h3>
+        {/* Project Tag Item */}
+        {projectElement}
+        {/* Project Tag Item */}
+      </div>
+    );
+  });
 
   const listProjects: Project[] = useSelector(projectSelector).listProjects;
 
@@ -77,7 +120,15 @@ export default function ProjectManage() {
   });
 
   const projectTagElement = sortListProjects.map((project) => {
-    return <ProjectTag key={project.id} project={project} />;
+    let tables: Table[] = tablesFilterByMember();
+    return (
+      <ProjectTag
+        tables={tables}
+        key={project.id}
+        project={project}
+        type="user"
+      />
+    );
   });
   return (
     <div className="main mx-4 mt-10 max-w-[825px] min-w-[288px] w-full">
@@ -90,6 +141,7 @@ export default function ProjectManage() {
           {projectTagElement}
           {/* Project Tag Item */}
         </div>
+        {memberElement}
       </div>
     </div>
   );

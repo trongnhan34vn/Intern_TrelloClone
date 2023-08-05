@@ -18,7 +18,7 @@ export default function FormFeatureContent() {
     if (featureContext.feature.code === 'Label') return <FormAddLabel />
   }
   return (
-    <div className="min-h-[175px] scrollable-div overflow-y-scroll justify-start flex flex-col p-3">
+    <div className="min-h-fit scrollable-div overflow-y-scroll justify-start flex flex-col p-3">
       {formFeatureElement()}
       {/* <FormAddMember /> */}
     </div>

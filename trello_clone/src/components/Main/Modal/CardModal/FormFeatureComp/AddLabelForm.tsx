@@ -115,7 +115,7 @@ const AddLabelForm = ({
     <div>
       <button
         onClick={() => setAddLabel('home')}
-        className="absolute top-2 text-[#9FADBC]"
+        className="absolute px-2 top-2 text-[#9FADBC]"
       >
         <i className="fa-solid text-[14px] fa-chevron-left"></i>
       </button>

@@ -9,6 +9,7 @@ import AddLabelForm from './AddLabelForm';
 import LabelComp from './Label';
 import EditLabelForm from './EditLabelForm';
 import { Label } from '../../../../../types/Label.type';
+import DeleteForm from './DeleteForm';
 
 const AddLabel = () => {
   const dispatch = useDispatch();
@@ -100,7 +101,7 @@ const AddLabel = () => {
           <h4 className="mt-3 mb-2 text-[12px] text-[#9FADBC] font-bold">
             Nhãn
           </h4>
-          <div className="h-[300px] overflow-y-scroll scrollable-div">
+          <div className="max-h-fit overflow-y-scroll scrollable-div">
             {labelElement}
           </div>
           <div>
@@ -120,7 +121,7 @@ const AddLabel = () => {
           labels={labels}
           setAddLabel={setAddLabel}
         />
-      ) : (
+      ) : isAddLabel === 'edit' ? (
         <EditLabelForm
           editLabel={editLabel}
           selectCard={selectCard}
@@ -129,6 +130,8 @@ const AddLabel = () => {
           labels={labels}
           setAddLabel={setAddLabel}
         />
+      ) : (
+        <DeleteForm editLabel={editLabel} setAddLabel={setAddLabel} />
       )}
     </div>
   );

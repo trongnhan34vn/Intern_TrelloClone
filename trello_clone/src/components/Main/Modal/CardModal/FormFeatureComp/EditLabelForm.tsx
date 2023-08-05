@@ -121,17 +121,18 @@ const EditLabelForm = ({
   });
 
   const handleDelete = (id: number) => {
-    dispatch(labelSlice.remove(id));
-    featureContext?.closeFn()
+    // dispatch(labelSlice.remove(id));
+    // featureContext?.closeFn()
+    setAddLabel('delete');
   };
 
   return (
     <div>
       <button
         onClick={() => setAddLabel('home')}
-        className="absolute top-2 text-[#9FADBC]"
+        className="absolute top-2 text-[#9FADBC] px-2 "
       >
-        <i className="fa-solid text-[14px] fa-chevron-left"></i>
+        <i className="fa-solid text-[14px] fa-chevron-left "></i>
       </button>
       <div className="">
         <h3 className="text-[12px] font-bold mt-3 pb-2 text-[#9FADBC]">
@@ -165,7 +166,7 @@ const EditLabelForm = ({
         </button>
         <button
           onClick={() => handleDelete(editLabel ? editLabel.id : 0)}
-          className={`text-[#1D2125] bg-red-500 px-[12px] py-[6px] text-[14px] opacity-80 hover:opacity-100 rounded-[3px] transition-all ease-in duration-100 `}
+          className={`text-[#1D2125] bg-[#F87462] px-[12px] py-[6px] text-[14px] opacity-80 hover:opacity-100 rounded-[3px] transition-all ease-in duration-100 `}
         >
           Xoá
         </button>

@@ -110,6 +110,8 @@ export default function FormTable(props: { closeFn: () => void }) {
   const projectId: number = useContext(ProjectContext).id;
 
   useEffect(() => {
+    console.log(projectId);
+    
     if (projectId) {
       setInputValue({ ...inputValue, projectId: projectId });
     }
