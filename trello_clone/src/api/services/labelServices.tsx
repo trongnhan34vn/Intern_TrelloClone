@@ -7,7 +7,7 @@ export const FIND_ALL = async (): Promise<Label[]> => {
 };
 
 export const SEARCH_BY_NAME = async (data: string): Promise<Label[]> => {
-  let response = await instance.get('/labels?name_like=' + data);
+  let response = await instance.get('/labels?name_like=' + data + '&label_name=' + data);
   return response.data;
 };
 

@@ -50,11 +50,13 @@ const ChartView = () => {
     return cardFilter.length;
   };
 
+  const tablesFilter = projectId ? tables.filter((t) => t.projectId === +projectId):[];
+
   return (
     <div className="pl-[260px] w-full">
       <SubNavChartView
         setSelectTable={setSelectTable}
-        tables={tables}
+        tables={tablesFilter}
         selectTable={selectTable}
       />
       {listFilterTable.length === 0 ? (
