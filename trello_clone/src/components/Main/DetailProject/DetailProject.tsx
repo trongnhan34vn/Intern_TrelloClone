@@ -37,7 +37,6 @@ import TableComp from './Table/Table';
 import * as listSlice from '../../../redux/reducers/listSlice';
 import { List } from '../../../types/List.type';
 import { Background } from '../../../types/Background.type';
-import LoadingOverlay from 'react-loading-overlay-ts';
 import * as labelSlice from '../../../redux/reducers/labelSlice';
 import { Label } from '../../../types/Label.type';
 import * as cardLabelSlice from '../../../redux/reducers/cardLabelSlice';
@@ -56,6 +55,12 @@ export interface SubNavState {
   backgrounds: Background[];
   labels: Label[];
   cardLabels: CardLabel[];
+  noMemberFilter: boolean;
+  setFilterNoMember: React.Dispatch<SetStateAction<boolean>>;
+  currentUserMember: boolean;
+  setCurrentUserMember: React.Dispatch<SetStateAction<boolean>>;
+  selectMemberFilters: Member[];
+  setSelectMemberFilters: React.Dispatch<SetStateAction<Member[]>>;
 }
 
 export const SubnavContext = createContext<SubNavState | null>(null);
@@ -83,7 +88,6 @@ export default function DetailProject() {
   const users = useSelector(userSelector).users;
   const lists = useSelector(listSelector).lists;
   const labels = useSelector(labelSelector).labels;
-  
 
   useEffect(() => {
     if (!selectTable) return;
@@ -102,15 +106,13 @@ export default function DetailProject() {
     return bg.bgUrl;
   };
 
-  const [isUpdate, setUpdate] = useState<boolean>(false);
-
   const [viewType, setViewType] = useState<ViewItems | null>(viewItems[0]);
 
-  useEffect(() => {
-    if (isUpdate) dispatch(cardSlice.findAllCards());
-  }, [isUpdate]);
-
   // const [isActive, setActive] = useState<boolean>(false);
+
+  const [noMemberFilter, setFilterNoMember] = useState<boolean>(false);
+  const [currentUserMember, setCurrentUserMember] = useState<boolean>(false);
+  const [selectMemberFilters, setSelectMemberFilters] = useState<Member[]>([]);
 
   return (
     <div
@@ -135,17 +137,19 @@ export default function DetailProject() {
                 backgrounds: backgrounds,
                 labels: labels,
                 cardLabels: cardLabels,
+                noMemberFilter: noMemberFilter,
+                setFilterNoMember: setFilterNoMember,
+                currentUserMember: currentUserMember,
+                setCurrentUserMember: setCurrentUserMember,
+                selectMemberFilters: selectMemberFilters,
+                setSelectMemberFilters: setSelectMemberFilters,
               }}
             >
               <SubNav />
               {/* Sub Nav */}
               {/* Task */}
 
-              {viewType?.type === 'card' ? (
-                <TaskControll />
-              ) : (
-                <TableComp />
-              )}
+              {viewType?.type === 'card' ? <TaskControll /> : <TableComp />}
 
               {/* Task */}
             </SubnavContext.Provider>

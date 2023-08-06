@@ -174,8 +174,8 @@
   "cards": [
     {
       "name": "đêm trở gió",
-      "listId": 2,
-      "order": 1,
+      "listId": 1,
+      "order": 0,
       "description": "Hà Nội ngày buồn đêm trở gió",
       "status": false,
       "endAt": 1691694300000,
@@ -195,7 +195,7 @@
     {
       "name": "anh Nam gucci",
       "listId": 1,
-      "order": 0,
+      "order": 1,
       "description": "",
       "status": false,
       "endAt": 0,
@@ -394,6 +394,20 @@
       "labelName": "nam béo",
       "createdAt": 1691321276896,
       "id": 7
+    },
+    {
+      "name": "đỏ",
+      "code": "#AE2A19",
+      "labelName": "nhân gầy",
+      "createdAt": 1691321797343,
+      "id": 8
+    },
+    {
+      "name": "tím",
+      "code": "#5E4DB2",
+      "labelName": "thầy chính com hụt",
+      "createdAt": 1691321820420,
+      "id": 9
     }
   ],
   "card-label": [
@@ -426,6 +440,24 @@
       "cardId": 1,
       "createdAt": 1691321276922,
       "id": 12
+    },
+    {
+      "labelId": 7,
+      "cardId": 2,
+      "createdAt": 1691321783258,
+      "id": 13
+    },
+    {
+      "labelId": 8,
+      "cardId": 2,
+      "createdAt": 1691321797371,
+      "id": 14
+    },
+    {
+      "labelId": 9,
+      "cardId": 2,
+      "createdAt": 1691321820446,
+      "id": 15
     }
   ]
 }

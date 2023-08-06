@@ -16,6 +16,7 @@ import { Table } from '../../../../types/Table.type';
 
 import PieChart from './PieChart';
 import SubNavChartView from './SubNavChartView';
+import BarChart from './BarChart';
 
 const ChartView = () => {
   const { tableId, projectId } = useParams();
@@ -66,12 +67,15 @@ const ChartView = () => {
           </div>
         </>
       ) : (
-        <div className='h-full flex items-center'>
+        <div className='h-full flex items-center gap-5'>
           <div className="w-[500px] h-[500px]">
             <PieChart
               countCardInList={countCardInList}
               listFilterTable={listFilterTable}
             />
+          </div>
+          <div className="min-w-[500px] flex items-center gap-5 h-[500px]">
+           <BarChart />
           </div>
         </div>
       )}

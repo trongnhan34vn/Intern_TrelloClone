@@ -16,6 +16,7 @@ export default function SideMenu(props: {
   const currentUser = userLocal ? JSON.parse(userLocal) : null;
 
   useEffect(() => {
+    if(!currentUser) return
     dispatch(findProjectsByUserId(currentUser.id))
   }, []);
   

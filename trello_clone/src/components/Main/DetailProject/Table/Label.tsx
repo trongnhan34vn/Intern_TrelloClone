@@ -24,9 +24,9 @@ const LabelComp = ({ cardLabels, labels, cardId }: LabelProps) => {
     return (
       <div
         style={{ backgroundColor: `${label.code}` }}
-        className="rounded-[4px]  min-w-[56px] h-4 flex justify-center items-center"
+        className="rounded-[4px] min-w-[56px] h-4 flex justify-center items-center"
       >
-        <span className="text-[#fff] text-[12px]">{label.labelName}</span>
+        <span className="text-[#fff] text-one-line text-[12px]">{label.labelName}</span>
       </div>
     );
   });
