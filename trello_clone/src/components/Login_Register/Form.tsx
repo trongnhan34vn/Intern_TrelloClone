@@ -1,16 +1,31 @@
-import React, { ChangeEvent, useContext, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import AuthenSupport from './AuthenSupport';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
-import { useDispatch } from 'react-redux';
-import { getResult, login, register } from '../../redux/reducers/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  findAll,
+  getResult,
+  login,
+  register,
+} from '../../redux/reducers/userSlice';
 import { LoadingContext } from '../../layouts/AuthenLayout/AuthenLayout';
+import { validateEmail } from '../../utils/validate';
+import { userSelector } from '../../redux/selectors';
+import { notify } from '../../redux/reducers/notifySlice';
 
 export default function Form() {
   const [inputValue, setInputValue] = useState({
     email: '',
     password: '',
   });
+  const users = useSelector(userSelector).users;
   const loadingContext = useContext(LoadingContext);
   const [openInputPassword, setOpenInputPassword] = useState(false);
   const form = useRef<HTMLFormElement>(null);
@@ -34,12 +49,15 @@ export default function Form() {
     </p>
   );
 
-  const validateEmail = (mail: string) => {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-      return true;
-    }
-    return false;
+  const checkExist = (email: string) => {
+    return users.find((user) => user.email === email);
   };
+
+  useEffect(() => {
+    if (location.pathname === '/register') {
+      dispatch(findAll());
+    }
+  }, [location]);
 
   const buttonElement = () => {
     if (!isLogin) {
@@ -62,9 +80,12 @@ export default function Form() {
     if (!isLogin) {
       return (
         <div className="flex justify-around my-[14px]">
-          <a href="" className="hover:underline text-sm text-[#0052cc]">
+          <Link
+            to={'/login'}
+            className="hover:underline text-sm text-[#0052cc]"
+          >
             Bạn đã có tài khoản? Đăng nhập
-          </a>
+          </Link>
         </div>
       );
     }
@@ -73,26 +94,31 @@ export default function Form() {
         <a href="" className="hover:underline text-sm text-[#0052cc]">
           Không thể đăng nhập
         </a>
-        <a href="" className="hover:underline text-sm text-[#0052cc]">
+        <Link
+          to={'/register'}
+          className="hover:underline text-sm text-[#0052cc]"
+        >
           Đăng kí tài khoản
-        </a>
+        </Link>
       </div>
     );
   };
 
-  const validatePassword = (password: string) => {
-    if (/^.{7,}$/.test(password)) {
-      return true;
-    }
-    return false;
-  };
-
+  const [errorEmailMessage, setErrorEmailMessage] = useState('');
+  const [errorPassMessage, setErrorPassMessage] = useState('');
   const handleSubmit = (e: any) => {
+    if (inputValue.email.trim() === '') {
+      setErrorEmailMessage('Please enter your email!');
+    }
+    if (inputValue.password.trim() === '') {
+      setErrorPassMessage('Please enter your password!');
+    }
+
     if (!loadingContext) return;
     e.preventDefault();
     if (validateEmail(inputValue.email)) {
       setOpenInputPassword(true);
-      if (validatePassword(inputValue.password)) {
+      if (inputValue.password.trim() !== '') {
         let userLogin = {
           email: inputValue.email,
           password: inputValue.password,
@@ -112,6 +138,46 @@ export default function Form() {
     }
   };
 
+  const [onBoard, setOnBoard] = useState(false);
+
+  useEffect(() => {
+    if (inputValue.email.trim() !== '') setOnBoard(true);
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (onBoard) {
+      if (inputValue.email === '') {
+        setErrorEmailMessage('Please enter your email!');
+      } else if (!validateEmail(inputValue.email)) {
+        setErrorEmailMessage('Invalid Email! Please enter valid email!');
+      } else {
+        setErrorEmailMessage('');
+      }
+    }
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (location.state) {
+      setInputValue({ ...inputValue, email: location.state.email });
+    }
+  }, [location.state]);
+
+  const [onPass, setOnPass] = useState(false);
+
+  useEffect(() => {
+    if (inputValue.password.trim() !== '') setOnPass(true);
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (onPass) {
+      if (inputValue.password.trim() === '') {
+        setErrorPassMessage('Please enter your password!');
+      } else {
+        setErrorPassMessage('');
+      }
+    }
+  }, [inputValue.password]);
+
   const navigate = useNavigate();
   const sendEmail = (e: any) => {
     e.preventDefault();
@@ -126,43 +192,57 @@ export default function Form() {
 
     if (!isLogin) {
       if (buttonElement().status && validateEmail(inputValue.email)) {
-        // the compiler is smart enough to know that currentForm here is of type HTMLFormElement
-        emailjs
-          .sendForm(
-            'service_4fzu8mg',
-            'template_cechnnm',
-            currentForm,
-            'aCHMsDgW7Yru7QbGd'
-          )
-          .then(
-            (result) => {
-              console.log(result);
-              if (result.text === 'OK') {
-                let userRegis = {
-                  email: inputValue.email,
-                  password: 'pikachu123',
-                  fullName: '',
-                  imageUrl:
-                    'https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf',
-                };
-                dispatch(
-                  register({
-                    type: 'normal',
-                    user: userRegis,
-                  })
-                );
-                setTimeout(() => {
-                  navigate('/email-check');
-                  loadingContext.setInActive();
-                }, 3000);
+        if (!checkExist(inputValue.email)) {
+          console.log('a');
+
+          // the compiler is smart enough to know that currentForm here is of type HTMLFormElement
+          emailjs
+            .sendForm(
+              'service_4fzu8mg',
+              'template_cechnnm',
+              currentForm,
+              'aCHMsDgW7Yru7QbGd'
+            )
+            .then(
+              (result) => {
+                console.log(result);
+                if (result.text === 'OK') {
+                  let userRegis = {
+                    email: inputValue.email,
+                    password: 'pikachu123',
+                    fullName: '',
+                    imageUrl:
+                      'https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf',
+                  };
+                  dispatch(
+                    register({
+                      type: 'normal',
+                      user: userRegis,
+                    })
+                  );
+                  setTimeout(() => {
+                    navigate('/email-check');
+                    loadingContext.setInActive();
+                  }, 3000);
+                }
+              },
+              (error) => {
+                console.log('error ----> ', error.text);
               }
-            },
-            (error) => {
-              console.log('error ----> ', error.text);
-            }
-          );
+            );
+        }
       }
     }
+
+    setTimeout(() => {
+      dispatch(
+        notify({
+          type: 'error',
+          message: 'This email has already existed! Please try again!',
+        })
+      );
+      loadingContext.setInActive();
+    }, 3000);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -170,8 +250,9 @@ export default function Form() {
     let value = e.target.value;
     setInputValue({ ...inputValue, [key]: value });
   };
+
   return (
-    <div className="rounded-[3px] px-10 py-[25px] max-w-[400px] mx-auto shadow-lg">
+    <div className="rounded-[3px] px-10 py-[25px] w-[400px] max-w-[400px] mx-auto shadow-lg">
       <h1 className="font-bold text-center mt-2 mb-6 text-[#5e6c84]">
         {titleElement}
       </h1>
@@ -180,23 +261,37 @@ export default function Form() {
           onChange={handleChange}
           name="email"
           value={inputValue.email}
-          className="h-10 w-full outline-none mb-5 focus:border-[#4c9aff] text-sm p-[7px] border-[#dfe1e6] border-[2px] rounded"
+          className="h-10 w-full outline-none focus:border-[#4c9aff] text-sm p-[7px] border-[#dfe1e6] border-[2px] rounded"
           type="text"
           placeholder="Email"
         />
+        <div className="text-[12px] w-full mb-5 text-red-500">
+          {errorEmailMessage}
+        </div>
         {isLogin ? (
-          <input
-            onChange={handleChange}
-            name="password"
-            value={inputValue.password}
+          <div
             className={`${
               openInputPassword
-                ? 'h-10 mb-5 p-[7px] border-[2px] w-full'
+                ? 'h-10 mb-5 w-full'
                 : 'opacity-0 h-0 mb-0 p-0 border-none w-0'
             } transition-all ease-in duration-200 outline-none relative top-0 focus:border-[#4c9aff] text-sm border-[#dfe1e6] rounded`}
-            type="password"
-            placeholder="Password"
-          />
+          >
+            <input
+              onChange={handleChange}
+              name="password"
+              value={inputValue.password}
+              className={`${
+                openInputPassword
+                  ? 'h-10 p-[7px] border-[2px] w-full'
+                  : 'opacity-0 h-0 mb-0 p-0 border-none w-0'
+              } transition-all ease-in duration-200 outline-none relative top-0 focus:border-[#4c9aff] text-sm border-[#dfe1e6] rounded`}
+              type="password"
+              placeholder="Password"
+            />
+            <div className="text-[12px] w-full text-red-500">
+              {errorPassMessage}
+            </div>
+          </div>
         ) : (
           <></>
         )}

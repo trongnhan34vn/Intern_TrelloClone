@@ -12,6 +12,7 @@ const SelectTable = ({ setActiveBtn, open, tables }: SelectTableProps) => {
   useEffect(() => {
     setActiveBtn(open);
   }, [open]);
+
   return (
     <Transition
       as={Fragment}

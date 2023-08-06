@@ -16,6 +16,7 @@ interface UserState {
   search: User[];
   user: User | null;
   users: User[];
+  loginFailed: string;
 }
 
 const initState: UserState = {
@@ -26,6 +27,7 @@ const initState: UserState = {
   search: [],
   user: null,
   users: [],
+  loginFailed: '',
 };
 
 const userSlice = createSlice({
@@ -46,11 +48,12 @@ const userSlice = createSlice({
     getById: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
-    findAll: () => {
-
-    },
+    findAll: () => {},
     getAll: (state, action: PayloadAction<User[]>) => {
       state.users = action.payload;
+    },
+    getMessage: (state, action: PayloadAction<string>) => {
+      state.loginFailed = action.payload;
     }
   },
 });
@@ -65,5 +68,6 @@ export const {
   findById,
   getById,
   findAll,
-  getAll
+  getAll,
+  getMessage,
 } = userSlice.actions;

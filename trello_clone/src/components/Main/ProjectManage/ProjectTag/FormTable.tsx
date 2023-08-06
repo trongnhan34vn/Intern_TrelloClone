@@ -63,12 +63,14 @@ export default function FormTable(props: { closeFn: () => void }) {
   const createAdminMember = () => {
     if (!tableJustAdded) return;
     if (!currentUser) return;
-    let admin: MemberForm = {
-      tableId: tableJustAdded.id,
-      userId: currentUser.id,
-      role: Roles.ADMIN,
-    };
-    dispatch(createMember(admin));
+    if (tableJustAdded && projectId === tableJustAdded.projectId) {
+      let admin: MemberForm = {
+        tableId: tableJustAdded.id,
+        userId: currentUser.id,
+        role: Roles.ADMIN,
+      };
+      dispatch(createMember(admin));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -84,12 +86,10 @@ export default function FormTable(props: { closeFn: () => void }) {
 
   useEffect(() => {
     if (tableJustAdded) {
-      console.log("setting");
-      
       createAdminMember();
       // Navigate đến trang table
       setTimeout(() => {
-        navigate(`/main-app/detail-project/${tableJustAdded.id}/${projectId}`);
+        navigate(`/main-app/project/${projectId}/table/${tableJustAdded.id}/`);
       }, 3000);
       dispatch(resetTableJustAdded());
     }

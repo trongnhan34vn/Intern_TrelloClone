@@ -6,13 +6,15 @@ interface TableState {
   listTable: Table[];
   selectTable: Table | null;
   tablesByProjectId: Table []
+  memberTable: Table | null;
 }
 
 const initialState: TableState = {
   latestTable: null,
   listTable: [],
   selectTable: null,
-  tablesByProjectId: []
+  tablesByProjectId: [],
+  memberTable: null
 };
 
 const tableSlice = createSlice({
@@ -38,6 +40,9 @@ const tableSlice = createSlice({
     getById: (state, action: PayloadAction<Table>) => {
       state.selectTable = action.payload;
     },
+    getMemberTable: (state, action: PayloadAction<Table|null>) => {
+      state.memberTable = action.payload;
+    }
   },
 });
 
@@ -52,4 +57,5 @@ export const {
   getAll,
   findById,
   getById,
+  getMemberTable
 } = tableSlice.actions;

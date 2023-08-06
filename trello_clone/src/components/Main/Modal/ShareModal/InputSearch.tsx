@@ -103,8 +103,8 @@ const InputSearch = ({
                 >
                   {({ selected, active }) => (
                     <div className="flex items-center ">
-                      <div className="bg-red-500 mr-3 rounded-[50%] w-8 h-8 flex justify-center items-center">
-                        <span className="">{getAcronym(person.fullName)}</span>
+                      <div className="mr-3 rounded-[50%] w-8 h-8 flex justify-center items-center">
+                        <img src={person.imageUrl} className='rounded-[50%]' alt="" />
                       </div>
                       <div className="flex flex-col justify-between text-[14px] text-[#B6C2CF]">
                         <span className="font-bold">
