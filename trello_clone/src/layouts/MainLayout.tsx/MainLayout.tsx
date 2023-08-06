@@ -43,7 +43,7 @@ export default function MainLayout() {
     <SideMenu_Detail />
   );
 
-  const isDetail = location.pathname.match('/main-app/detail-project/*');
+  const isDetail = location.pathname.match('/main-app/project/*');
 
   const [isActive, setActive] = useState<boolean>(false);
   const setActiveLoading = () => {
@@ -66,11 +66,11 @@ export default function MainLayout() {
           onClick={() => {
             setToggleProfileDropdown(false);
           }}
-          className={`${isDetail ? '' : 'mx-auto w-[1150px]'}`}
+          className={`${!isMainApp ? '' : 'mx-auto w-[1150px]'}`}
         >
           <div
             className={`${
-              isDetail ? 'overflow-hidden' : 'overflow-y-scroll overflow-x-visible'
+              !isMainApp ? 'overflow-hidden' : 'overflow-y-scroll overflow-x-visible'
             } sticky-container fixed scrollable-div h-[calc(100vh_-_64px)] w-full flex justify-center items-start`}
           >
             <div className="w-full flex">

@@ -7,6 +7,7 @@ import { FeatureContext } from '../CreateFeatureBtn';
 import { labelSelector } from '../../../../../redux/selectors';
 import { CardLabelForm } from '../../../../../types/CardLabel.type';
 import * as cardLabelSlice from '../../../../../redux/reducers/cardLabelSlice';
+import Spinner from '../../../../../assets/svg/Spinner';
 
 interface EditLabelFormProps {
   labels: Label[];
@@ -63,22 +64,28 @@ const EditLabelForm = ({
     return false;
   };
 
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = () => {
     if (!featureContext) return;
-    if (inputValue.id > 6) {
-      dispatch(labelSlice.update(inputValue));
-    } else {
-      if (inputValue.labelName?.trim() !== '' && inputValue.labelName) {
-        dispatch(
-          labelSlice.create({
-            name: inputValue.name,
-            code: inputValue.code,
-            labelName: inputValue.labelName,
-          })
-        );
+    setLoading(true);
+    setTimeout(() => {
+      if (inputValue.id > 6) {
+        dispatch(labelSlice.update(inputValue));
+      } else {
+        if (inputValue.labelName?.trim() !== '' && inputValue.labelName) {
+          dispatch(
+            labelSlice.create({
+              name: inputValue.name,
+              code: inputValue.code,
+              labelName: inputValue.labelName,
+            })
+          );
+        }
       }
-    }
-    featureContext.closeFn();
+      setLoading(false);
+      featureContext.closeFn();
+    }, 2000);
   };
 
   useEffect(() => {
@@ -160,9 +167,18 @@ const EditLabelForm = ({
             selectLabel
               ? 'bg-[#579DFF] text-[#1D2125]'
               : 'bg-[#BCD6F00A] text-[#9FADBC] cursor-not-allowed'
-          } px-[12px] py-[6px] text-[14px] rounded-[3px] hover:opacity-100 opacity-80 transition-all ease-in-out duration-100 `}
+          } px-[12px] py-[6px] text-[14px] rounded-[3px] relative hover:opacity-100 opacity-80 transition-all ease-in-out duration-100 `}
         >
-          Sửa
+          {loading ? (
+            <span className="inline-flex items-center max-w-full min-w-[40px] justify-center w-full h-full">
+              <div className="absolute top-1/2 -translate-y-1/2 left-[80%] ">
+                <Spinner />
+              </div>
+              {/* <span className="text-[#fff]">Loading...</span> */}
+            </span>
+          ) : (
+            <span>Sửa</span>
+          )}
         </button>
         <button
           onClick={() => handleDelete(editLabel ? editLabel.id : 0)}

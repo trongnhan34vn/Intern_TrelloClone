@@ -7,6 +7,7 @@ import { labelSelector } from '../../../../../redux/selectors';
 import * as cardLabelSlice from '../../../../../redux/reducers/cardLabelSlice';
 import { CardLabelForm } from '../../../../../types/CardLabel.type';
 import { CardDB } from '../../../../../types/Card.type';
+import Spinner from '../../../../../assets/svg/Spinner';
 
 interface AddLabelFormProps {
   labels: Label[];
@@ -45,10 +46,10 @@ const AddLabelForm = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let labelName = e.target.value;
-    
+
     setInputValue({
-      name: selectLabel? selectLabel.name : '',
-      code: selectLabel? selectLabel.code : '',
+      name: selectLabel ? selectLabel.name : '',
+      code: selectLabel ? selectLabel.code : '',
       labelName: labelName,
     });
   };
@@ -62,23 +63,32 @@ const AddLabelForm = ({
     });
   }, [selectLabel]);
 
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = () => {
     if (!featureContext) return;
     if (!selectLabel) return;
     if (!inputValue) return;
+    setLoading(true);
     if (
       (inputValue.labelName?.trim() === '' ||
         inputValue.labelName === undefined) &&
       labels.find((label) => label.code === inputValue.code) !== undefined
     ) {
       if (!selectInputs.includes(selectLabel.id)) {
-        handleClick(selectLabel.id);
+        setTimeout(() => {
+          handleClick(selectLabel.id);
+        }, 2000);
       }
-      featureContext.closeFn();
     } else {
-      dispatch(labelSlice.create(inputValue));
-      featureContext.closeFn();
+      setTimeout(() => {
+        dispatch(labelSlice.create(inputValue));
+      }, 2000);
     }
+    setTimeout(() => {
+      featureContext.closeFn();
+      setLoading(false);
+    }, 2000);
   };
 
   const labelJustAdd = useSelector(labelSelector).labelJustAdd;
@@ -92,9 +102,8 @@ const AddLabelForm = ({
     };
     dispatch(cardLabelSlice.create(cardLabel));
     setTimeout(() => {
-
-      dispatch(labelSlice.reset())
-    },500)
+      dispatch(labelSlice.reset());
+    }, 500);
   }, [labelJustAdd]);
 
   const labelElement = labelsFilter.map((label) => {
@@ -143,9 +152,19 @@ const AddLabelForm = ({
           selectLabel
             ? 'bg-[#579DFF] text-[#1D2125]'
             : 'bg-[#BCD6F00A] text-[#9FADBC] cursor-not-allowed'
-        } px-[12px] py-[6px] text-[14px] rounded-[3px] `}
+        } px-[12px] py-[6px] text-[14px] rounded-[3px] relative `}
       >
-        Tạo mới
+        {loading ? (
+          <span className="inline-flex items-center max-w-full min-w-[40px] justify-center w-full h-full">
+            <div className="absolute top-1/2 -translate-y-1/2 left-[80%] ">
+              <Spinner />
+            </div>
+
+            {/* <span className="text-[#fff]">Loading...</span> */}
+          </span>
+        ) : (
+          <span> Tạo mới</span>
+        )}
       </button>
     </div>
   );

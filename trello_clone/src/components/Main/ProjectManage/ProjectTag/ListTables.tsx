@@ -27,7 +27,7 @@ export default function ListTables({ tableFilter, type }: ListTablesProps) {
   const tableResult = type === 'user' ? tableFiltersUser : tableFilterMember;
 
   const tableElement = tableResult.map((table) => {
-    return <Table project={project} key={table.id} table={table} />;
+    return <Table type={type} project={project} key={table.id} table={table} />;
   });
 
   return (

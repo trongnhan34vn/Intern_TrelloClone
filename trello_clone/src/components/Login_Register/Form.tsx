@@ -8,21 +8,24 @@ import React, {
 import AuthenSupport from './AuthenSupport';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
-import { useDispatch } from 'react-redux';
-import { getResult, login, register } from '../../redux/reducers/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  findAll,
+  getResult,
+  login,
+  register,
+} from '../../redux/reducers/userSlice';
 import { LoadingContext } from '../../layouts/AuthenLayout/AuthenLayout';
 import { validateEmail } from '../../utils/validate';
-
-interface UserForm {
-  email: string;
-  password: string;
-}
+import { userSelector } from '../../redux/selectors';
+import { notify } from '../../redux/reducers/notifySlice';
 
 export default function Form() {
-  const [inputValue, setInputValue] = useState<UserForm>({
+  const [inputValue, setInputValue] = useState({
     email: '',
     password: '',
   });
+  const users = useSelector(userSelector).users;
   const loadingContext = useContext(LoadingContext);
   const [openInputPassword, setOpenInputPassword] = useState(false);
   const form = useRef<HTMLFormElement>(null);
@@ -45,6 +48,16 @@ export default function Form() {
       .
     </p>
   );
+
+  const checkExist = (email: string) => {
+    return users.find((user) => user.email === email);
+  };
+
+  useEffect(() => {
+    if (location.pathname === '/register') {
+      dispatch(findAll());
+    }
+  }, [location]);
 
   const buttonElement = () => {
     if (!isLogin) {
@@ -179,43 +192,57 @@ export default function Form() {
 
     if (!isLogin) {
       if (buttonElement().status && validateEmail(inputValue.email)) {
-        // the compiler is smart enough to know that currentForm here is of type HTMLFormElement
-        emailjs
-          .sendForm(
-            'service_4fzu8mg',
-            'template_cechnnm',
-            currentForm,
-            'aCHMsDgW7Yru7QbGd'
-          )
-          .then(
-            (result) => {
-              console.log(result);
-              if (result.text === 'OK') {
-                let userRegis = {
-                  email: inputValue.email,
-                  password: 'pikachu123',
-                  fullName: '',
-                  imageUrl:
-                    'https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf',
-                };
-                dispatch(
-                  register({
-                    type: 'normal',
-                    user: userRegis,
-                  })
-                );
-                setTimeout(() => {
-                  navigate('/email-check');
-                  loadingContext.setInActive();
-                }, 3000);
+        if (!checkExist(inputValue.email)) {
+          console.log('a');
+
+          // the compiler is smart enough to know that currentForm here is of type HTMLFormElement
+          emailjs
+            .sendForm(
+              'service_4fzu8mg',
+              'template_cechnnm',
+              currentForm,
+              'aCHMsDgW7Yru7QbGd'
+            )
+            .then(
+              (result) => {
+                console.log(result);
+                if (result.text === 'OK') {
+                  let userRegis = {
+                    email: inputValue.email,
+                    password: 'pikachu123',
+                    fullName: '',
+                    imageUrl:
+                      'https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf',
+                  };
+                  dispatch(
+                    register({
+                      type: 'normal',
+                      user: userRegis,
+                    })
+                  );
+                  setTimeout(() => {
+                    navigate('/email-check');
+                    loadingContext.setInActive();
+                  }, 3000);
+                }
+              },
+              (error) => {
+                console.log('error ----> ', error.text);
               }
-            },
-            (error) => {
-              console.log('error ----> ', error.text);
-            }
-          );
+            );
+        }
       }
     }
+
+    setTimeout(() => {
+      dispatch(
+        notify({
+          type: 'error',
+          message: 'This email has already existed! Please try again!',
+        })
+      );
+      loadingContext.setInActive();
+    }, 3000);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

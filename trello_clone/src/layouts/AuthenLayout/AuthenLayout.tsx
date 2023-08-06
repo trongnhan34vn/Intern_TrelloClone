@@ -56,7 +56,7 @@ export default function AuthenLayout() {
     if (!notifyEntity) return;
     setTimeout(() => {
       getNotifications();
-    }, 3000);
+    }, 1000);
   }, [notifyEntity]);
 
   return (

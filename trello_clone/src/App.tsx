@@ -32,9 +32,9 @@ function App() {
           <Route path="/main-app" element={<Main />}>
             <Route index element={<MainHome />} />
             <Route path="project-manage" element={<ProjectManage />} />
-            <Route path="detail-project/:tableId/:projectId/table-view" element={<TableView />}/>
-            <Route path="detail-project/:tableId/:projectId/chart-view" element={<ChartView />}/>
-            <Route path="detail-project/:tableId/:projectId" element={<DetailProject />} />
+            <Route path="project/:projectId/table/:tableId/table-view" element={<TableView />}/>
+            <Route path="project/:projectId/table/:tableId/chart-view" element={<ChartView />}/>
+            <Route path="project/:projectId/table/:tableId" element={<DetailProject />} />
           </Route>
         </Route>
         {/* Main Layout */}
