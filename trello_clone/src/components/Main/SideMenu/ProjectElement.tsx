@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { LoadingContext } from '../../../layouts/MainLayout.tsx/MainLayout';
 import { findAllBGs } from '../../../redux/reducers/backgroundSlice';
-import { findTableByProjectId } from '../../../redux/reducers/tableSlice';
+import { findAll, findTableByProjectId } from '../../../redux/reducers/tableSlice';
 import { backgroundSelector, tableSelector } from '../../../redux/selectors';
 import { Project } from '../../../types/Project.type';
 import { getFirstChar } from '../../../utils/getFirstChar';
@@ -17,13 +17,15 @@ const ProjectElement = ({ project }: ProjectElementProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [openDisclosure, setOpenDisclosure] = useState(false);
+  
   useEffect(() => {
-    dispatch(findTableByProjectId(project.id));
+    dispatch(findAll());
     dispatch(findAllBGs());
-  }, []);
+  }, [project]);
 
   const backs = useSelector(backgroundSelector).listBGs;
-  const tables = useSelector(tableSelector).tablesByProjectId;
+  const tables = useSelector(tableSelector).listTable;
+  const tablesFilter = tables.filter(t => t.projectId === project.id);
 
   const getBgUrl = (id: number) => {
     let back = backs.find((bg) => bg.id === id);
@@ -31,8 +33,6 @@ const ProjectElement = ({ project }: ProjectElementProps) => {
     return back.bgUrl;
   };
   const loadingContext = useContext(LoadingContext);
-  console.log(loadingContext);
-  
 
   const handleSelectTable = (tableId: number) => {
     if (!loadingContext) return;
@@ -73,7 +73,7 @@ const ProjectElement = ({ project }: ProjectElementProps) => {
         </li>
       </Disclosure.Button>
       <Disclosure.Panel className="pl-2 text-sm text-[#B6C2CF]">
-        {tables.map((table) => {
+        {tablesFilter.map((table) => {
           return (
             <button
               onClick={() => handleSelectTable(table.id)}

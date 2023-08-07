@@ -44,6 +44,7 @@ export const rootSaga = function* () {
     ),
     takeLatest(projectSlice.findById.type, projectSaga.findById),
     takeLatest(projectSlice.findAll.type, projectSaga.findAll),
+    takeLatest(projectSlice.remove.type, projectSaga.remove),
     // BACKGROUNDS
     takeLatest(findAllBGs.type, backgroundSaga.findAllBackgrounds),
     // TABLES

@@ -20,13 +20,6 @@
       "fullName": "",
       "imageUrl": "https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf",
       "id": 3
-    },
-    {
-      "email": "nambeo0404@gmail.com",
-      "password": "$2a$10$vmfgwmU85HoGcNQtknyLsuaCv1HvovCgksdPtlqPTUF2KAebcNOAe",
-      "fullName": "",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/md1-test-84536.appspot.com/o/images%2Fpngwing.com%20(1).png?alt=media&token=4cdad30c-f4d7-4ab0-897f-95cc8649edcf",
-      "id": 4
     }
   ],
   "typeProjects": [
@@ -75,6 +68,22 @@
       "description": "",
       "createdAt": 1691310337091,
       "id": 2
+    },
+    {
+      "name": "test",
+      "typeProjectId": 3,
+      "userId": 1,
+      "description": "",
+      "createdAt": 1691417961234,
+      "id": 3
+    },
+    {
+      "name": "Java-1128",
+      "typeProjectId": 3,
+      "userId": 1,
+      "description": "",
+      "createdAt": 1691418912471,
+      "id": 4
     }
   ],
   "backgrounds": [
@@ -146,13 +155,6 @@
       "bgId": 1,
       "createdAt": 1691310510328,
       "id": 5
-    },
-    {
-      "name": "Khoa Pug entertainment",
-      "projectId": 2,
-      "bgId": 8,
-      "createdAt": 1691399284056,
-      "id": 6
     }
   ],
   "lists": [
@@ -188,8 +190,8 @@
   "cards": [
     {
       "name": "đêm trở gió",
-      "listId": 1,
-      "order": 0,
+      "listId": 2,
+      "order": 1,
       "description": "Hà Nội ngày buồn đêm trở gió",
       "status": false,
       "endAt": 1691694300000,
@@ -209,7 +211,7 @@
     {
       "name": "anh Nam gucci",
       "listId": 1,
-      "order": 1,
+      "order": 0,
       "description": "",
       "status": false,
       "endAt": 0,
@@ -225,16 +227,6 @@
       "endAt": 0,
       "createdAt": 1690999338302,
       "id": 4
-    },
-    {
-      "name": "anh Nam",
-      "listId": 3,
-      "order": 0,
-      "description": "",
-      "status": false,
-      "endAt": 0,
-      "createdAt": 1691374618160,
-      "id": 5
     }
   ],
   "works": [
@@ -353,13 +345,6 @@
       "role": "Thành viên",
       "createdAt": 1691312542022,
       "id": 8
-    },
-    {
-      "tableId": 6,
-      "userId": 2,
-      "role": "Quản trị viên",
-      "createdAt": 1691399284089,
-      "id": 9
     }
   ],
   "member-card": [
@@ -425,20 +410,6 @@
       "labelName": "nam béo",
       "createdAt": 1691321276896,
       "id": 7
-    },
-    {
-      "name": "đỏ",
-      "code": "#AE2A19",
-      "labelName": "nhân gầy",
-      "createdAt": 1691321797343,
-      "id": 8
-    },
-    {
-      "name": "tím",
-      "code": "#5E4DB2",
-      "labelName": "thầy chính com hụt",
-      "createdAt": 1691321820420,
-      "id": 9
     }
   ],
   "card-label": [
@@ -471,30 +442,6 @@
       "cardId": 1,
       "createdAt": 1691321276922,
       "id": 12
-    },
-    {
-      "labelId": 7,
-      "cardId": 2,
-      "createdAt": 1691321783258,
-      "id": 13
-    },
-    {
-      "labelId": 8,
-      "cardId": 2,
-      "createdAt": 1691321797371,
-      "id": 14
-    },
-    {
-      "labelId": 9,
-      "cardId": 2,
-      "createdAt": 1691321820446,
-      "id": 15
-    },
-    {
-      "labelId": 9,
-      "cardId": 1,
-      "createdAt": 1691399688720,
-      "id": 16
     }
   ]
 }

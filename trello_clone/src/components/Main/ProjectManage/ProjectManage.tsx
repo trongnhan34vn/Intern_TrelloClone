@@ -7,6 +7,7 @@ import * as projectSlice from '../../../redux/reducers/projectSlice';
 import * as tableSlice from '../../../redux/reducers/tableSlice';
 import {
   memberSelector,
+  notifySelector,
   projectSelector,
   tableSelector,
   userSelector,
@@ -16,6 +17,8 @@ import { User } from '../../../types/User.type';
 import ProjectTag from './ProjectTag/ProjectTag';
 import * as userSlice from '../../../redux/reducers/userSlice';
 import { Table } from '../../../types/Table.type';
+import { Toaster } from 'react-hot-toast';
+import { getNotifications } from '../../../utils/getNotification';
 
 export default function ProjectManage() {
   const dispatch = useDispatch();
@@ -113,6 +116,13 @@ export default function ProjectManage() {
     );
   });
 
+  const notifyEntity = useSelector(notifySelector).notify;
+
+  useEffect(() => {
+    if (!notifyEntity) return;
+    getNotifications(notifyEntity);
+  }, [notifyEntity]);
+
   const listProjects: Project[] = useSelector(projectSelector).listProjects;
 
   const sortListProjects = listProjects.slice().sort((a, b) => {
@@ -143,6 +153,7 @@ export default function ProjectManage() {
         </div>
         {memberElement}
       </div>
+      <Toaster />
     </div>
   );
 }

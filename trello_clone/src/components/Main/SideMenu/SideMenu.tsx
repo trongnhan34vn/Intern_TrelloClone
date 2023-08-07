@@ -22,6 +22,7 @@ export default function SideMenu(props: {
   
   const location = useLocation();
   const projects = useSelector(projectSelector).listProjects;
+  
   return (
     <div className="side sticky h-[500px] top-2">
       <nav className="mt-10 px-4 w-[272px]">
