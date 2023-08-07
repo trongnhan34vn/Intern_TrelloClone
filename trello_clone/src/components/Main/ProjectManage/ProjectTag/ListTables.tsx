@@ -31,7 +31,7 @@ export default function ListTables({ tableFilter, type }: ListTablesProps) {
   });
 
   return (
-    <ul className="flex flex-wrap justify-starts w-[900px]">
+    <ul className="flex flex-wrap justify-starts w-[825px]">
       {tableElement}
       {type === 'user' ? <CreateTableBtn /> : <></>}
     </ul>

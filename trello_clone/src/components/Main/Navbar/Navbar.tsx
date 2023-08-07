@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { User } from '../../../types/User.type';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import NavForm from './NavForm';
 
 export default function Navbar(props: {
@@ -15,6 +15,7 @@ export default function Navbar(props: {
     toggleFn();
   };
   const [userLogin, setUserLogin] = useState<User>();
+  const location = useLocation();
 
   const userLocalStore = localStorage.getItem('userLogin');
 
@@ -124,6 +125,7 @@ export default function Navbar(props: {
                   Mẫu
                 </a>
                 <button
+                  disabled={location.pathname.match('/main-app/project-manage') ? false : true}
                   onClick={() => props.openModal()}
                   className="px-3 bg-[#579DFF] hover:bg-[#85B8FF] text-sm font-normal bg-[#579DFF text-[#000] rounded-[3px] leading-8 mr-1"
                 >
