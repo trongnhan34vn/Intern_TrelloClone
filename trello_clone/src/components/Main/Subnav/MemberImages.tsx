@@ -1,24 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Member } from '../../../types/Member.type';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { userSelector } from '../../../redux/selectors';
-import * as userSlice from '../../../redux/reducers/userSlice';
+import { User } from '../../../types/User.type';
 
 interface MemberImagesProps {
   member: Member;
+  users: User[];
 }
 
-const MemberImages = ({ member }: MemberImagesProps) => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(userSlice.findAll());
-  }, [member]);
-
-  const users = useSelector(userSelector).users;
-
-  const userFilter = users.filter(user => user.id === member.userId);
-  const imageElement = userFilter.map(user => <img key={user.id} src={user.imageUrl} className="w-[32px] rounded-[50%] h-[32px]" alt="" />)
+const MemberImages = ({ member, users }: MemberImagesProps) => {
+  
+  
+  const imageElement = users.map(user => <img key={user.id} src={user.imageUrl} className="w-[32px] rounded-[50%] h-[32px]" alt="" />)
 
   return (
     <div>

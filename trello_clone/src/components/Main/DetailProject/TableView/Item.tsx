@@ -52,7 +52,7 @@ const Item = ({ table, list }: ItemProps) => {
           <span>{list.name}</span>
         </div>
         <div className="w-[17%] text-[#9FADBC] p-2 font-medium inline-flex items-center text-[14px]">
-          <div className="py-2 flex items-center w-4/5 overflow-hidden gap-1">
+          <div className="py-2 flex items-center w-4/5 gap-1">
             <LabelComp
               cardId={card.id}
               labels={labels}

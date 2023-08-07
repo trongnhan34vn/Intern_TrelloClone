@@ -10,12 +10,17 @@ export default function CardFormComp(props: {
     title: '',
     description: '',
     label: '',
-    laneId: ''
+    laneId: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     let value = e.target.value;
     setInputValue({ ...inputValue, title: value, laneId: props.laneId });
+  };
+
+  const checkActiveBtn = () => {
+    if (inputValue.title === '') return true;
+    return false;
   };
 
   return (
@@ -31,14 +36,19 @@ export default function CardFormComp(props: {
       </div>
       <div className="flex">
         <button
+          disabled={checkActiveBtn()}
           onClick={() => props.onAdd(inputValue)}
-          className="text-sm bg-[#0C66E4] rounded-[3px] py-[6px] px-3 text-[#fff]"
+          className={`${
+            !checkActiveBtn()
+              ? 'bg-[#0C66E4] text-[#1D2125]'
+              : 'text-[#BFDBF847] bg-[#BCD6F00A] cursor-not-allowed'
+          } text-sm rounded-[3px] py-[6px] px-3 text-[#fff]`}
         >
           Thêm thẻ
         </button>
         <button
           onClick={props.onCancel}
-          className="w-8 h-8 flex items-center justify-center"
+          className={`w-8 h-8 flex items-center justify-center`}
         >
           <i className="fa-solid fa-xmark text-lg"></i>
         </button>

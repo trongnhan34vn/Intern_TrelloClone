@@ -23,13 +23,19 @@ export default function NewLaneForm(props: {
       props.onAdd(inputValue);
     }
   };
+
+  const checkActiveBtn = () => {
+    if (inputValue.title === '') return true;
+    return false;
+  };
+
   return (
     <Transition
       show={true}
       as={Fragment}
       leave="transition ease-in duration-250"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0"
+      leaveFrom="opacity-100 scale-100"
+      leaveTo="opacity-0 scale-0"
     >
       <div className="mx-[6px] my-[5px] bg-[#101204] rounded-[12px] p-2 inline-block h-full scroll-m-2 align-top whitespace-nowrap w-[272px]">
         <input
@@ -41,8 +47,13 @@ export default function NewLaneForm(props: {
         />
         <div className="flex">
           <button
+            disabled={(checkActiveBtn())}
             onClick={handleSubmit}
-            className="text-sm bg-[#0C66E4] rounded-[3px] py-[6px] px-3 text-[#fff] mr-2"
+            className={`${
+              !checkActiveBtn()
+                ? 'bg-[#0C66E4] text-[#1D2125]'
+                : 'text-[#BFDBF847] bg-[#BCD6F00A] cursor-not-allowed'
+            } text-sm rounded-[3px] py-[6px] px-3 text-[#fff] mr-2`}
           >
             Thêm danh sách
           </button>

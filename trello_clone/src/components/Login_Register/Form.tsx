@@ -193,8 +193,6 @@ export default function Form() {
     if (!isLogin) {
       if (buttonElement().status && validateEmail(inputValue.email)) {
         if (!checkExist(inputValue.email)) {
-          console.log('a');
-
           // the compiler is smart enough to know that currentForm here is of type HTMLFormElement
           emailjs
             .sendForm(
@@ -230,19 +228,19 @@ export default function Form() {
                 console.log('error ----> ', error.text);
               }
             );
+        } else {
+          setTimeout(() => {
+            dispatch(
+              notify({
+                type: 'error',
+                message: 'This email has already existed! Please try again!',
+              })
+            );
+            loadingContext.setInActive();
+          }, 1000);
         }
       }
     }
-
-    setTimeout(() => {
-      dispatch(
-        notify({
-          type: 'error',
-          message: 'This email has already existed! Please try again!',
-        })
-      );
-      loadingContext.setInActive();
-    }, 3000);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
