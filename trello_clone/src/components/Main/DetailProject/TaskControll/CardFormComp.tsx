@@ -24,7 +24,7 @@ export default function CardFormComp(props: {
   };
 
   return (
-    <div className="create-tag py-[6px] transition-all ease-in-out duration-200 mb-2">
+    <form className="create-tag py-[6px] transition-all ease-in-out duration-200 mb-2">
       <div className="w-full mb-[7px] bg-[#22272B] pt-2 pr-2 pb-1 pl-3 shadow-[0_1px_1px_#091e4240] rounded-[8px] overflow-hidden h-14">
         <textarea
           onChange={handleChange}
@@ -53,6 +53,6 @@ export default function CardFormComp(props: {
           <i className="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
-    </div>
+    </form>
   );
 }

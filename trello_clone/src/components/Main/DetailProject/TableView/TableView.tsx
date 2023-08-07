@@ -75,7 +75,7 @@ export const TableView = () => {
   const labels = useSelector(labelSelector).labels;
 
   return (
-    <div className="flex bg-no-repeat bg-cover bg-center flex-col flex-1 pl-[260px] h-[calc(100vh_-_64px)] overflow-y-auto">
+    <div className="flex bg-no-repeat bg-cover bg-center flex-col flex-1 pl-[260px] h-[calc(100vh_-_64px)] overflow-y-scroll scrollable-div">
       <TableViewContext.Provider
         value={{
           tables: tables,

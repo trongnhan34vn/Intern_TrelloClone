@@ -18,7 +18,7 @@ const TableComp = () => {
   });
 
   return (
-    <div className="bang mt-3 mx-3 rounded-[8px] h-[calc(100%_-_84px)] bg-[#1D2125]">
+    <div className="bang mt-3 mx-3 rounded-[8px] h-[calc(100%_-_84px)] overflow-y-scroll scrollable-div bg-[#1D2125]">
       <Head />
       <div className="content">{listElement}</div>
     </div>
