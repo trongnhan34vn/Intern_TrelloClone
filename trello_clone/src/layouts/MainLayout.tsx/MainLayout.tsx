@@ -47,12 +47,12 @@ export default function MainLayout() {
 
   const [isActive, setActive] = useState<boolean>(false);
   const setActiveLoading = () => {
-    setActive(true)
-  }
+    setActive(true);
+  };
 
   const setInActive = () => {
-    setActive(false)
-  }
+    setActive(false);
+  };
   return (
     <LoadingOverlay active={isActive} spinner text="Loading...">
       <div className="bg-[#1D2125] h-[calc(100vh)] w-full">
@@ -70,14 +70,20 @@ export default function MainLayout() {
         >
           <div
             className={`${
-              !isMainApp ? 'overflow-hidden' : 'overflow-y-scroll overflow-x-visible'
+              !isMainApp
+                ? 'overflow-hidden'
+                : 'overflow-y-scroll overflow-x-visible'
             } sticky-container fixed scrollable-div h-[calc(100vh_-_64px)] w-full flex justify-center items-start`}
           >
             <div className="w-full flex">
-              {sideMenuElement}
               <LoadingContext.Provider
-                value={{ isActive: isActive, setActive: setActiveLoading, setInActive }}
+                value={{
+                  isActive: isActive,
+                  setActive: setActiveLoading,
+                  setInActive,
+                }}
               >
+                {sideMenuElement}
                 <Outlet />
               </LoadingContext.Provider>
             </div>
