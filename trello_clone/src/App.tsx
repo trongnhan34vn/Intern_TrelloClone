@@ -16,6 +16,7 @@ import LoadingOverlayComp from './components/LoadingOverlay/LoadingOverlayComp';
 import EmailCheck from './components/Login_Register/EmailCheck';
 import { TableView } from './components/Main/DetailProject/TableView/TableView';
 import ChartView from './components/Main/DetailProject/ChartView/ChartView';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -46,6 +47,8 @@ function App() {
           <Route path="/email-check" element={<EmailCheck />} />
         </Route>
         {/* Authen Layout */}
+
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </div>
   );

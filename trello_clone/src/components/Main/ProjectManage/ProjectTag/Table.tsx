@@ -14,8 +14,6 @@ interface TableProps {
 }
 
 export default function TableComp({ type, table, project }: TableProps) {
-  const location = useLocation()
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const loadingContext = useContext(LoadingContext);
   const backgrounds = useSelector(backgroundSelector).listBGs;
@@ -30,7 +28,9 @@ export default function TableComp({ type, table, project }: TableProps) {
     if (!loadingContext) return;
     loadingContext.setActive();
     setTimeout(() => {
-      navigate(`/main-app/project/${project.id}/table/${table.id}/`, {state: type});
+      navigate(`/main-app/project/${project.id}/table/${table.id}/`, {
+        state: type,
+      });
       loadingContext.setInActive();
     }, 3000);
   };

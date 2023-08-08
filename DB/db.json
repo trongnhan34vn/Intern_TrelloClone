@@ -68,6 +68,22 @@
       "description": "",
       "createdAt": 1691310337091,
       "id": 2
+    },
+    {
+      "name": "test",
+      "typeProjectId": 3,
+      "userId": 1,
+      "description": "",
+      "createdAt": 1691417961234,
+      "id": 3
+    },
+    {
+      "name": "Java-1128",
+      "typeProjectId": 3,
+      "userId": 1,
+      "description": "",
+      "createdAt": 1691418912471,
+      "id": 4
     }
   ],
   "backgrounds": [
@@ -139,6 +155,20 @@
       "bgId": 1,
       "createdAt": 1691310510328,
       "id": 5
+    },
+    {
+      "name": "Module 1 JavaScript",
+      "projectId": 4,
+      "bgId": 8,
+      "createdAt": 1691421414428,
+      "id": 6
+    },
+    {
+      "name": "Module 2 ReactJS",
+      "projectId": 4,
+      "bgId": 1,
+      "createdAt": 1691422531800,
+      "id": 7
     }
   ],
   "lists": [
@@ -169,6 +199,55 @@
       "order": 3,
       "createdAt": 1690999328866,
       "id": 4
+    },
+    {
+      "name": "Chơi game kéo thả",
+      "tableId": 6,
+      "order": 4,
+      "createdAt": 1691421494720,
+      "id": 5
+    },
+    {
+      "name": "Git HTML",
+      "tableId": 6,
+      "order": 5,
+      "createdAt": 1691421747387,
+      "id": 6
+    },
+    {
+      "name": "Form & Table",
+      "tableId": 6,
+      "order": 6,
+      "createdAt": 1691421822364,
+      "id": 7
+    },
+    {
+      "name": "JavaScript",
+      "tableId": 6,
+      "order": 7,
+      "createdAt": 1691421858102,
+      "id": 8
+    },
+    {
+      "name": "Biến & Kiểu dữ liệu",
+      "tableId": 6,
+      "order": 8,
+      "createdAt": 1691421976359,
+      "id": 9
+    },
+    {
+      "name": "Cấu trúc điều kiện",
+      "tableId": 6,
+      "order": 9,
+      "createdAt": 1691422090599,
+      "id": 10
+    },
+    {
+      "name": "Cấu trúc lặp",
+      "tableId": 6,
+      "order": 10,
+      "createdAt": 1691422141924,
+      "id": 11
     }
   ],
   "cards": [
@@ -211,6 +290,186 @@
       "endAt": 0,
       "createdAt": 1690999338302,
       "id": 4
+    },
+    {
+      "name": "Khai báo biến",
+      "listId": 5,
+      "order": 0,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691421516151,
+      "id": 5
+    },
+    {
+      "name": "Vòng lặp",
+      "listId": 5,
+      "order": 1,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691421529121,
+      "id": 6
+    },
+    {
+      "name": "If - else",
+      "listId": 5,
+      "order": 2,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691421539595,
+      "id": 7
+    },
+    {
+      "name": "Git",
+      "listId": 6,
+      "order": 1,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691421766814,
+      "id": 8
+    },
+    {
+      "name": "HTML",
+      "listId": 6,
+      "order": 0,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691421773028,
+      "id": 9
+    },
+    {
+      "name": "Form",
+      "listId": 7,
+      "order": 1,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691421830137,
+      "id": 10
+    },
+    {
+      "name": "Table",
+      "listId": 7,
+      "order": 2,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691421834720,
+      "id": 11
+    },
+    {
+      "name": "Cú pháp JavaScript\n",
+      "listId": 8,
+      "order": 0,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691421907848,
+      "id": 12
+    },
+    {
+      "name": "Nhúng JS",
+      "listId": 8,
+      "order": 1,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691421953498,
+      "id": 13
+    },
+    {
+      "name": "Cách đặt tên",
+      "listId": 8,
+      "order": 2,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691421962606,
+      "id": 14
+    },
+    {
+      "name": "Kiểu dữ liệu",
+      "listId": 9,
+      "order": 0,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691422027775,
+      "id": 15
+    },
+    {
+      "name": "If - else",
+      "listId": 10,
+      "order": 0,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691422097602,
+      "id": 16
+    },
+    {
+      "name": "Switch - case",
+      "listId": 10,
+      "order": 1,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691422107404,
+      "id": 17
+    },
+    {
+      "name": "for-i",
+      "listId": 11,
+      "order": 0,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691422156158,
+      "id": 18
+    },
+    {
+      "name": "while",
+      "listId": 11,
+      "order": 1,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691422171898,
+      "id": 19
+    },
+    {
+      "name": "for-each",
+      "listId": 11,
+      "order": 2,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691422181207,
+      "id": 20
+    },
+    {
+      "name": "do - while",
+      "listId": 11,
+      "order": 3,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691422219407,
+      "id": 21
+    },
+    {
+      "name": "filter",
+      "listId": 11,
+      "order": 4,
+      "description": "",
+      "status": false,
+      "endAt": 0,
+      "createdAt": 1691428625795,
+      "id": 22
     }
   ],
   "works": [
@@ -227,6 +486,34 @@
       "process": 0,
       "createdAt": 1691114877740,
       "id": 2
+    },
+    {
+      "cardId": 8,
+      "name": "Đọc bài đọc",
+      "process": 0,
+      "createdAt": 1691423405256,
+      "id": 3
+    },
+    {
+      "cardId": 8,
+      "name": "Bài thực hành",
+      "process": 0,
+      "createdAt": 1691423434124,
+      "id": 4
+    },
+    {
+      "cardId": 8,
+      "name": "Bài Tập",
+      "process": 0,
+      "createdAt": 1691423444719,
+      "id": 5
+    },
+    {
+      "cardId": 9,
+      "name": "aaaaa",
+      "process": 0,
+      "createdAt": 1691485358386,
+      "id": 6
     }
   ],
   "tasks": [
@@ -271,6 +558,31 @@
       "createdAt": 1691117715778,
       "id": 7,
       "member": 1
+    },
+    {
+      "name": "Tổng quan Git",
+      "workId": 3,
+      "endAt": 0,
+      "status": false,
+      "createdAt": 1691423477019,
+      "id": 8
+    },
+    {
+      "name": "Các bước cơ bản với Git",
+      "workId": 3,
+      "endAt": 0,
+      "status": true,
+      "createdAt": 1691423504903,
+      "id": 9
+    },
+    {
+      "name": "nnnnn",
+      "workId": 6,
+      "endAt": 0,
+      "status": false,
+      "createdAt": 1691485362186,
+      "id": 10,
+      "member": null
     }
   ],
   "members": [
@@ -329,6 +641,34 @@
       "role": "Thành viên",
       "createdAt": 1691312542022,
       "id": 8
+    },
+    {
+      "tableId": 6,
+      "userId": 1,
+      "role": "Quản trị viên",
+      "createdAt": 1691421414449,
+      "id": 9
+    },
+    {
+      "tableId": 7,
+      "userId": 1,
+      "role": "Quản trị viên",
+      "createdAt": 1691422531830,
+      "id": 10
+    },
+    {
+      "userId": 2,
+      "tableId": 6,
+      "role": "Thành viên",
+      "createdAt": 1691425698795,
+      "id": 11
+    },
+    {
+      "userId": 3,
+      "tableId": 6,
+      "role": "Thành viên",
+      "createdAt": 1691425698796,
+      "id": 12
     }
   ],
   "member-card": [
@@ -355,6 +695,24 @@
       "cardId": 1,
       "createdAt": 1691320303364,
       "id": 7
+    },
+    {
+      "memberId": 9,
+      "cardId": 9,
+      "createdAt": 1691485429914,
+      "id": 8
+    },
+    {
+      "memberId": 11,
+      "cardId": 9,
+      "createdAt": 1691485430433,
+      "id": 9
+    },
+    {
+      "memberId": 12,
+      "cardId": 9,
+      "createdAt": 1691485430907,
+      "id": 10
     }
   ],
   "labels": [

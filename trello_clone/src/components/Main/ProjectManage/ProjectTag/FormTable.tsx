@@ -18,6 +18,7 @@ import { TableDTO } from '../../../../types/Table.type';
 import { User } from '../../../../types/User.type';
 import ListBackgrounds from './ListBackgrounds';
 import { ProjectContext } from './ProjectTag';
+import { BGContext } from './CreateTableBtn';
 
 const tableInitState: TableDTO = {
   name: '',
@@ -115,6 +116,16 @@ export default function FormTable(props: { closeFn: () => void }) {
     }
   }, [projectId]);
 
+  const [selectBG, setSelectBG] = useState<number>(0);
+
+  const listBGs = useContext(BGContext);
+
+  const getSelectBG = () => {
+    let bg = listBGs.find(bg => bg.id === selectBG);
+    if(!bg) return listBGs[0].bgUrl;
+    return bg.bgUrl;
+  }
+
   return (
     <div
       className={`w-[304px] absolute z-[999] transition-all ease-in-out duration-200 rounded-[8px] min-h-fit bg-[#282E33] h-[390px] top-1/2 left-full`}
@@ -132,7 +143,7 @@ export default function FormTable(props: { closeFn: () => void }) {
       </div>
       <div className="h-[340px] scrollable-div overflow-y-scroll justify-start flex flex-col p-3">
         <div className="h-full flex  justify-center pb-2">
-          <div className="bg-[url(https://images.unsplash.com/photo-1688934728322-597cbe61ef57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNjg5MDA2MTU2fA&ixlib=rb-4.0.3&q=80&w=400)] w-[200px] h-[120px] bg-center bg-cover rounded-[3px] flex items-center justify-center shadow-lg">
+          <div style={{backgroundImage: `url(${getSelectBG()})`}} className="w-[200px] h-[120px] bg-center bg-cover rounded-[3px] flex items-center justify-center shadow-lg">
             <div className="bg-[url(https://trello.com/assets/14cda5dc635d1f13bc48.svg)] bg-no-repeat bg-center w-full h-full"></div>
           </div>
         </div>
@@ -142,7 +153,7 @@ export default function FormTable(props: { closeFn: () => void }) {
               Phông nền
             </label>
             {/* List Backgrounds */}
-            <ListBackgrounds />
+            <ListBackgrounds selectBG={selectBG} setSelectBG={setSelectBG} />
             {/* List Backgrounds */}
           </div>
           <div className="">

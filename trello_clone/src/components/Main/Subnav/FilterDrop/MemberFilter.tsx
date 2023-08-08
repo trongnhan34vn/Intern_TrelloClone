@@ -1,26 +1,17 @@
 import { Listbox, Popover, Transition } from '@headlessui/react';
-import React, { Fragment, SetStateAction, useState } from 'react';
+import React, { Fragment, SetStateAction, useContext, useState } from 'react';
 import { Member } from '../../../../types/Member.type';
 import { User } from '../../../../types/User.type';
+import { SubnavContext } from '../../DetailProject/DetailProject';
 
 interface MemberFilterProps {
-  noMemberFilter: boolean;
-  setMemberFilter: React.Dispatch<SetStateAction<boolean>>;
-  setCurrentUserMember: React.Dispatch<SetStateAction<boolean>>;
   membersFilterTable: Member[];
   users: User[];
-  member: Member | null;
-  setMember: React.Dispatch<SetStateAction<Member | null>>;
 }
 
 const MemberFilter = ({
-  noMemberFilter,
-  setMemberFilter,
-  setCurrentUserMember,
   membersFilterTable,
   users,
-  setMember,
-  member,
 }: MemberFilterProps) => {
   const getNameMember = (member: Member) => {
     let user = users.find((user) => user.id === member.userId);
@@ -28,16 +19,44 @@ const MemberFilter = ({
     return { fullName: user.fullName, email: user.email, image: user.imageUrl };
   };
 
+  const subNavContext = useContext(SubnavContext);
+
+  const handleFilterNoMember = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(!subNavContext) return;
+    subNavContext.setFilterNoMember(e.target.checked);
+  }
+
+  const checkExist = (member: Member) => {
+    if(!subNavContext) return;
+    return subNavContext.selectMemberFilters.find((mem) => mem.id === member.id);
+  };
+
   const handleChange = (
-    member: Member,
+    mem: Member,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (e.target.checked) {
-      setMember(member);
+    if(!subNavContext) return;
+    let arr = [... subNavContext.selectMemberFilters]
+    if(!checkExist(mem)){
+      arr.push(mem)
     } else {
-      setMember(null);
+      let index = arr.indexOf(mem)
+      if(index > -1) {
+        arr.splice(index, 1)
+      }
     }
+    subNavContext.setSelectMemberFilters(arr)
   };
+
+  const handleFilterCurrentUser = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(!subNavContext) return;
+    subNavContext.setCurrentUserMember(e.target.checked);
+  }
+
+  const checkChecked = (member: Member) => {
+    if(!subNavContext) return;
+    return subNavContext.selectMemberFilters.find(mem => mem.id === member.id);
+  }
 
   return (
     <div className="member">
@@ -48,8 +67,8 @@ const MemberFilter = ({
         {/* Thẻ không có thành viên tham gia */}
         <div className="text-[14px] text-[#B6C2CF] p-2 leading-5 flex items-center">
           <input
-            checked={noMemberFilter}
-            onChange={(e) => setMemberFilter(e.target.checked)}
+            checked={subNavContext?.noMemberFilter}
+            onChange={handleFilterNoMember}
             type="checkbox"
             className="mr-2"
           />
@@ -58,7 +77,8 @@ const MemberFilter = ({
         {/* Thẻ có thành viên tham gia là currentUser */}
         <div className="text-[14px] text-[#B6C2CF] p-2 leading-5 flex items-center">
           <input
-            onChange={(e) => setCurrentUserMember(e.target.checked)}
+            checked={subNavContext?.currentUserMember}
+            onChange={handleFilterCurrentUser}
             type="checkbox"
             className="mr-2"
           />
@@ -93,6 +113,7 @@ const MemberFilter = ({
                         <>
                           <div className="flex items-center ">
                             <input
+                              checked={checkChecked(member) ? true : false}
                               onChange={(e) => handleChange(member, e)}
                               type="checkbox"
                               className="mr-2"
@@ -127,4 +148,4 @@ const MemberFilter = ({
   );
 };
 
-export default MemberFilter;
+export default React.memo(MemberFilter);

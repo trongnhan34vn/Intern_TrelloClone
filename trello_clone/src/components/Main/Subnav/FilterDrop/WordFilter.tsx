@@ -23,4 +23,4 @@ const WordFilter = ({handleChange}: WordFilterProps) => {
   );
 };
 
-export default WordFilter;
+export default React.memo(WordFilter);

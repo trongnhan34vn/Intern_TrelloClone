@@ -1,5 +1,5 @@
 import instance from '..';
-import { Project, ProjectDTO } from '../../types/Project.type';
+import { Project, ProjectDTO, ProjectDelete } from '../../types/Project.type';
 
 export const CREATE_PROJECT = async (project: ProjectDTO) => {
   await instance.post('/projects', project);
@@ -21,3 +21,7 @@ export const FIND_ALL = async (): Promise<Project[]> => {
   let response = await instance.get(`/projects/`);
   return response.data;
 };
+
+export const REMOVE = async (data: ProjectDelete): Promise<void> => {
+  await instance.delete('/projects/' + data.id);
+}

@@ -1,10 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { SetStateAction, useContext, useEffect, useState } from 'react';
 import Background from './Background';
 import { BGContext } from './CreateTableBtn';
 
-export default function ListBackgrounds() {
+interface ListBackgroundsProps {
+  selectBG: number
+  setSelectBG: React.Dispatch<SetStateAction<number>>
+}
+
+
+export default function ListBackgrounds({selectBG, setSelectBG}: ListBackgroundsProps) {
   const listBGs = useContext(BGContext);
-  const [selectBG, setSelectBG] = useState<number>(0);
+
   const listBGElements = listBGs.map((item) => {
     return <Background selectBG={selectBG} setSelectBG={setSelectBG} key={item.id} bgUrl={item.bgUrl} bgId={item.id} />;
   });

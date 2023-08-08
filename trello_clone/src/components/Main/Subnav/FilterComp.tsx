@@ -8,7 +8,7 @@ const FilterComp = () => {
     <Popover className="relative">
       <div className="border-r-[1px] border-r-[hsla(0,0%,100%,0.16)] w-[2px] h-4 absolute right-[15%] top-1/2 translate-y-[-50%]"></div>
       <Popover.Button
-        onClick={() => setActiveBtn((pre) => !pre)}
+        onClick={() => setActiveBtn(true)}
         className={`${
           activeBtn
             ? 'bg-[#fff] text-[#000]'
@@ -43,4 +43,4 @@ const FilterComp = () => {
   );
 };
 
-export default FilterComp;
+export default React.memo(FilterComp) ;

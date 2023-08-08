@@ -1,9 +1,4 @@
-import React, {
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { SetStateAction, useContext, useEffect, useState } from 'react';
 import '../../../../assets/css/react-trello.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -21,10 +16,17 @@ import NewLaneSection from './NewLaneSection';
 import NewLaneForm from './NewLaneForm';
 import CardModal from '../../Modal/CardModal/CardModal';
 import { SubnavContext } from '../DetailProject';
+import { filterCardNoMembers } from '../../../../utils/filterCardsNoMember';
+import { filterCardsCurrentUser } from '../../../../utils/filterCardsCurrentUser';
+import { User } from '../../../../types/User.type';
+import { filterCardsSelectMember } from '../../../../utils/filterCardsSelectMember';
 
-
-export default function BoardComp() {
+export default React.memo(function BoardComp() {
   const dispatch = useDispatch();
+  
+  const userLocal = localStorage.getItem('userLogin');
+  const currentUser: User = userLocal ? JSON.parse(userLocal) : null;
+
   const { tableId } = useParams();
   const [data, setData] = useState<BoardData>({
     lanes: [],
@@ -32,19 +34,31 @@ export default function BoardComp() {
   const subNavContext = useContext(SubnavContext);
   const [currentCard, setCurrentCard] = useState<string | null>(null);
 
-  // get lists and cards on API
-  // useEffect(() => {
-  //   if (!tableId) return;
-  //   dispatch(cardSlice.findAllCards());
-  //   dispatch(listSlice.findListsByTableId(parseInt(tableId)));
-  //   dispatch(listSlice.findAllList());
-  // }, [tableId]);
-
   const lanes = subNavContext ? subNavContext.lists : [];
-  const cards = subNavContext ? subNavContext.cards: [];
+  const cards = subNavContext ? subNavContext.cards : [];
 
-  // const lanes = useSelector(listSelector).lists;
-  // const cards = useSelector(cardSelector).listCards;
+  const getCardFilter = () => {
+    if (!subNavContext) return [];
+    if (subNavContext.noMemberFilter) {
+      return filterCardNoMembers(subNavContext.memberCards, cards);
+    }
+    if (subNavContext.currentUserMember) {
+      return filterCardsCurrentUser(
+        subNavContext.memberCards,
+        subNavContext.members,
+        currentUser,
+        cards
+      );
+    }
+    if (subNavContext.selectMemberFilters.length > 0) {
+      return filterCardsSelectMember(
+        subNavContext.selectMemberFilters,
+        subNavContext.memberCards,
+        cards
+      );
+    }
+    return cards;
+  };
 
   useEffect(() => {
     if (!tableId) return;
@@ -59,7 +73,7 @@ export default function BoardComp() {
           boardId: lanes[i].tableId,
           order: lanes[i].order,
         };
-
+        let cards = getCardFilter();
         for (let j = 0; j < cards.length; j++) {
           if (lanes[i].id === cards[j].listId) {
             let cardData: any = {
@@ -81,7 +95,7 @@ export default function BoardComp() {
         lanes: arr,
       });
     }
-  }, [lanes, cards]);
+  }, [lanes, cards, subNavContext?.noMemberFilter, subNavContext?.currentUserMember, subNavContext?.selectMemberFilters]);
 
   // filter card by list id
   const filterCartByListId = (listId: number): CardDB[] => {
@@ -131,7 +145,7 @@ export default function BoardComp() {
   //     });
   //   }
   // }, [lanes, cards]);
-  
+
   // add card
 
   const createCard = (card: Card) => {
@@ -217,10 +231,6 @@ export default function BoardComp() {
       };
       dispatch(cardSlice.updateCardTest(cardU));
     }
-    // setUpdate(true);
-    // setTimeout(() => {
-    //   setUpdate(false);
-    // }, 50);
   };
 
   // drag list
@@ -273,7 +283,7 @@ export default function BoardComp() {
         onCardAdd={(card) => createCard(card)}
         onDataChange={(data) => {
           console.log(data);
-          
+
           setData(data);
         }}
         laneDraggable
@@ -286,4 +296,4 @@ export default function BoardComp() {
       <CardModal cardId={currentCard} onClose={() => setCurrentCard(null)} />
     </div>
   );
-}
+});

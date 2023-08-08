@@ -8,8 +8,8 @@ interface ProjectProps {
   openModal: () => void
 }
 
-const Projects = ({projects, openModal}: ProjectProps) => {
-
+const Projects = ({projects, openModal}: ProjectProps) => {  
+  
   const projectElement = projects.map(project => {
     return (
       <ProjectElement key={project.id} project={project} />

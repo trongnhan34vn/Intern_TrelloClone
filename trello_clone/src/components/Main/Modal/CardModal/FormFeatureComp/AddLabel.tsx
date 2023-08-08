@@ -91,26 +91,28 @@ const AddLabel = () => {
   return (
     <div>
       {isAddLabel === 'home' ? (
-        <div className="label">
-          <input
-            onChange={handleChange}
-            className="text-[14px] w-full text-[#B6C2CF] rounded-[3px] leading-5 font-normal bg-[#22272B] border-[#A6C5E229] border-[2px] px-3 py-2"
-            type="text"
-            placeholder="Tìm nhãn..."
-          />
-          <h4 className="mt-3 mb-2 text-[12px] text-[#9FADBC] font-bold">
-            Nhãn
-          </h4>
-          <div className="max-h-fit overflow-y-scroll scrollable-div">
-            {labelElement}
-          </div>
-          <div>
-            <button
-              onClick={() => setAddLabel('add')}
-              className="my-1 w-full rounded-[3px] px-3 py-[6px] bg-[#A1BDD914] text-[14px] text-[#9FADBC]"
-            >
-              Tạo nhãn mới
-            </button>
+        <div>
+          <div className="label">
+            <input
+              onChange={handleChange}
+              className="text-[14px] w-full text-[#B6C2CF] rounded-[3px] leading-5 font-normal bg-[#22272B] border-[#A6C5E229] border-[2px] px-3 py-2"
+              type="text"
+              placeholder="Tìm nhãn..."
+            />
+            <h4 className="mt-3 mb-2 text-[12px] text-[#9FADBC] font-bold">
+              Nhãn
+            </h4>
+            <div className="max-h-[280px] overflow-y-scroll scrollable-div">
+              {labelElement}
+            </div>
+            <div>
+              <button
+                onClick={() => setAddLabel('add')}
+                className="my-1 w-full rounded-[3px] px-3 py-[6px] bg-[#A1BDD914] text-[14px] text-[#9FADBC]"
+              >
+                Tạo nhãn mới
+              </button>
+            </div>
           </div>
         </div>
       ) : isAddLabel === 'add' ? (

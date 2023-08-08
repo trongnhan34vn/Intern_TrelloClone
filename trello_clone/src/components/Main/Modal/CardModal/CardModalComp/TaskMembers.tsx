@@ -24,6 +24,9 @@ export const TaskMembers = ({ member, inputValue }: TaskMembersProps) => {
   const searchUsers = useSelector(userSelector).search;
   const searchFilters = searchUsers.filter((user) => user.id === member.userId);
 
+  console.log(inputValue);
+  
+
   const handleUpdateTask = (id: number) => {
     if(!featureContext) return
     if(!task) return;
@@ -39,7 +42,7 @@ export const TaskMembers = ({ member, inputValue }: TaskMembersProps) => {
     if(inputValue.trim() === '') return usersFilter
     return searchFilters;
   }
-
+  
   const memberElement = returnUser().map((user) => {
     return (
       <div
