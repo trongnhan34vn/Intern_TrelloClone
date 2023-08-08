@@ -507,6 +507,13 @@
       "process": 0,
       "createdAt": 1691423444719,
       "id": 5
+    },
+    {
+      "cardId": 9,
+      "name": "aaaaa",
+      "process": 0,
+      "createdAt": 1691485358386,
+      "id": 6
     }
   ],
   "tasks": [
@@ -567,6 +574,15 @@
       "status": true,
       "createdAt": 1691423504903,
       "id": 9
+    },
+    {
+      "name": "nnnnn",
+      "workId": 6,
+      "endAt": 0,
+      "status": false,
+      "createdAt": 1691485362186,
+      "id": 10,
+      "member": null
     }
   ],
   "members": [
@@ -679,6 +695,24 @@
       "cardId": 1,
       "createdAt": 1691320303364,
       "id": 7
+    },
+    {
+      "memberId": 9,
+      "cardId": 9,
+      "createdAt": 1691485429914,
+      "id": 8
+    },
+    {
+      "memberId": 11,
+      "cardId": 9,
+      "createdAt": 1691485430433,
+      "id": 9
+    },
+    {
+      "memberId": 12,
+      "cardId": 9,
+      "createdAt": 1691485430907,
+      "id": 10
     }
   ],
   "labels": [

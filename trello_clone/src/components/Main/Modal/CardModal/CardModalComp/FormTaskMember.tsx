@@ -20,7 +20,7 @@ const FormTaskMember = () => {
     if (!selectCard) return [];
     let memArr = [];
     for (let i = 0; i < memberCardsFilter.length; i++) {
-      let mem = members.find((mem) => mem.id === memberCards[i].memberId);
+      let mem = members.find((mem) => mem.id === memberCardsFilter[i].memberId);
       if (!mem) return [];
       memArr.push(mem);
     }
@@ -28,7 +28,7 @@ const FormTaskMember = () => {
   };
 
   const [inputValue, setInputValue] = useState('');
-
+  
   const membersElement = filterMembers().map((member) => {
     return (
       <TaskMembers inputValue={inputValue} key={member.id} member={member} />
