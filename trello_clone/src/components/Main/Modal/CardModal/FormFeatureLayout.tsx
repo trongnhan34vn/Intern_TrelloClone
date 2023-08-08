@@ -17,7 +17,7 @@ export default function FormFeatureLayout({closeFn}: FormFeatureState) {
   }
     return (
     <div
-      className={`${isLabel() ? 'top-[-300%]' : 'top-0'} w-[304px] absolute z-[999] transition-all ease-in-out duration-200 rounded-[8px] min-h-fit bg-[#282E33] left-0`}
+      className={`${isLabel() ? 'top-[-700%]' : 'top-0'} w-[304px] absolute z-[999] transition-all ease-in-out duration-200 rounded-[8px] min-h-fit bg-[#282E33] left-0`}
     >
       <HeaderFormFeature closeFn={closeFn} />
       <FormFeatureContent />

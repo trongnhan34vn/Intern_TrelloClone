@@ -5,22 +5,35 @@ import { Member } from '../../../../types/Member.type';
 import CreateTableBtn from './CreateTableBtn';
 import { ProjectContext } from './ProjectTag';
 import Table from './Table';
+import * as type from '../../../../types/Table.type';
 
+interface ListTablesProps {
+  type: string;
+  tableFilter: type.Table[];
+}
 
-export default function ListTables() {
+export default function ListTables({ tableFilter, type }: ListTablesProps) {
   const tables = useSelector(tableSelector).listTable;
   const project = useContext(ProjectContext);
-  const tableFilters = tables.filter(table => table.projectId === project.id);
-  const tableElement = tableFilters.map(table => {
-    return (
-      <Table project={project} key={table.id} table={table} />
-    )
-  })
+
+  const tableFilterMember = tableFilter.filter(
+    (table) => table.projectId === project.id
+  );
+
+  const tableFiltersUser = tables.filter(
+    (table) => table.projectId === project.id
+  );
+
+  const tableResult = type === 'user' ? tableFiltersUser : tableFilterMember;
+
+  const tableElement = tableResult.map((table) => {
+    return <Table type={type} project={project} key={table.id} table={table} />;
+  });
 
   return (
-    <ul className="flex flex-wrap justify-starts w-[900px]">
+    <ul className="flex flex-wrap justify-starts w-[825px]">
       {tableElement}
-      <CreateTableBtn />
+      {type === 'user' ? <CreateTableBtn /> : <></>}
     </ul>
   );
 }

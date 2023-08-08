@@ -13,3 +13,8 @@ export interface ProjectDTO {
 export interface Project extends ProjectDTO {
   id: number
 }
+
+export interface ProjectDelete {
+  id: number
+  userId: number
+}

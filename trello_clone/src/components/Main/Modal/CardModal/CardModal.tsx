@@ -67,8 +67,12 @@ const CardModal = ({ cardId, onClose }: CardModalProps) => {
     return <Works key={work.id} work={work} />;
   });
 
+  const labelCards = subnavContext ? subnavContext.cardLabels : [];
+  const labelCardsFilter = selectCard ? labelCards.filter(lc => lc.cardId === selectCard.id) : null; 
+
   const checkLabel = () => {
-    if (memberCardsFilterCardId.length === 0) return false;
+    if(!labelCardsFilter) return
+    if (labelCardsFilter.length === 0) return false;
     return true;
   };
 

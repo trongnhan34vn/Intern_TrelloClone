@@ -4,8 +4,9 @@ import Background from '../../components/Login_Register/Background';
 import Logo from '../../components/Login_Register/Logo';
 import LoadingOverlay from 'react-loading-overlay-ts';
 import { useSelector } from 'react-redux';
-import { userSelector } from '../../redux/selectors';
+import { notifySelector, userSelector } from '../../redux/selectors';
 import { User } from '../../types/User.type';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface LoadingContext {
   setActive: () => void;
@@ -24,9 +25,43 @@ export default function AuthenLayout() {
     }
   }, [userLogin]);
 
+  const notifyEntity = useSelector(notifySelector).notify;
+
+  const getNotifications = () => {
+    if (!notifyEntity) return;
+
+    if (notifyEntity.type === 'success') {
+      return toast.success(notifyEntity.message, {
+        icon: '👏',
+        style: {
+          borderRadius: '10px',
+          background: '#282E33',
+          color: '#fff',
+          textAlign: 'center',
+        },
+      });
+    }
+    return toast.error(notifyEntity.message, {
+      // icon: '👏',
+      style: {
+        borderRadius: '10px',
+        background: '#fff',
+        color: '#000',
+        textAlign: 'center',
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (!notifyEntity) return;
+    setTimeout(() => {
+      getNotifications();
+    }, 1000);
+  }, [notifyEntity]);
+
   return (
     <LoadingOverlay
-      classNamePrefix="fixed"
+      className="fixed h-screen inset-0 flex items-center justify-center"
       active={isActive}
       spinner
       text="Loading..."
@@ -41,6 +76,7 @@ export default function AuthenLayout() {
           <Logo />
           <Outlet />
           <Background />
+          <Toaster />
         </LoadingContext.Provider>
       </div>
     </LoadingOverlay>

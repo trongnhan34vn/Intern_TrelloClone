@@ -6,6 +6,10 @@ import { Member } from '../../../../types/Member.type';
 import Label from './Label';
 import LabelComp from './Label';
 import MemberComp from './Member';
+import { User } from '../../../../types/User.type';
+import { filterCardNoMembers } from '../../../../utils/filterCardsNoMember';
+import { filterCardsCurrentUser } from '../../../../utils/filterCardsCurrentUser';
+import { filterCardsSelectMember } from '../../../../utils/filterCardsSelectMember';
 
 
 interface ItemProps {
@@ -23,6 +27,32 @@ const Item = ({ list }: ItemProps) => {
   const cardLabels = snContext ? snContext.cardLabels : [];
   const labels = snContext ? snContext.labels : [];
 
+  const userLocal = localStorage.getItem('userLogin');
+  const currentUser: User = userLocal ? JSON.parse(userLocal) : null;
+
+  const getCardFilter = () => {
+    if (!snContext) return [];
+    if (snContext.noMemberFilter) {
+      return filterCardNoMembers(snContext.memberCards, cards);
+    }
+    if (snContext.currentUserMember) {
+      return filterCardsCurrentUser(
+        snContext.memberCards,
+        snContext.members,
+        currentUser,
+        cards
+      );
+    }
+    if (snContext.selectMemberFilters.length > 0) {
+      return filterCardsSelectMember(
+        snContext.selectMemberFilters,
+        snContext.memberCards,
+        cards
+      );
+    }
+    return cards;
+  };
+
   const getBackgroundURL = () => {
     if (!selectTable) return;
     let bgId = selectTable.bgId;
@@ -31,26 +61,7 @@ const Item = ({ list }: ItemProps) => {
     return bg.bgUrl;
   };
 
-  const getUserImg = (member: Member) => {
-    let selectUser = users.find((user) => user.id === member.userId);
-    if (!selectUser) return;
-    return selectUser.imageUrl;
-  };
-
-  const filterMemberByCardId = (card: CardDB) => {
-    const memberCardsFilter = memberCards.filter(
-      (member) => member.cardId === card.id
-    );
-    let memberFilters = [];
-    for (let i = 0; i < memberCardsFilter.length; i++) {
-      let member = members.find((m) => m.id === memberCardsFilter[i].memberId);
-      if (!member) return [];
-      memberFilters.push(member);
-    }
-    return memberFilters;
-  };
-
-  const cardsFiltered = cards.filter((card) => card.listId === list.id);
+  const cardsFiltered = getCardFilter().filter((card) => card.listId === list.id);
 
   const showDate = (time: number) => {
     let date = new Date(time);
@@ -58,19 +69,6 @@ const Item = ({ list }: ItemProps) => {
   };
 
   const cardElement = cardsFiltered.map((card) => {
-    let membersFiltered = filterMemberByCardId(card);
-
-    const memberElement = membersFiltered.map((member) => {
-      return (
-        <span key={member.id}>
-          <img
-            className="rounded-[50%] w-[28px] h-[28px]"
-            src={getUserImg(member)}
-            alt=""
-          />
-        </span>
-      );
-    });
     return (
       <div
         key={card.id}
@@ -90,7 +88,7 @@ const Item = ({ list }: ItemProps) => {
           <span>{card.listId === list.id ? list.name : ''}</span>
         </div>
         <div className="w-[17%] text-[#9FADBC] py-2 font-medium inline-flex items-center text-[14px]">
-          <div className="py-2 flex items-center w-4/5 overflow-hidden gap-1">
+          <div className="py-2 flex items-center w-full gap-1">
             <LabelComp cardId={card.id} labels={labels} cardLabels={cardLabels} />
           </div>
         </div>

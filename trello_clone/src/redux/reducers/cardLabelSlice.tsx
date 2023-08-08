@@ -18,7 +18,8 @@ const cardLabelSlice = createSlice({
     getAll: (state, action: PayloadAction<CardLabel[]>) => {
       state.cardLabels = action.payload;
     },
-    remove: (state, action: PayloadAction<number>) => {}
+    remove: (state, action: PayloadAction<number>) => {},
+    
   },
 });
 

@@ -24,12 +24,6 @@ const EmailCheck = () => {
               >
                 <tbody>
                   <tr>
-                    <td style={{ height: 80 }}>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td style={{ height: 20 }}>&nbsp;</td>
-                  </tr>
-                  <tr>
                     <td>
                       <table
                         width="95%"

@@ -35,7 +35,7 @@ const store = configureStore({
     notify: notifySlice,
     memberCard: memberCardSlice,
     label: labelSlice,
-    cardLabel: cardLabelSlice
+    cardLabel: cardLabelSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -4,9 +4,10 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { loadGapiInsideDOM } from 'gapi-script';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../redux/reducers/userSlice';
+import { getMessage, register } from '../../redux/reducers/userSlice';
 import { userSelector } from '../../redux/selectors';
 import { useNavigate } from 'react-router-dom';
+import { notify } from '../../redux/reducers/notifySlice';
 
 export default function AuthenSupport() {
   useEffect(() => {
@@ -16,7 +17,7 @@ export default function AuthenSupport() {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const clientId : string =
+  const clientId: string =
     '14129973311-78p5ga6l83t0i0da4g2m07hsovvekaph.apps.googleusercontent.com';
 
   const onSuccess = (res: any) => {
@@ -36,16 +37,32 @@ export default function AuthenSupport() {
   const responseFacebook = (res: any) => {
     console.log(res);
   };
-  
+
   const accessToken = useSelector(userSelector).loginResponse.accessToken;
+  const faildLogin = useSelector(userSelector).loginFailed;
 
   useEffect(() => {
-    if (accessToken && accessToken != '') {
+    if (accessToken && accessToken !== '') {
       setTimeout(() => {
         navigate('/main-app');
       }, 3000);
     }
   }, [accessToken]);
+
+  useEffect(() => {
+    if (faildLogin && faildLogin !== '') {
+      dispatch(
+        notify({
+          type: 'error',
+          message: 'Login failed! Please try again!',
+        })
+      );
+      setTimeout(() => {
+        dispatch(getMessage(''))
+        dispatch(notify(null))
+      }, 3000);
+    }
+  }, [faildLogin]);
   return (
     <div>
       <GoogleLogin

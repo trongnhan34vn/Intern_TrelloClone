@@ -25,14 +25,14 @@ const FormDeleteWork = ({close, work} : DelWorkProps) => {
     close()
   };
   return (
-    <form className="bg-[#282E32] pt-3 w-[304px] rounded-[8px] text-[14px] font-semibold">
+    <form className="bg-[#282E32] w-[304px] rounded-[8px] text-[14px] font-semibold">
       <header className="py-1 px-2 relative">
         <h1 className="px-8 h-10 flex items-center justify-center text-center w-full">
           Bạn có muốn xoá {work.name}?
         </h1>
         <button
         onClick={closeForm}
-        className="absolute z-10 top-0 right-1 text-[#B6C2CF] py-1 px-2"
+        className="absolute z-10 top-2.5 right-1 text-[#B6C2CF] py-1 px-2"
       >
         <i className="fa-solid fa-xmark"></i>
       </button>

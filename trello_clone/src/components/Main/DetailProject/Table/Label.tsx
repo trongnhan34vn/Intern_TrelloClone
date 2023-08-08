@@ -3,19 +3,21 @@ import { CardLabel } from '../../../../types/CardLabel.type';
 import { Label } from '../../../../types/Label.type';
 
 interface LabelProps {
-  cardLabels: CardLabel[]
-  labels: Label[]
-  cardId: number
+  cardLabels: CardLabel[];
+  labels: Label[];
+  cardId: number;
 }
 
-const LabelComp = ({cardLabels, labels, cardId}: LabelProps) => {
+const LabelComp = ({ cardLabels, labels, cardId }: LabelProps) => {
   const filterLabelsByCard = (cardId: number) => {
     let cl = cardLabels.filter((cl) => cl.cardId === cardId);
     let temps = [];
     for (let i = 0; i < cl.length; i++) {
-      let temp = labels.find((label) => label.id === cl[i].labelId);
-      if (!temp) return [];
-      temps.push(temp);
+      if (i < 3) {
+        let temp = labels.find((label) => label.id === cl[i].labelId);
+        if (!temp) return [];
+        temps.push(temp);
+      }
     }
     return temps;
   };
@@ -23,15 +25,18 @@ const LabelComp = ({cardLabels, labels, cardId}: LabelProps) => {
   const labelElement = filterLabelsByCard(cardId).map((label) => {
     return (
       <div
+        key={label.id}
         style={{ backgroundColor: `${label.code}` }}
-        className="rounded-[4px] min-w-[56px] h-4"
-      ></div>
+        className="rounded-[4px] min-w-[56px] h-4 flex justify-center items-center"
+      >
+        <span className="text-[#fff] text-one-line text-[12px]">
+          {label.labelName}
+        </span>
+      </div>
     );
   });
-  
-  return (
-    <>{labelElement}</>
-  );
+
+  return <>{labelElement}</>;
 };
 
 export default LabelComp;

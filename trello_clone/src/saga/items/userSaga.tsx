@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
 import * as userServices from '../../api/services/userServices';
-import { getAll, getByEmail, getById, getResult } from '../../redux/reducers/userSlice';
+import { getAll, getByEmail, getById, getMessage, getResult } from '../../redux/reducers/userSlice';
 import {
   User,
   UserDTO,
@@ -18,8 +18,9 @@ export const login = function* (action: PayloadAction<UserDTO>) {
     console.log(response);
 
     yield put(getResult(response));
-  } catch (error) {
-    console.log('login ---->', error);
+  } catch (error: any) {
+    console.log('login ---->', error.response.data);
+    yield put(getMessage(error.response.data))
   }
 };
 

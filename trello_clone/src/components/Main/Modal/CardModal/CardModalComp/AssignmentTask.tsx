@@ -26,8 +26,7 @@ const AssignmentTask = ({
   assignUser,
   assignMember,
 }: AssignmentTaskProps) => {
-
-
+  
   return (
     <Popover className="relative flex">
       <Popover.Button className="w-full outline-none">

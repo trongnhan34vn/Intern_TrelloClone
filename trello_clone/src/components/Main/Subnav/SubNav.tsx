@@ -4,22 +4,26 @@ import { SubnavContext } from '../DetailProject/DetailProject';
 import MemberImages from './MemberImages';
 import FilterComp from './FilterComp';
 import ViewTypeComp from './ViewTypeComp';
+import { useParams } from 'react-router-dom';
 
 export default function SubNav() {
   const [shareModal, setShareModal] = useState<boolean>(false);
   const subNavContext = useContext(SubnavContext);
+  
 
   const returnTableName = () => {
     if (!subNavContext) return;
     if (!subNavContext.selectTable) return;
     return subNavContext.selectTable.name;
   };
-
+  const {tableId} = useParams()
+  const users = subNavContext ? subNavContext.users : [];
   const members = subNavContext ? subNavContext.members : [];
-  const memberCards = subNavContext ? subNavContext.members : [];
+  const membersFilter = tableId ? members.filter(member => member.tableId === +tableId) : [];
 
-  const membersElement = members.map((member) => {
-    return <MemberImages key={member.id} member={member} />;
+  const membersElement = membersFilter.map((member) => {
+    const userFilter = users.filter(user => user.id === member.userId);
+    return <MemberImages users={userFilter} key={member.id} member={member} />;
   });
 
   return (

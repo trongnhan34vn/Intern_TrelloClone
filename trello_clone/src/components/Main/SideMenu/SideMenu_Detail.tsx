@@ -1,28 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   backgroundSelector,
+  memberSelector,
   projectSelector,
   tableSelector,
 } from '../../../redux/selectors';
-import { Link, NavLink, useParams } from 'react-router-dom';
+import { Link, NavLink, useLocation, useParams } from 'react-router-dom';
 import * as tableSlice from '../../../redux/reducers/tableSlice';
 import * as backgroundSlice from '../../../redux/reducers/backgroundSlice';
+import { Table } from '../../../types/Table.type';
 
 export default function SideMenu_Detail() {
   const dispatch = useDispatch();
   const selectProject = useSelector(projectSelector).selectProject;
   const { projectId, tableId } = useParams();
   const [active, setActive] = useState('');
+  const location = useLocation();
 
+  const isDetail = location.pathname.match(
+    `/main-app/project/${projectId}/table/${tableId}/*`
+  )
+    ? true
+    : false;
+  
+  useEffect(() => {
+    if (!tableId) return;
+    if (location.state === 'member') {
+      dispatch(tableSlice.findById(+tableId));
+    }
+  }, [location]);
+
+  const selectTable = useSelector(tableSelector).selectTable;
+
+  const [memberTables, setMemberTables] = useState<Table[]>([]);
+
+  useEffect(() => {
+    let arr = [];
+    if (isDetail) {
+      if (location.state === 'member' && selectTable) {
+        arr.push(selectTable);
+        setMemberTables(arr);
+      }
+    }
+  }, [selectTable]);
+
+  const tables = useSelector(tableSelector).tablesByProjectId;
+  const backgrounds = useSelector(backgroundSelector).listBGs;
+
+  const tablesResult = location.state === 'member' ? memberTables : tables;
   useEffect(() => {
     if (!projectId) return;
     dispatch(tableSlice.findTableByProjectId(+projectId));
     dispatch(backgroundSlice.findAllBGs());
   }, [projectId]);
-
-  const tables = useSelector(tableSelector).tablesByProjectId;
-  const backgrounds = useSelector(backgroundSelector).listBGs;
 
   const getBG = (bgId: number) => {
     let bg = backgrounds.find((bg) => bgId === bg.id);
@@ -30,12 +61,13 @@ export default function SideMenu_Detail() {
     return bg.bgUrl;
   };
 
-  const tableElement = tables.map((table) => {
+  const tableElement = tablesResult.map((table) => {
     return (
       <NavLink
+        state={location.state}
         onClick={() => setActive('table-' + table.id)}
         key={table.id}
-        to={`/main-app/detail-project/${table.id}/${table.projectId}`}
+        to={`/main-app/project/${table.projectId}/table/${table.id}/`}
         className={`${
           active === 'table-' + table.id ? 'bg-[#464247]' : ''
         } flex text-[14px] text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8`}
@@ -104,9 +136,12 @@ export default function SideMenu_Detail() {
           </h2>
         </div>
         <ul className="py-[2px]">
-          <Link
+          <NavLink
             onClick={() => setActive('table-view')}
-            to={`/main-app/detail-project/${tableId}/${projectId}/table-view`}
+            to={{
+              pathname: `/main-app/project/${projectId}/table/${tableId}/table-view`,
+            }}
+            state={location.state}
             className={`${
               active === 'table-view' ? 'bg-[#464247]' : ''
             } flex text-[14px] font-semibold text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8`}
@@ -115,10 +150,11 @@ export default function SideMenu_Detail() {
             <p className="ml-3 italic overflow-hidden text-ellipsis whitespace-nowrap">
               Bảng
             </p>
-          </Link>
+          </NavLink>
           <Link
+            state={location.state}
             onClick={() => setActive('chart-view')}
-            to={`/main-app/detail-project/${tableId}/${projectId}/chart-view`}
+            to={`/main-app/project/${projectId}/table/${tableId}/chart-view`}
             className={`${
               active === 'chart-view' ? 'bg-[#464247]' : ''
             } flex text-[14px] font-semibold text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8`}
@@ -139,22 +175,7 @@ export default function SideMenu_Detail() {
             </button>
           </div>
         </div>
-        <ul className="py-[2px]">
-          {/* <a
-            href=""
-            className="flex text-[14px] text-[#9FADBC] transition-all ease-in-out duration-150 hover:bg-[#464247] items-center pl-4 h-8"
-          >
-            <img
-              src=""
-              alt="ảnh"
-              className="w-6 h-5 flex items-center justify-center pr-2 "
-            />
-            <p className="ml-3 overflow-hidden text-ellipsis whitespace-nowrap">
-              Nam béo
-            </p>
-          </a> */}
-          {tableElement}
-        </ul>
+        <ul className="py-[2px]">{tableElement}</ul>
       </div>
     </div>
   );

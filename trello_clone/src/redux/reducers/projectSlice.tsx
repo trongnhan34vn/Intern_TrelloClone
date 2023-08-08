@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Project, ProjectDTO } from '../../types/Project.type';
+import { Project, ProjectDelete, ProjectDTO } from '../../types/Project.type';
 import { Table } from '../../types/Table.type';
 
 const listProjects: Project[] = [];
@@ -38,6 +38,9 @@ const projectSlice = createSlice({
     getAll: (state, action: PayloadAction<Project[]>) => {
       state.projects = action.payload;
     },
+    remove: (state, action: PayloadAction<ProjectDelete>) => { 
+      
+    }
   },
 });
 
@@ -49,5 +52,6 @@ export const {
   findById,
   getById,
   findAll,
-  getAll
+  getAll,
+  remove
 } = projectSlice.actions;

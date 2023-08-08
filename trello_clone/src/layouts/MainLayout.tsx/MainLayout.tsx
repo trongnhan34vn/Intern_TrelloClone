@@ -43,16 +43,16 @@ export default function MainLayout() {
     <SideMenu_Detail />
   );
 
-  const isDetail = location.pathname.match('/main-app/detail-project/*');
+  const isDetail = location.pathname.match('/main-app/project/*');
 
   const [isActive, setActive] = useState<boolean>(false);
   const setActiveLoading = () => {
-    setActive(true)
-  }
+    setActive(true);
+  };
 
   const setInActive = () => {
-    setActive(false)
-  }
+    setActive(false);
+  };
   return (
     <LoadingOverlay active={isActive} spinner text="Loading...">
       <div className="bg-[#1D2125] h-[calc(100vh)] w-full">
@@ -66,18 +66,24 @@ export default function MainLayout() {
           onClick={() => {
             setToggleProfileDropdown(false);
           }}
-          className={`${isDetail ? '' : 'mx-auto w-[1150px]'}`}
+          className={`${!isMainApp ? '' : 'mx-auto w-[1150px]'}`}
         >
           <div
             className={`${
-              isDetail ? 'overflow-hidden' : 'overflow-y-scroll'
-            } sticky-container scrollable-div h-[calc(100vh_-_64px)] w-full relative flex justify-center items-start`}
+              !isMainApp
+                ? 'overflow-hidden'
+                : 'overflow-y-scroll overflow-x-visible'
+            } sticky-container fixed scrollable-div h-[calc(100vh_-_64px)] w-full flex justify-center items-start`}
           >
             <div className="w-full flex">
-              {sideMenuElement}
               <LoadingContext.Provider
-                value={{ isActive: isActive, setActive: setActiveLoading, setInActive }}
+                value={{
+                  isActive: isActive,
+                  setActive: setActiveLoading,
+                  setInActive,
+                }}
               >
+                {sideMenuElement}
                 <Outlet />
               </LoadingContext.Provider>
             </div>
